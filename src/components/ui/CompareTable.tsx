@@ -154,9 +154,9 @@ export default function CompareTable({ robots }: { robots: Robot[] }) {
   if (robots.length === 0) {
     return (
       <div className="text-center py-16 px-4">
-        <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">⚖️</div>
-        <h3 className="text-lg font-bold text-gray-900 mb-2">Select robots to compare</h3>
-        <p className="text-gray-400 text-sm max-w-sm mx-auto">
+        <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">⚖️</div>
+        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Select robots to compare</h3>
+        <p className="text-gray-400 dark:text-gray-500 text-sm max-w-sm mx-auto">
           Choose 2–4 robots from the dropdown above to see a detailed side-by-side comparison.
         </p>
       </div>
@@ -164,7 +164,8 @@ export default function CompareTable({ robots }: { robots: Robot[] }) {
   }
 
   return (
-    <div className="divide-y divide-gray-100">
+    <div className="divide-y divide-gray-100 dark:divide-gray-800 overflow-x-auto -mx-4 sm:mx-0">
+      <div className="min-w-[600px] sm:min-w-0">
       {/* Robot header cards */}
       <div className="grid divide-x divide-gray-100" style={{ gridTemplateColumns: `200px repeat(${robots.length}, 1fr)` }}>
         <div className="p-4 bg-gray-50/50" />
@@ -286,6 +287,7 @@ export default function CompareTable({ robots }: { robots: Robot[] }) {
             </Link>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );
