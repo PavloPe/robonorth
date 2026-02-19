@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { websiteJsonLd, organizationJsonLd } from '@/lib/jsonld';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -26,6 +27,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={inter.className}>
       <body className="bg-white text-gray-900 min-h-screen flex flex-col antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+        />
         <Header />
         <main className="flex-1 animate-fade-in-up" style={{ animationDuration: '300ms' }}>
           {children}

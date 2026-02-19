@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getManufacturerBySlug, getAllManufacturerSlugs } from '@/lib/queries';
 import prisma from '@/lib/db';
 import { toRobot } from '@/lib/queries';
+import { manufacturerJsonLd } from '@/lib/jsonld';
 import RobotCard from '@/components/ui/RobotCard';
 
 export async function generateStaticParams() {
@@ -29,8 +30,14 @@ export default async function ManufacturerDetailPage({ params }: { params: Promi
   });
   const theirRobots = dbRobots.map(toRobot);
 
+  const jsonLd = manufacturerJsonLd(manufacturer);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <nav className="text-sm text-gray-400 mb-6">
         <Link href="/" className="hover:text-gray-600">Home</Link>
         <span className="mx-2">›</span>

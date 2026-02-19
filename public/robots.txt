@@ -1,0 +1,7 @@
+# RoboNorth — Canada's Humanoid Robot Marketplace
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /inquiry
+
+Sitemap: https://robonorth.ca/sitemap.xml

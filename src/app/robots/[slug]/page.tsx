@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getRobotBySlug, getRelatedRobots, getAllRobotSlugs } from '@/lib/queries';
+import { robotJsonLd } from '@/lib/jsonld';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import RobotCard from '@/components/ui/RobotCard';
@@ -55,8 +56,16 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
     { label: 'Use Cases', icon: '🎯', value: robot.useCase.join(', ') },
   ].filter(s => s.value);
 
+  const jsonLd = robotJsonLd(robot);
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* Breadcrumb */}
       <nav className="flex items-center gap-2 text-sm text-gray-400 mb-8">
         <Link href="/" className="hover:text-gray-600 transition-colors">Home</Link>
