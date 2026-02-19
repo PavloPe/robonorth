@@ -4,16 +4,16 @@ type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold',
-  secondary: 'bg-gray-700 hover:bg-gray-600 text-white',
-  outline: 'border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10',
-  ghost: 'text-gray-400 hover:text-white hover:bg-gray-800',
+  primary: 'bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm',
+  secondary: 'bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold',
+  outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium',
+  ghost: 'text-gray-600 hover:text-blue-600 hover:bg-blue-50 font-medium',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
   sm: 'px-3 py-1.5 text-sm',
   md: 'px-5 py-2.5 text-sm',
-  lg: 'px-7 py-3 text-base',
+  lg: 'px-6 py-3 text-base',
 };
 
 interface ButtonProps {

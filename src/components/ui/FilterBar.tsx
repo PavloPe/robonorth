@@ -22,22 +22,22 @@ export default function FilterBar({ filters, onChange }: FilterBarProps) {
   const activeCount = [filters.category, filters.availability, filters.priceRange, filters.search].filter(Boolean).length;
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-2xl p-4 sm:p-6 mb-8">
-      <div className="flex flex-col sm:flex-row gap-4">
+    <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-8">
+      <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1">
           <input
             type="text"
             placeholder="Search robots..."
             value={filters.search}
             onChange={e => update('search', e.target.value)}
-            className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 text-sm"
+            className="w-full px-3.5 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
           />
         </div>
 
         <select
           value={filters.category}
           onChange={e => update('category', e.target.value)}
-          className="px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-cyan-500"
+          className="px-3.5 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         >
           <option value="">All Categories</option>
           <option value="consumer">Consumer</option>
@@ -49,20 +49,19 @@ export default function FilterBar({ filters, onChange }: FilterBarProps) {
         <select
           value={filters.availability}
           onChange={e => update('availability', e.target.value)}
-          className="px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-cyan-500"
+          className="px-3.5 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         >
           <option value="">All Availability</option>
-          <option value="shipping">Shipping Now</option>
+          <option value="shipping">In Stock</option>
           <option value="preorder">Pre-Order</option>
           <option value="pilot">Pilot Program</option>
-          <option value="announced">Announced</option>
-          <option value="prototype">Prototype</option>
+          <option value="announced">Coming Soon</option>
         </select>
 
         <select
           value={filters.priceRange}
           onChange={e => update('priceRange', e.target.value)}
-          className="px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm focus:outline-none focus:border-cyan-500"
+          className="px-3.5 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         >
           <option value="">Any Price</option>
           <option value="0-10000">Under $10K</option>
@@ -77,7 +76,7 @@ export default function FilterBar({ filters, onChange }: FilterBarProps) {
           <span className="text-xs text-gray-500">{activeCount} filter{activeCount > 1 ? 's' : ''} active</span>
           <button
             onClick={() => onChange({ search: '', category: '', availability: '', priceRange: '' })}
-            className="text-xs text-cyan-400 hover:text-cyan-300"
+            className="text-xs text-blue-600 hover:text-blue-700 font-medium"
           >
             Clear all
           </button>

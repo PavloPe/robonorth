@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import type { Robot } from '@/types';
+import Badge from './Badge';
 
-const availabilityConfig: Record<string, { label: string; variant: string }> = {
-  shipping: { label: 'Shipping Now', variant: 'bg-green-500/20 text-green-400 border-green-500/30' },
-  preorder: { label: 'Pre-Order', variant: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30' },
-  pilot: { label: 'Pilot Program', variant: 'bg-purple-500/20 text-purple-400 border-purple-500/30' },
-  announced: { label: 'Announced', variant: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' },
-  prototype: { label: 'Prototype', variant: 'bg-gray-500/20 text-gray-400 border-gray-500/30' },
+const availabilityConfig: Record<string, { label: string; variant: 'success' | 'warning' | 'info' | 'default' }> = {
+  shipping: { label: 'In Stock', variant: 'success' },
+  preorder: { label: 'Pre-Order', variant: 'info' },
+  pilot: { label: 'Pilot Program', variant: 'warning' },
+  announced: { label: 'Coming Soon', variant: 'default' },
+  prototype: { label: 'Prototype', variant: 'default' },
 };
 
 export default function RobotCard({ robot }: { robot: Robot }) {
@@ -15,39 +16,38 @@ export default function RobotCard({ robot }: { robot: Robot }) {
   return (
     <Link
       href={`/robots/${robot.id}`}
-      className="group block bg-gray-900 rounded-2xl border border-gray-800 hover:border-cyan-500/40 transition-all duration-300 overflow-hidden hover:shadow-lg hover:shadow-cyan-500/5"
+      className="group block bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-lg transition-all duration-200 overflow-hidden"
     >
-      <div className="aspect-[4/3] bg-gray-800 relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-30 group-hover:opacity-50 transition-opacity">
-          🤖
+      {/* Image placeholder */}
+      <div className="aspect-[4/3] bg-gray-100 relative overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-6xl opacity-40 group-hover:scale-110 transition-transform duration-300">🤖</div>
         </div>
         <div className="absolute top-3 right-3">
-          <span className={`inline-block px-2.5 py-1 text-xs font-semibold rounded-full border ${badge.variant}`}>
-            {badge.label}
-          </span>
+          <Badge text={badge.label} variant={badge.variant} />
         </div>
         {robot.canadaAvailable && (
-          <div className="absolute top-3 left-3 text-sm" title="Available in Canada">
-            🇨🇦
+          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 text-xs font-medium text-gray-700 border border-gray-200">
+            🇨🇦 Ships to CA
           </div>
         )}
       </div>
 
-      <div className="p-5">
+      <div className="p-4">
         <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">
           {robot.manufacturer}
         </p>
-        <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors mb-2">
+        <h3 className="text-base font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2">
           {robot.name}
         </h3>
-        <p className="text-sm text-gray-400 line-clamp-2 mb-4">
+        <p className="text-sm text-gray-500 line-clamp-2 mb-3 min-h-[2.5rem]">
           {robot.description}
         </p>
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-semibold text-cyan-400">
+        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+          <span className="text-sm font-bold text-gray-900">
             {robot.price}
           </span>
-          <span className="text-xs text-gray-500 capitalize">{robot.category}</span>
+          <span className="text-xs text-blue-600 font-medium group-hover:underline">View Details →</span>
         </div>
       </div>
     </Link>

@@ -3,13 +3,13 @@
 import type { Robot } from '@/types';
 
 const availabilityLabels: Record<string, string> = {
-  shipping: 'Shipping Now', preorder: 'Pre-Order', pilot: 'Pilot',
-  announced: 'Announced', prototype: 'Prototype',
+  shipping: 'In Stock', preorder: 'Pre-Order', pilot: 'Pilot',
+  announced: 'Coming Soon', prototype: 'Prototype',
 };
 
 export default function CompareTable({ robots }: { robots: Robot[] }) {
   if (robots.length === 0) {
-    return <p className="text-gray-500 text-center py-8">Select robots above to compare.</p>;
+    return <p className="text-gray-400 text-center py-12 text-sm">Select robots above to compare them side by side.</p>;
   }
 
   const rows: { label: string; getValue: (r: Robot) => string }[] = [
@@ -17,7 +17,7 @@ export default function CompareTable({ robots }: { robots: Robot[] }) {
     { label: 'Manufacturer', getValue: r => r.manufacturer },
     { label: 'Country', getValue: r => r.country },
     { label: 'Availability', getValue: r => availabilityLabels[r.availability] || r.availability },
-    { label: 'Category', getValue: r => r.category },
+    { label: 'Category', getValue: r => r.category.charAt(0).toUpperCase() + r.category.slice(1) },
     { label: 'Height', getValue: r => r.specs.height ? `${r.specs.height} cm` : '—' },
     { label: 'Weight', getValue: r => r.specs.weight ? `${r.specs.weight} kg` : '—' },
     { label: 'DOF', getValue: r => r.specs.dof ? `${r.specs.dof}` : '—' },
@@ -25,19 +25,19 @@ export default function CompareTable({ robots }: { robots: Robot[] }) {
     { label: 'Payload', getValue: r => r.specs.payload ? `${r.specs.payload} kg` : '—' },
     { label: 'Speed', getValue: r => r.specs.speed ? `${r.specs.speed} km/h` : '—' },
     { label: 'Use Case', getValue: r => r.useCase.join(', ') },
-    { label: 'Canada Available', getValue: r => r.canadaAvailable ? '✅ Yes' : '❌ No' },
+    { label: 'Canada', getValue: r => r.canadaAvailable ? '✅ Yes' : '❌ No' },
   ];
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full border-collapse">
+      <table className="w-full border-collapse text-sm">
         <thead>
-          <tr>
-            <th className="text-left p-3 bg-gray-900 text-gray-400 text-sm font-medium sticky left-0 z-10 min-w-[120px]">
+          <tr className="border-b border-gray-200">
+            <th className="text-left p-3 text-gray-500 font-medium sticky left-0 bg-white z-10 min-w-[120px]">
               Spec
             </th>
             {robots.map(r => (
-              <th key={r.id} className="p-3 bg-gray-900 text-white font-bold text-sm min-w-[180px]">
+              <th key={r.id} className="p-3 text-gray-900 font-semibold min-w-[180px] text-left">
                 {r.name}
               </th>
             ))}
@@ -45,12 +45,12 @@ export default function CompareTable({ robots }: { robots: Robot[] }) {
         </thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={row.label} className={i % 2 === 0 ? 'bg-gray-950' : 'bg-gray-900/50'}>
-              <td className="p-3 text-sm font-medium text-gray-400 sticky left-0 z-10 bg-inherit">
+            <tr key={row.label} className={`border-b border-gray-100 ${i % 2 === 0 ? 'bg-gray-50/50' : ''}`}>
+              <td className="p-3 font-medium text-gray-500 sticky left-0 bg-inherit z-10">
                 {row.label}
               </td>
               {robots.map(r => (
-                <td key={r.id} className="p-3 text-sm text-gray-300">
+                <td key={r.id} className="p-3 text-gray-700">
                   {row.getValue(r)}
                 </td>
               ))}
