@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Robot {
+  id               String   @id
+  name             String
+  manufacturer     String
+  manufacturerSlug String
+  price            String
+  priceMin         Int
+  availability     String
+  category         String
+  useCase          String   // JSON array as string
+  description      String
+  country          String
+  imageUrl         String
+  featured         Boolean  @default(false)
+  canadaAvailable  Boolean  @default(true)
+
+  specHeight       Float?
+  specWeight       Float?
+  specDof          Int?
+  specBattery      String?
+  specPayload      Float?
+  specSpeed        Float?
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([category])
+  @@index([availability])
+  @@index([manufacturerSlug])
+  @@index([priceMin])
+  @@index([featured])
+}
+
+model Manufacturer {
+  id          String   @id
+  name        String
+  country     String
+  founded     String
+  description String
+  website     String
+  robotIds    String   // JSON array as string
+  imageUrl    String
+  featured    Boolean  @default(false)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model PartCategory {
+  id           String @id
+  name         String
+  description  String
+  itemCount    Int
+  imageUrl     String
+  popularItems String // JSON array as string
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  city      String
+  robot     String?
+  message   String?
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([createdAt])
+}

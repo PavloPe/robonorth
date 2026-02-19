@@ -6,10 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.4.0",
+    "@prisma/client": "^7.4.0",
+    "dotenv": "^17.3.1",
     "next": "^15.3.4",
+    "prisma": "^7.4.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

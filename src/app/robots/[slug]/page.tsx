@@ -1,41 +1,36 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { robots } from '@/data/robots';
+import { getRobotBySlug, getRelatedRobots, getAllRobotSlugs } from '@/lib/queries';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import RobotCard from '@/components/ui/RobotCard';
 
-const availabilityVariant: Record<string, 'success' | 'warning' | 'info' | 'default' | 'danger'> = {
+const availabilityVariant: Record<string, 'success' | 'warning' | 'info' | 'default'> = {
   shipping: 'success', preorder: 'info', pilot: 'warning', announced: 'default', prototype: 'default',
 };
 const availabilityLabels: Record<string, string> = {
   shipping: 'In Stock', preorder: 'Pre-Order', pilot: 'Pilot Program', announced: 'Coming Soon', prototype: 'Prototype',
 };
 
-export function generateStaticParams() {
-  return robots.map(r => ({ slug: r.id }));
+export async function generateStaticParams() {
+  const slugs = await getAllRobotSlugs();
+  return slugs.map(slug => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  return params.then(({ slug }) => {
-    const robot = robots.find(r => r.id === slug);
-    if (!robot) return { title: 'Robot Not Found' };
-    return {
-      title: `${robot.name} — ${robot.price}`,
-      description: robot.description,
-    };
-  });
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const robot = await getRobotBySlug(slug);
+  if (!robot) return { title: 'Robot Not Found' };
+  return { title: `${robot.name} — ${robot.price}`, description: robot.description };
 }
 
 export default async function RobotDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const robot = robots.find(r => r.id === slug);
+  const robot = await getRobotBySlug(slug);
   if (!robot) notFound();
 
-  const related = robots
-    .filter(r => r.id !== robot.id && (r.manufacturerSlug === robot.manufacturerSlug || r.category === robot.category))
-    .slice(0, 3);
+  const related = await getRelatedRobots(robot);
 
   const specs = [
     { label: 'Height', value: robot.specs.height ? `${robot.specs.height} cm` : null },
@@ -51,7 +46,6 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      {/* Breadcrumb */}
       <nav className="text-sm text-gray-400 mb-6">
         <Link href="/" className="hover:text-gray-600">Home</Link>
         <span className="mx-2">›</span>
@@ -61,12 +55,10 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-16">
-        {/* Image */}
         <div className="aspect-square bg-gray-100 border border-gray-200 rounded-2xl flex items-center justify-center">
           <span className="text-[120px] opacity-30">🤖</span>
         </div>
 
-        {/* Info */}
         <div>
           <p className="text-sm text-gray-400 uppercase tracking-wider mb-1">{robot.manufacturer}</p>
           <h1 className="text-3xl font-bold text-gray-900 mb-3">{robot.name}</h1>
@@ -83,7 +75,6 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
         </div>
       </div>
 
-      {/* Specs */}
       <section className="mb-16">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Specifications</h2>
         <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
@@ -96,7 +87,6 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
-      {/* Related */}
       {related.length > 0 && (
         <section>
           <h2 className="text-xl font-bold text-gray-900 mb-4">You Might Also Like</h2>

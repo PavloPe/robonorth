@@ -3,13 +3,16 @@ import RobotCard from '@/components/ui/RobotCard';
 import ManufacturerCard from '@/components/ui/ManufacturerCard';
 import PartCategoryCard from '@/components/ui/PartCategoryCard';
 import Button from '@/components/ui/Button';
-import { robots } from '@/data/robots';
-import { manufacturers } from '@/data/manufacturers';
-import { partCategories } from '@/data/parts';
+import { getFeaturedRobots, getFeaturedManufacturers, getAllPartCategories } from '@/lib/queries';
 
-export default function HomePage() {
-  const featuredRobots = robots.filter(r => r.featured).slice(0, 6);
-  const featuredManufacturers = manufacturers.filter(m => m.featured).slice(0, 6);
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
+  const [featuredRobots, featuredManufacturers, partCategories] = await Promise.all([
+    getFeaturedRobots(),
+    getFeaturedManufacturers(),
+    getAllPartCategories(),
+  ]);
 
   return (
     <>
@@ -91,7 +94,7 @@ export default function HomePage() {
         <div className="bg-blue-600 rounded-2xl p-8 sm:p-12 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">Ready to explore the future?</h2>
           <p className="text-blue-100 mb-8 max-w-2xl mx-auto text-sm">
-            Join hundreds of Canadians already on our early access list. No payment required — just tell us what you&apos;re looking for.
+            Join hundreds of Canadians already on our early access list. No payment required.
           </p>
           <Button href="/inquiry" variant="secondary" size="lg">Get Early Access →</Button>
         </div>
