@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline — RoboNorth</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .container {
+      text-align: center;
+      max-width: 400px;
+    }
+    .icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    p {
+      color: #6b7280;
+      font-size: 0.875rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    button {
+      padding: 0.75rem 2rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #1d4ed8; }
+    .brand {
+      margin-top: 3rem;
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+    <h1>You're Offline</h1>
+    <p>It looks like you've lost your internet connection. RoboNorth needs a connection to load robot data and pricing.</p>
+    <button onclick="window.location.reload()">Try Again</button>
+    <p class="brand">RoboNorth — Canada's Humanoid Robot Marketplace</p>
+  </div>
+</body>
+</html>

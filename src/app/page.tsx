@@ -6,6 +6,7 @@ import PartCategoryCard from '@/components/ui/PartCategoryCard';
 import Button from '@/components/ui/Button';
 import { getFeaturedRobots, getFeaturedManufacturers, getAllPartCategories } from '@/lib/queries';
 import { getAllBlogPosts } from '@/data/blog';
+import StatsCounter from '@/components/ui/StatsCounter';
 
 export const dynamic = 'force-dynamic';
 
@@ -72,6 +73,9 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Stats Counter */}
+      <StatsCounter />
 
       {/* How It Works */}
       <section className="bg-white">

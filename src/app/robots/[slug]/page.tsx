@@ -6,6 +6,10 @@ import { robotJsonLd } from '@/lib/jsonld';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import RobotCard from '@/components/ui/RobotCard';
+import ImageGallery from '@/components/ui/ImageGallery';
+import VideoEmbed from '@/components/ui/VideoEmbed';
+import RecentlyViewed from '@/components/ui/RecentlyViewed';
+import RobotDetailTracker from '@/components/ui/RobotDetailTracker';
 
 const availabilityVariant: Record<string, 'success' | 'warning' | 'info' | 'default'> = {
   shipping: 'success', preorder: 'info', pilot: 'warning', announced: 'default', prototype: 'default',
@@ -80,6 +84,7 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
   ].filter(s => s.value);
 
   const jsonLd = robotJsonLd(robot);
+  const isPilotOrEnterprise = robot.availability === 'pilot' || robot.category === 'enterprise';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -89,39 +94,39 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      {/* Track robot view */}
+      <RobotDetailTracker id={robot.id} name={robot.name} manufacturer={robot.manufacturer} price={robot.price} />
+
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-gray-400 mb-8">
-        <Link href="/" className="hover:text-gray-600 transition-colors">Home</Link>
+      <nav aria-label="breadcrumb" className="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 mb-8">
+        <Link href="/" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Home</Link>
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-        <Link href="/robots" className="hover:text-gray-600 transition-colors">Robots</Link>
+        <Link href="/robots" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Robots</Link>
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-        <span className="text-gray-700 font-medium">{robot.name}</span>
+        <span className="text-gray-700 dark:text-gray-300 font-medium">{robot.name}</span>
       </nav>
 
       {/* Main product section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 mb-16">
-        {/* Image */}
-        <div className="aspect-square bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-50 border border-gray-200/80 rounded-3xl flex items-center justify-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-dot-pattern opacity-40" />
-          <span className="text-[140px] opacity-25 relative">🤖</span>
-        </div>
+        {/* Image Gallery */}
+        <ImageGallery robotName={robot.name} category={robot.category} />
 
         {/* Details */}
         <div className="flex flex-col justify-center">
-          <Link href={`/manufacturers/${robot.manufacturerSlug}`} className="text-sm text-blue-600 font-semibold uppercase tracking-wider mb-2 hover:text-blue-700 transition-colors inline-flex items-center gap-1.5 w-fit">
+          <Link href={`/manufacturers/${robot.manufacturerSlug}`} className="text-sm text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider mb-2 hover:text-blue-700 dark:hover:text-blue-300 transition-colors inline-flex items-center gap-1.5 w-fit">
             {robot.manufacturer}
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
           </Link>
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">{robot.name}</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">{robot.name}</h1>
           
           <div className="flex flex-wrap items-center gap-2 mb-6">
             <Badge text={availabilityLabels[robot.availability] || robot.availability} variant={availabilityVariant[robot.availability] || 'default'} dot />
             {robot.canadaAvailable && <Badge text="🇨🇦 Ships to Canada" variant="success" />}
           </div>
 
-          <div className="text-3xl font-bold text-gray-900 mb-6">{robot.price}</div>
+          <div className="text-3xl font-bold text-gray-900 dark:text-white mb-6">{robot.price}</div>
           
-          <p className="text-gray-600 leading-relaxed mb-8">{robot.description}</p>
+          <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">{robot.description}</p>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <Button href={`/inquiry?robot=${robot.id}`} size="lg">
@@ -130,6 +135,11 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </span>
             </Button>
+            {isPilotOrEnterprise && (
+              <Button href={`/inquiry?robot=${robot.id}&type=quote`} variant="dark" size="lg">
+                Request a Quote
+              </Button>
+            )}
             <Button href={`/compare?robots=${robot.id}`} variant="outline" size="lg">Compare</Button>
           </div>
         </div>
@@ -139,29 +149,29 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
       <section className="mb-16">
         <div className="mb-8">
           <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2">Technical</p>
-          <h2 className="text-2xl font-bold text-gray-900">Specifications</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Specifications</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Numeric specs with progress bars */}
           {numericSpecs.length > 0 && (
-            <div className="bg-white border border-gray-200/80 rounded-2xl p-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-5">Performance</h3>
+            <div className="bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700/80 rounded-2xl p-6">
+              <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-5">Performance</h3>
               <div className="space-y-5">
                 {numericSpecs.map(spec => {
                   const pct = Math.min(100, (spec.value / spec.max) * 100);
                   return (
                     <div key={spec.key}>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-gray-600 flex items-center gap-2">
+                        <span className="text-sm text-gray-600 dark:text-gray-300 flex items-center gap-2">
                           <span className="text-base">{spec.icon}</span>
                           {spec.label}
                         </span>
-                        <span className="text-sm font-bold text-gray-900">
+                        <span className="text-sm font-bold text-gray-900 dark:text-white">
                           {spec.value}{spec.unit && ` ${spec.unit}`}
                         </span>
                       </div>
-                      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                         <div
                           className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full spec-bar-fill"
                           style={{ width: `${pct}%` }}
@@ -175,16 +185,16 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
           )}
 
           {/* Text specs */}
-          <div className="bg-white border border-gray-200/80 rounded-2xl p-6">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-5">Details</h3>
+          <div className="bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700/80 rounded-2xl p-6">
+            <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-5">Details</h3>
             <div className="space-y-0">
               {textSpecs.map((spec, i) => (
-                <div key={spec.label} className={`flex items-start justify-between py-3.5 ${i < textSpecs.length - 1 ? 'border-b border-gray-100' : ''}`}>
-                  <span className="text-sm text-gray-500 flex items-center gap-2 shrink-0">
+                <div key={spec.label} className={`flex items-start justify-between py-3.5 ${i < textSpecs.length - 1 ? 'border-b border-gray-100 dark:border-gray-800' : ''}`}>
+                  <span className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2 shrink-0">
                     <span className="text-base">{spec.icon}</span>
                     {spec.label}
                   </span>
-                  <span className="text-sm font-medium text-gray-900 text-right ml-4">{spec.value}</span>
+                  <span className="text-sm font-medium text-gray-900 dark:text-white text-right ml-4">{spec.value}</span>
                 </div>
               ))}
             </div>
@@ -192,12 +202,18 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
+      {/* Video Embed */}
+      <VideoEmbed robotName={robot.name} manufacturer={robot.manufacturer} />
+
+      {/* Recently Viewed */}
+      <RecentlyViewed excludeId={robot.id} />
+
       {/* Related robots */}
       {related.length > 0 && (
         <section className="mb-8">
           <div className="mb-8">
             <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2">Similar</p>
-            <h2 className="text-2xl font-bold text-gray-900">You Might Also Like</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">You Might Also Like</h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {related.map(r => <RobotCard key={r.id} robot={r} />)}

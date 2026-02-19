@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 
 const columns = [
@@ -15,6 +18,7 @@ const columns = [
     links: [
       { label: 'About Us', href: '/about' },
       { label: 'Blog', href: '/blog' },
+      { label: 'Press & Media', href: '/press' },
       { label: 'Contact', href: '/inquiry' },
     ],
   },
@@ -22,16 +26,35 @@ const columns = [
     title: 'Support',
     links: [
       { label: 'Buying Guide', href: '/blog' },
-      { label: 'Pricing Guide', href: '/blog' },
-      { label: 'FAQ', href: '/about' },
-      { label: 'Shipping Info', href: '/about' },
+      { label: 'FAQ', href: '/faq' },
+      { label: 'Warranty & Support', href: '/warranty' },
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Service', href: '/terms' },
     ],
   },
 ];
 
 export default function Footer() {
+  const [email, setEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleNewsletter = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setNewsletterStatus('error');
+      return;
+    }
+    // Track conversion event
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({ event: 'newsletter_signup', email_domain: email.split('@')[1] });
+    }
+    console.log('[RoboNorth] Newsletter signup:', email);
+    setNewsletterStatus('success');
+    setEmail('');
+  };
+
   return (
-    <footer className="bg-slate-900 text-slate-300 mt-16">
+    <footer className="bg-slate-900 dark:bg-gray-950 text-slate-300 mt-16 border-t border-slate-800 dark:border-gray-800">
       {/* Main footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
@@ -54,16 +77,35 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">Stay Updated</h4>
             <p className="text-sm text-slate-400 mb-4">Get robot news & early access offers.</p>
-            <div className="flex gap-2">
-              <input
-                type="email"
-                placeholder="you@email.com"
-                className="flex-1 px-3.5 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              />
-              <button className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors shadow-sm shadow-blue-600/20">
-                →
-              </button>
-            </div>
+            {newsletterStatus === 'success' ? (
+              <div className="bg-emerald-900/30 border border-emerald-700/50 rounded-xl px-4 py-3">
+                <p className="text-sm text-emerald-400 font-medium">✓ You&apos;re subscribed!</p>
+                <p className="text-xs text-emerald-500/70 mt-1">We&apos;ll keep you posted on new robots.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleNewsletter}>
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    placeholder="you@email.com"
+                    value={email}
+                    onChange={e => { setEmail(e.target.value); setNewsletterStatus('idle'); }}
+                    className={`flex-1 px-3.5 py-2.5 bg-slate-800 border rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+                      newsletterStatus === 'error' ? 'border-red-500' : 'border-slate-700'
+                    }`}
+                  />
+                  <button
+                    type="submit"
+                    className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors shadow-sm shadow-blue-600/20"
+                  >
+                    →
+                  </button>
+                </div>
+                {newsletterStatus === 'error' && (
+                  <p className="text-xs text-red-400 mt-1.5">Please enter a valid email.</p>
+                )}
+              </form>
+            )}
           </div>
         </div>
 
@@ -76,7 +118,11 @@ export default function Footer() {
             <span className="text-sm font-semibold text-white">RoboNorth</span>
             <span className="text-xs text-slate-500">— Canada&apos;s Humanoid Robot Marketplace</span>
           </div>
-          <p className="text-xs text-slate-500">© {new Date().getFullYear()} RoboNorth. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">Privacy</Link>
+            <Link href="/terms" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">Terms</Link>
+            <p className="text-xs text-slate-500">© {new Date().getFullYear()} RoboNorth. All rights reserved.</p>
+          </div>
         </div>
       </div>
     </footer>

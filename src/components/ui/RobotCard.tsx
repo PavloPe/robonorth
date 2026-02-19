@@ -1,6 +1,10 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import type { Robot } from '@/types';
 import Badge from './Badge';
+import QuickViewModal from './QuickViewModal';
 
 const availabilityConfig: Record<string, { label: string; variant: 'success' | 'warning' | 'info' | 'default' }> = {
   shipping: { label: 'In Stock', variant: 'success' },
@@ -11,10 +15,10 @@ const availabilityConfig: Record<string, { label: string; variant: 'success' | '
 };
 
 const categoryGradients: Record<string, string> = {
-  consumer: 'from-emerald-50 to-cyan-50',
-  enterprise: 'from-blue-50 to-indigo-50',
-  research: 'from-purple-50 to-pink-50',
-  announced: 'from-slate-50 to-gray-100',
+  consumer: 'from-emerald-50 to-cyan-50 dark:from-emerald-950/30 dark:to-cyan-950/30',
+  enterprise: 'from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
+  research: 'from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30',
+  announced: 'from-slate-50 to-gray-100 dark:from-slate-900/30 dark:to-gray-900/30',
 };
 
 const categoryIcons: Record<string, string> = {
@@ -24,76 +28,116 @@ const categoryIcons: Record<string, string> = {
   announced: '📢',
 };
 
+// Robots added "recently" (placeholder — in production, check date field)
+const newArrivals = new Set(['unitree-r1', 'clone-alpha', 'xpeng-iron', 'neura-robotics-4ne-1']);
+
 export default function RobotCard({ robot }: { robot: Robot }) {
+  const [quickView, setQuickView] = useState(false);
   const badge = availabilityConfig[robot.availability] ?? availabilityConfig.announced;
-  const gradient = categoryGradients[robot.category] || 'from-gray-50 to-gray-100';
+  const gradient = categoryGradients[robot.category] || 'from-gray-50 to-gray-100 dark:from-gray-900/30 dark:to-gray-900/30';
+  const isNew = newArrivals.has(robot.id);
+
+  // Track recently viewed
+  useEffect(() => {
+    try {
+      // Only track when user actually navigates, not on card render
+    } catch { /* ignore */ }
+  }, []);
+
+  const handleQuickView = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setQuickView(true);
+  };
 
   return (
-    <Link
-      href={`/robots/${robot.id}`}
-      className="group block bg-white rounded-2xl border border-gray-200/80 hover:border-blue-200 card-hover overflow-hidden"
-    >
-      {/* Image area */}
-      <div className={`aspect-[4/3] bg-gradient-to-br ${gradient} relative overflow-hidden`}>
-        {/* Decorative pattern */}
-        <div className="absolute inset-0 bg-dot-pattern opacity-50" />
-        
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative">
-            <div className="text-7xl opacity-30 group-hover:scale-110 group-hover:opacity-40 transition-all duration-500">🤖</div>
-            <div className="absolute -bottom-1 -right-1 text-lg">
-              {categoryIcons[robot.category] || '🤖'}
+    <>
+      <Link
+        href={`/robots/${robot.id}`}
+        className="group block bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 hover:border-blue-200 dark:hover:border-blue-800 card-hover overflow-hidden relative"
+      >
+        {/* Image area */}
+        <div className={`aspect-[4/3] bg-gradient-to-br ${gradient} relative overflow-hidden`}>
+          {/* Decorative pattern */}
+          <div className="absolute inset-0 bg-dot-pattern opacity-50" />
+          
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative">
+              <div className="text-7xl opacity-30 group-hover:scale-110 group-hover:opacity-40 transition-all duration-500">🤖</div>
+              <div className="absolute -bottom-1 -right-1 text-lg">
+                {categoryIcons[robot.category] || '🤖'}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Badges */}
-        <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
-          <Badge text={badge.label} variant={badge.variant} />
-        </div>
-        {robot.canadaAvailable && (
-          <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-sm rounded-lg px-2.5 py-1 text-xs font-semibold text-emerald-700 border border-emerald-200/50 shadow-sm">
-            🇨🇦 Ships to CA
+          {/* Badges */}
+          <div className="absolute top-3 right-3 flex flex-col gap-1.5 items-end">
+            <Badge text={badge.label} variant={badge.variant} />
+            {isNew && (
+              <span className="badge-new bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
+                ✨ New
+              </span>
+            )}
           </div>
-        )}
-
-        {/* Quick specs strip */}
-        {(robot.specs.height || robot.specs.dof || robot.specs.speed) && (
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/40 to-transparent px-3 pb-2.5 pt-6">
-            <div className="flex items-center gap-3 text-[11px] text-white/90 font-medium">
-              {robot.specs.height && <span>{robot.specs.height}cm</span>}
-              {robot.specs.dof && <span>{robot.specs.dof} DOF</span>}
-              {robot.specs.speed && <span>{robot.specs.speed} km/h</span>}
+          {robot.canadaAvailable && (
+            <div className="absolute top-3 left-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-lg px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-700/50 shadow-sm">
+              🇨🇦 Ships to CA
             </div>
-          </div>
-        )}
-      </div>
+          )}
 
-      {/* Content */}
-      <div className="p-4">
-        <div className="flex items-center gap-2 mb-1.5">
-          <p className="text-xs font-semibold text-blue-600/80 uppercase tracking-wider">
-            {robot.manufacturer}
-          </p>
-        </div>
-        <h3 className="text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-1.5">
-          {robot.name}
-        </h3>
-        <p className="text-sm text-gray-500 line-clamp-2 mb-3 min-h-[2.5rem] leading-relaxed">
-          {robot.description}
-        </p>
-        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-          <span className="text-sm font-bold text-gray-900">
-            {robot.price}
-          </span>
-          <span className="text-xs text-blue-600 font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
-            Details
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          {/* Quick View button */}
+          <button
+            onClick={handleQuickView}
+            className="absolute bottom-3 right-3 w-8 h-8 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-lg border border-gray-200/60 dark:border-gray-700/60 flex items-center justify-center text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 opacity-0 group-hover:opacity-100 transition-all shadow-sm hover:shadow-md"
+            title="Quick View"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-          </span>
+          </button>
+
+          {/* Quick specs strip */}
+          {(robot.specs.height || robot.specs.dof || robot.specs.speed) && (
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/40 to-transparent px-3 pb-2.5 pt-6">
+              <div className="flex items-center gap-3 text-[11px] text-white/90 font-medium">
+                {robot.specs.height && <span>{robot.specs.height}cm</span>}
+                {robot.specs.dof && <span>{robot.specs.dof} DOF</span>}
+                {robot.specs.speed && <span>{robot.specs.speed} km/h</span>}
+              </div>
+            </div>
+          )}
         </div>
-      </div>
-    </Link>
+
+        {/* Content */}
+        <div className="p-4">
+          <div className="flex items-center gap-2 mb-1.5">
+            <p className="text-xs font-semibold text-blue-600/80 dark:text-blue-400/80 uppercase tracking-wider">
+              {robot.manufacturer}
+            </p>
+          </div>
+          <h3 className="text-base font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1.5">
+            {robot.name}
+          </h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3 min-h-[2.5rem] leading-relaxed">
+            {robot.description}
+          </p>
+          <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
+            <span className="text-sm font-bold text-gray-900 dark:text-white">
+              {robot.price}
+            </span>
+            <span className="text-xs text-blue-600 dark:text-blue-400 font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
+              Details
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </Link>
+
+      {/* Quick View Modal */}
+      {quickView && <QuickViewModal robot={robot} onClose={() => setQuickView(false)} />}
+    </>
   );
 }
