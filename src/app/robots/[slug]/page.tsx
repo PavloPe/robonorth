@@ -23,7 +23,30 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const robot = await getRobotBySlug(slug);
   if (!robot) return { title: 'Robot Not Found' };
-  return { title: `${robot.name} — ${robot.price}`, description: robot.description };
+
+  const title = `${robot.name} — ${robot.price}`;
+  const description = `${robot.name} by ${robot.manufacturer}. ${robot.price}. ${robot.description.slice(0, 140)}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: `${robot.name} — ${robot.price} | RoboNorth`,
+      description,
+      type: 'website',
+      url: `https://robonorth.ca/robots/${robot.id}`,
+      images: [{ url: robot.imageUrl || '/og-default.png', width: 1200, height: 630, alt: robot.name }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${robot.name} — ${robot.price}`,
+      description: `${robot.manufacturer} · ${robot.price} · ${robot.canadaAvailable ? 'Ships to Canada 🇨🇦' : ''}`,
+      images: [robot.imageUrl || '/og-default.png'],
+    },
+    alternates: {
+      canonical: `https://robonorth.ca/robots/${robot.id}`,
+    },
+  };
 }
 
 // Spec bar config: field, label, icon, unit, max for progress bar

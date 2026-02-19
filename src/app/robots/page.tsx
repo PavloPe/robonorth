@@ -8,8 +8,17 @@ import SortSelect from '@/components/ui/SortSelect';
 import type { Robot } from '@/types';
 
 export const metadata: Metadata = {
-  title: 'Humanoid Robot Catalog',
-  description: 'Browse all humanoid robots available for purchase, pre-order, or coming soon. Compare specs, prices, and availability across 22+ models.',
+  title: 'Humanoid Robot Catalog — Browse 22+ Models',
+  description: 'Browse all humanoid robots available for purchase, pre-order, or coming soon in Canada. Compare specs, prices, and availability. Filter by price, category, and manufacturer.',
+  openGraph: {
+    title: 'Humanoid Robot Catalog | RoboNorth',
+    description: 'Browse 22+ humanoid robots from Tesla, Unitree, Figure AI, and more. Filter by price, category, and availability.',
+    url: 'https://robonorth.ca/robots',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'RoboNorth Robot Catalog' }],
+  },
+  alternates: {
+    canonical: 'https://robonorth.ca/robots',
+  },
 };
 
 export const dynamic = 'force-dynamic';

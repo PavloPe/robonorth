@@ -3,8 +3,17 @@ import { getAllPartCategories } from '@/lib/queries';
 import Button from '@/components/ui/Button';
 
 export const metadata: Metadata = {
-  title: 'Robot Parts & Components',
-  description: 'Browse robot parts and components: actuators, sensors, controllers, power systems, grippers, and dev kits. Shipping to Canada.',
+  title: 'Robot Parts & Components — Actuators, Sensors, Controllers',
+  description: 'Browse robot parts and components: actuators, sensors, controllers, power systems, grippers, and dev kits. All with Canadian shipping. Build, repair, or upgrade humanoid robots.',
+  openGraph: {
+    title: 'Robot Parts & Components | RoboNorth',
+    description: 'Actuators, sensors, controllers, power systems, grippers, and dev kits for humanoid robots. Ships to Canada.',
+    url: 'https://robonorth.ca/parts',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'RoboNorth Robot Parts' }],
+  },
+  alternates: {
+    canonical: 'https://robonorth.ca/parts',
+  },
 };
 
 export const dynamic = 'force-dynamic';

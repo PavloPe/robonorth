@@ -16,7 +16,22 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const m = await getManufacturerBySlug(slug);
   if (!m) return { title: 'Manufacturer Not Found' };
-  return { title: m.name, description: m.description };
+
+  const description = `${m.name} — ${m.country}. Founded ${m.founded}. ${m.description.slice(0, 130)}`;
+
+  return {
+    title: `${m.name} — Humanoid Robots`,
+    description,
+    openGraph: {
+      title: `${m.name} — Humanoid Robots | RoboNorth`,
+      description,
+      url: `https://robonorth.ca/manufacturers/${m.id}`,
+      images: [{ url: m.imageUrl || '/og-default.png', width: 1200, height: 630, alt: m.name }],
+    },
+    alternates: {
+      canonical: `https://robonorth.ca/manufacturers/${m.id}`,
+    },
+  };
 }
 
 export default async function ManufacturerDetailPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -5,10 +5,15 @@ import { getAllBlogPosts } from '@/data/blog';
 
 export const metadata: Metadata = {
   title: 'Blog — Robot News & Insights',
-  description: 'Humanoid robot news, buying guides, industry analysis, and case studies for Canadian buyers and businesses.',
+  description: 'Humanoid robot news, buying guides, industry analysis, and case studies for Canadian buyers and businesses. Expert analysis of the Canadian robotics market.',
   openGraph: {
     title: 'RoboNorth Blog — Humanoid Robot Insights for Canada',
     description: 'Buying guides, industry analysis, and case studies on humanoid robots in Canada.',
+    url: 'https://robonorth.ca/blog',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'RoboNorth Blog' }],
+  },
+  alternates: {
+    canonical: 'https://robonorth.ca/blog',
   },
 };
 

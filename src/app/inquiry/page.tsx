@@ -2,8 +2,17 @@ import type { Metadata } from 'next';
 import InquiryForm from '@/components/ui/InquiryForm';
 
 export const metadata: Metadata = {
-  title: 'Get Early Access',
-  description: 'Be among the first in Canada to own a humanoid robot. Submit your inquiry and our team will connect you with the right manufacturer.',
+  title: 'Get Early Access — Pre-Order Humanoid Robots',
+  description: 'Be among the first in Canada to own a humanoid robot. Submit your inquiry and our team will connect you with the right manufacturer. No payment required.',
+  openGraph: {
+    title: 'Get Early Access to Humanoid Robots | RoboNorth',
+    description: 'Submit your inquiry. No payment required. We\'ll connect you with the right manufacturer.',
+    url: 'https://robonorth.ca/inquiry',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'Get Early Access — RoboNorth' }],
+  },
+  alternates: {
+    canonical: 'https://robonorth.ca/inquiry',
+  },
 };
 
 export default function InquiryPage() {

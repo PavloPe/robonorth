@@ -2,8 +2,17 @@ import type { Metadata } from 'next';
 import Button from '@/components/ui/Button';
 
 export const metadata: Metadata = {
-  title: 'About RoboNorth',
-  description: 'RoboNorth is Canada\'s first dedicated humanoid robot marketplace. Making humanoid robotics accessible to every Canadian.',
+  title: 'About RoboNorth — Canada\'s Robot Marketplace',
+  description: 'RoboNorth is Canada\'s first dedicated humanoid robot marketplace. Based in Alberta, we connect Canadian buyers with the world\'s leading robot manufacturers.',
+  openGraph: {
+    title: 'About RoboNorth',
+    description: 'Canada\'s first humanoid robot marketplace. Making humanoid robotics accessible to every Canadian.',
+    url: 'https://robonorth.ca/about',
+    images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'About RoboNorth' }],
+  },
+  alternates: {
+    canonical: 'https://robonorth.ca/about',
+  },
 };
 
 export default function AboutPage() {
