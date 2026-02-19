@@ -417,10 +417,18 @@ The businesses adopting humanoid robots in Canada today aren't the largest or mo
   },
 ];
 
+// Import additional articles
+import { additionalBlogPosts } from './blog-articles';
+
+// Merge all blog posts and sort by date (newest first)
+const allPosts = [...blogPosts, ...additionalBlogPosts].sort(
+  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+
 export function getBlogPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find(p => p.slug === slug);
+  return allPosts.find(p => p.slug === slug);
 }
 
 export function getAllBlogPosts(): BlogPost[] {
-  return blogPosts;
+  return allPosts;
 }
