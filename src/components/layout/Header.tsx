@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const navLinks = [
@@ -14,74 +14,93 @@ const navLinks = [
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${
+      scrolled
+        ? 'bg-white/95 backdrop-blur-xl border-b border-gray-200/80 shadow-sm'
+        : 'bg-white border-b border-gray-100'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-sm shadow-blue-600/20 group-hover:shadow-blue-600/40 transition-shadow">
               <span className="text-white text-sm font-bold">R</span>
             </div>
-            <span className="text-xl font-bold text-gray-900">RoboNorth</span>
-            <span className="text-[10px] bg-red-50 text-red-600 font-semibold px-1.5 py-0.5 rounded-full border border-red-100">CA</span>
+            <div className="flex items-center gap-1.5">
+              <span className="text-xl font-bold text-gray-900">RoboNorth</span>
+              <span className="text-[10px] bg-red-50 text-red-600 font-bold px-1.5 py-0.5 rounded-md border border-red-100">CA</span>
+            </div>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-1">
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-0.5">
             {navLinks.map(link => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                className="px-3.5 py-2 text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all font-medium"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
+          {/* Right side */}
           <div className="flex items-center gap-3">
             <Link
               href="/inquiry"
-              className="hidden sm:inline-flex px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
+              className="hidden sm:inline-flex px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-semibold rounded-xl transition-all shadow-sm shadow-blue-600/20 hover:shadow-blue-600/40"
             >
               Get Early Access
             </Link>
 
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg"
+              className="md:hidden p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
               aria-label="Toggle menu"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 {mobileOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
                 )}
               </svg>
             </button>
           </div>
         </div>
 
+        {/* Mobile menu */}
         {mobileOpen && (
-          <div className="md:hidden py-3 border-t border-gray-100">
+          <div className="md:hidden py-3 border-t border-gray-100 animate-fade-in-up">
             {navLinks.map(link => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="block py-2.5 px-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg"
+                className="block py-3 px-3 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-xl text-sm font-medium"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/inquiry"
-              className="block mt-2 mx-3 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg text-center"
-              onClick={() => setMobileOpen(false)}
-            >
-              Get Early Access
-            </Link>
+            <div className="pt-3 mt-2 border-t border-gray-100">
+              <Link
+                href="/inquiry"
+                className="block py-3 mx-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-semibold rounded-xl text-center"
+                onClick={() => setMobileOpen(false)}
+              >
+                Get Early Access
+              </Link>
+            </div>
           </div>
         )}
       </div>

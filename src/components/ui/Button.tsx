@@ -1,19 +1,20 @@
 import Link from 'next/link';
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'dark';
 type ButtonSize = 'sm' | 'md' | 'lg';
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm',
-  secondary: 'bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold',
-  outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium',
-  ghost: 'text-gray-600 hover:text-blue-600 hover:bg-blue-50 font-medium',
+  primary: 'bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm shadow-blue-600/20 hover:shadow-blue-600/30',
+  secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold',
+  outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 font-medium',
+  ghost: 'text-gray-600 hover:text-blue-600 hover:bg-blue-50/80 font-medium',
+  dark: 'bg-slate-900 hover:bg-slate-800 text-white font-semibold shadow-sm',
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'px-3 py-1.5 text-sm',
+  sm: 'px-3.5 py-1.5 text-sm',
   md: 'px-5 py-2.5 text-sm',
-  lg: 'px-6 py-3 text-base',
+  lg: 'px-7 py-3.5 text-base',
 };
 
 interface ButtonProps {
@@ -28,7 +29,7 @@ interface ButtonProps {
 }
 
 export default function Button({ variant = 'primary', size = 'md', children, href, onClick, type = 'button', disabled, className = '' }: ButtonProps) {
-  const classes = `inline-flex items-center justify-center rounded-lg transition-all duration-200 ${variantStyles[variant]} ${sizeStyles[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`;
+  const classes = `inline-flex items-center justify-center rounded-xl transition-all duration-200 ${variantStyles[variant]} ${sizeStyles[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`;
 
   if (href) {
     return <Link href={href} className={classes}>{children}</Link>;

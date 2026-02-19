@@ -31,16 +31,17 @@ const columns = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 border-t border-gray-200 mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+    <footer className="bg-slate-900 text-slate-300 mt-16">
+      {/* Main footer */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {columns.map(col => (
             <div key={col.title}>
-              <h4 className="text-sm font-semibold text-gray-900 mb-3">{col.title}</h4>
-              <ul className="space-y-2">
+              <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">{col.title}</h4>
+              <ul className="space-y-2.5">
                 {col.links.map(link => (
                   <li key={link.label}>
-                    <Link href={link.href} className="text-sm text-gray-500 hover:text-blue-600 transition-colors">
+                    <Link href={link.href} className="text-sm text-slate-400 hover:text-white transition-colors">
                       {link.label}
                     </Link>
                   </li>
@@ -49,31 +50,33 @@ export default function Footer() {
             </div>
           ))}
 
+          {/* Newsletter */}
           <div>
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Newsletter</h4>
-            <p className="text-sm text-gray-500 mb-3">Get robot news & early access offers.</p>
+            <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">Stay Updated</h4>
+            <p className="text-sm text-slate-400 mb-4">Get robot news & early access offers.</p>
             <div className="flex gap-2">
               <input
                 type="email"
                 placeholder="you@email.com"
-                className="flex-1 px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="flex-1 px-3.5 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
-              <button className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-lg transition-colors">
+              <button className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors shadow-sm shadow-blue-600/20">
                 →
               </button>
             </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center">
+        {/* Bottom bar */}
+        <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
               <span className="text-white text-xs font-bold">R</span>
             </div>
-            <span className="text-sm font-semibold text-gray-900">RoboNorth</span>
-            <span className="text-xs text-gray-400">— Canada&apos;s Humanoid Robot Marketplace</span>
+            <span className="text-sm font-semibold text-white">RoboNorth</span>
+            <span className="text-xs text-slate-500">— Canada&apos;s Humanoid Robot Marketplace</span>
           </div>
-          <p className="text-xs text-gray-400">© 2026 RoboNorth. All rights reserved.</p>
+          <p className="text-xs text-slate-500">© {new Date().getFullYear()} RoboNorth. All rights reserved.</p>
         </div>
       </div>
     </footer>
