@@ -57,13 +57,13 @@ export default function SidebarFilters({
       {/* Results header */}
       <div className="flex items-center justify-between mb-5">
         <div>
-          <p className="text-sm font-bold text-gray-900">{filteredCount} robots</p>
+          <p className="text-sm font-bold text-gray-900 dark:text-white">{filteredCount} robots</p>
           {filteredCount !== totalCount && (
             <p className="text-xs text-gray-400">of {totalCount} total</p>
           )}
         </div>
         {hasFilters && (
-          <button onClick={clearAll} className="text-xs text-blue-600 hover:text-blue-700 font-semibold bg-blue-50 px-2.5 py-1 rounded-lg hover:bg-blue-100 transition-colors">
+          <button onClick={clearAll} className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 font-semibold bg-blue-50 dark:bg-blue-900/30 px-2.5 py-1 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors">
             Clear all ({activeCount})
           </button>
         )}
@@ -80,7 +80,7 @@ export default function SidebarFilters({
             placeholder="Search robots..."
             value={currentSearch}
             onChange={e => updateFilter('q', e.target.value)}
-            className="w-full pl-9 pr-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+            className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
           />
           {currentSearch && (
             <button 
@@ -107,7 +107,7 @@ export default function SidebarFilters({
               className="sr-only"
             />
           </div>
-          <span className="text-sm text-gray-700 font-medium group-hover:text-gray-900 transition-colors">🇨🇦 Ships to Canada</span>
+          <span className="text-sm text-gray-700 dark:text-gray-300 font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">🇨🇦 Ships to Canada</span>
         </label>
       </div>
 

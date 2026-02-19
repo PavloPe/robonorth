@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import type { Robot } from '@/types';
 import Badge from './Badge';
 import QuickViewModal from './QuickViewModal';
+import { useCompare } from './CompareBar';
 
 const availabilityConfig: Record<string, { label: string; variant: 'success' | 'warning' | 'info' | 'default' }> = {
   shipping: { label: 'In Stock', variant: 'success' },
@@ -33,16 +34,21 @@ const newArrivals = new Set(['unitree-r1', 'clone-alpha', 'xpeng-iron', 'neura-r
 
 export default function RobotCard({ robot }: { robot: Robot }) {
   const [quickView, setQuickView] = useState(false);
+  const { addItem, removeItem, isInCompare } = useCompare();
   const badge = availabilityConfig[robot.availability] ?? availabilityConfig.announced;
   const gradient = categoryGradients[robot.category] || 'from-gray-50 to-gray-100 dark:from-gray-900/30 dark:to-gray-900/30';
   const isNew = newArrivals.has(robot.id);
+  const inCompare = isInCompare(robot.id);
 
-  // Track recently viewed
-  useEffect(() => {
-    try {
-      // Only track when user actually navigates, not on card render
-    } catch { /* ignore */ }
-  }, []);
+  const handleCompare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (inCompare) {
+      removeItem(robot.id);
+    } else {
+      addItem({ id: robot.id, name: robot.name, manufacturer: robot.manufacturer });
+    }
+  };
 
   const handleQuickView = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -126,12 +132,25 @@ export default function RobotCard({ robot }: { robot: Robot }) {
             <span className="text-sm font-bold text-gray-900 dark:text-white">
               {robot.price}
             </span>
-            <span className="text-xs text-blue-600 dark:text-blue-400 font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
-              Details
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleCompare}
+                className={`text-xs font-medium px-2 py-1 rounded-md transition-colors ${
+                  inCompare
+                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
+                    : 'text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
+                }`}
+                title={inCompare ? 'Remove from compare' : 'Add to compare'}
+              >
+                ⚖️
+              </button>
+              <span className="text-xs text-blue-600 dark:text-blue-400 font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
+                Details
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            </div>
           </div>
         </div>
       </Link>

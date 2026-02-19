@@ -6,6 +6,7 @@ import BackToTop from '@/components/ui/BackToTop';
 import CookieConsent from '@/components/ui/CookieConsent';
 import ExitIntentPopup from '@/components/ui/ExitIntentPopup';
 import ServiceWorkerRegistration from '@/components/ui/ServiceWorkerRegistration';
+import { CompareProvider } from '@/components/ui/CompareBar';
 import { websiteJsonLd, organizationJsonLd } from '@/lib/jsonld';
 import './globals.css';
 
@@ -113,6 +114,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             `,
           }}
         />
+        <CompareProvider>
         <Header />
         <main className="flex-1" style={{ animationDuration: '300ms' }}>
           {children}
@@ -122,6 +124,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CookieConsent />
         <ExitIntentPopup />
         <ServiceWorkerRegistration />
+        </CompareProvider>
       </body>
     </html>
   );
