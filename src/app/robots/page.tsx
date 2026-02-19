@@ -6,6 +6,7 @@ import SidebarFilters from '@/components/ui/SidebarFilters';
 import MobileFilters from '@/components/ui/MobileFilters';
 import SortSelect from '@/components/ui/SortSelect';
 import type { Robot } from '@/types';
+import Pagination from '@/components/ui/Pagination';
 
 export const metadata: Metadata = {
   title: 'Humanoid Robot Catalog — Browse 22+ Models',
@@ -95,6 +96,8 @@ export default async function RobotsPage({ searchParams }: PageProps) {
   const search = (params.q as string) || '';
   const canadaOnly = params.canada === '1';
   const sort = (params.sort as string) || 'featured';
+  const page = Math.max(1, parseInt((params.page as string) || '1', 10) || 1);
+  const perPage = 12;
 
   // Build where clause
   const where: Record<string, unknown> = {};
@@ -125,11 +128,14 @@ export default async function RobotsPage({ searchParams }: PageProps) {
   else if (sort === 'featured') orderBy = { featured: 'desc' };
 
   // Fetch data
-  const [allRobots, filteredRobots, allForFacets] = await Promise.all([
+  const [allRobots, filteredCount, filteredRobots, allForFacets] = await Promise.all([
     prisma.robot.count(),
-    prisma.robot.findMany({ where, orderBy }),
+    prisma.robot.count({ where }),
+    prisma.robot.findMany({ where, orderBy, skip: (page - 1) * perPage, take: perPage }),
     prisma.robot.findMany({ select: { category: true, availability: true, manufacturerSlug: true, manufacturer: true, country: true, priceMin: true } }),
   ]);
+
+  const totalPages = Math.ceil(filteredCount / perPage);
 
   // Build facet counts
   const categoryCounts: Record<string, number> = {};
@@ -152,7 +158,7 @@ export default async function RobotsPage({ searchParams }: PageProps) {
 
   const filterProps = {
     totalCount: allRobots,
-    filteredCount: filteredRobots.length,
+    filteredCount: filteredCount,
     categories: Object.entries(categoryCounts).map(([k, v]) => ({
       value: k, label: categoryLabels[k] || k, count: v,
     })),
@@ -173,8 +179,8 @@ export default async function RobotsPage({ searchParams }: PageProps) {
       {/* Page header */}
       <div className="mb-8">
         <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2">Catalog</p>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Humanoid Robot Catalog</h1>
-        <p className="text-gray-500 text-sm mt-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Humanoid Robot Catalog</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">
           Every humanoid robot you can buy, pre-order, or watch in 2026
         </p>
       </div>
@@ -198,9 +204,9 @@ export default async function RobotsPage({ searchParams }: PageProps) {
               <Suspense fallback={null}>
                 <MobileFilters {...filterProps} />
               </Suspense>
-              <p className="text-sm text-gray-500">
-                <span className="font-bold text-gray-900">{filteredRobots.length}</span>
-                {filteredRobots.length !== allRobots && <span className="text-gray-400"> of {allRobots}</span>}
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                <span className="font-bold text-gray-900 dark:text-white">{filteredCount}</span>
+                {filteredCount !== allRobots && <span className="text-gray-400"> of {allRobots}</span>}
                 {' '}robots
               </p>
               {hasFilters && (
@@ -220,6 +226,11 @@ export default async function RobotsPage({ searchParams }: PageProps) {
               <RobotCard key={robot.id} robot={robot} />
             ))}
           </div>
+
+          {/* Pagination */}
+          <Suspense fallback={null}>
+            <Pagination currentPage={page} totalPages={totalPages} basePath="/robots" />
+          </Suspense>
 
           {robots.length === 0 && (
             <div className="text-center py-20">

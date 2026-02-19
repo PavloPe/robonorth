@@ -18,7 +18,14 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">About RoboNorth</h1>
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500 mb-8">
+        <a href="/" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">Home</a>
+        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+        <span className="text-gray-700 dark:text-gray-300 font-medium">About</span>
+      </nav>
+
+      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">About RoboNorth</h1>
 
       <div className="space-y-5 text-gray-600 text-sm leading-relaxed">
         <p className="text-base text-gray-800">
