@@ -13,7 +13,7 @@ const cities = [
 export default function InquiryForm({ preselectedRobot }: { preselectedRobot?: string }) {
   const [formData, setFormData] = useState({
     name: '', email: '', phone: '', city: '',
-    robot: preselectedRobot || '', message: '',
+    robot: preselectedRobot || '', message: '', _hp: '',
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
@@ -91,6 +91,18 @@ export default function InquiryForm({ preselectedRobot }: { preselectedRobot?: s
           onChange={e => setFormData(prev => ({ ...prev, message: e.target.value }))}
           className={`${inputClass} resize-none`} placeholder="Tell us about your project..." />
       </div>
+      {/* Honeypot field — hidden from real users, bots fill it */}
+      <div className="absolute opacity-0 -z-10" aria-hidden="true" tabIndex={-1}>
+        <input
+          type="text"
+          name="_hp"
+          autoComplete="off"
+          tabIndex={-1}
+          value={formData._hp || ''}
+          onChange={e => setFormData(prev => ({ ...prev, _hp: e.target.value }))}
+        />
+      </div>
+
       <button type="submit" disabled={status === 'loading'}
         className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 text-sm shadow-sm">
         {status === 'loading' ? 'Submitting...' : 'Submit Inquiry'}
