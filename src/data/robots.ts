@@ -300,7 +300,7 @@ export const robots: Robot[] = [
     },
     country: 'Canada',
     imageUrl: '/images/robots/sanctuary-ai-phoenix.jpg',
-    featured: false,
+    featured: true,
     canadaAvailable: true,
   },
 
