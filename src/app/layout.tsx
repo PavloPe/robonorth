@@ -27,7 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={inter.className}>
       <body className="bg-white text-gray-900 min-h-screen flex flex-col antialiased">
         <Header />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 animate-fade-in-up" style={{ animationDuration: '300ms' }}>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
