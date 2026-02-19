@@ -1,0 +1,603 @@
+// ============================================================================
+// RoboNorth.ca — Robot Catalog
+// ============================================================================
+
+import type { Robot } from '../types';
+
+export type { Robot };
+
+export const robots: Robot[] = [
+  // ── 1. Unitree R1 ──────────────────────────────────────────────────────
+  {
+    id: 'unitree-r1',
+    name: 'Unitree R1',
+    manufacturer: 'Unitree Robotics',
+    manufacturerSlug: 'unitree-robotics',
+    price: 'From $5,900 USD',
+    priceMin: 5900,
+    availability: 'shipping',
+    category: 'consumer',
+    useCase: ['education', 'development', 'research', 'hobbyist'],
+    description:
+      'The most affordable full-body humanoid robot on the market. Standing 122 cm tall with 26 degrees of freedom, the R1 can run, cartwheel, and recover from falls. Its onboard AI runs Unitree\'s UnifoLM multimodal model for voice and gesture commands with no cloud latency.',
+    specs: {
+      height: 122,
+      weight: 25,
+      dof: 26,
+      battery: 'Hot-swappable, ~1 hr mixed activity',
+      payload: null,
+      speed: null,
+    },
+    country: 'China',
+    imageUrl: '/images/robots/unitree-r1.jpg',
+    featured: true,
+    canadaAvailable: true,
+  },
+
+  // ── 2. Unitree G1 ──────────────────────────────────────────────────────
+  {
+    id: 'unitree-g1',
+    name: 'Unitree G1',
+    manufacturer: 'Unitree Robotics',
+    manufacturerSlug: 'unitree-robotics',
+    price: '$16,000–$27,000 USD',
+    priceMin: 16000,
+    availability: 'shipping',
+    category: 'consumer',
+    useCase: ['education', 'R&D', 'light commercial', 'development'],
+    description:
+      'A compact humanoid built for mass production at a consumer-accessible price. The G1 EDU variant packs an NVIDIA Jetson Orin (275 TOPS), Dex3-1 dexterous hands with 14 DOF, and up to 43 total degrees of freedom. Ships with 3D LiDAR, depth cameras, and full ROS 2 SDK access.',
+    specs: {
+      height: 132,
+      weight: 35,
+      dof: 43,
+      battery: '9,000 mAh, ~2 hr runtime',
+      payload: 3,
+      speed: 7.5,
+    },
+    country: 'China',
+    imageUrl: '/images/robots/unitree-g1.jpg',
+    featured: true,
+    canadaAvailable: true,
+  },
+
+  // ── 3. Unitree H1 ──────────────────────────────────────────────────────
+  {
+    id: 'unitree-h1',
+    name: 'Unitree H1',
+    manufacturer: 'Unitree Robotics',
+    manufacturerSlug: 'unitree-robotics',
+    price: '$90,000–$150,000 USD',
+    priceMin: 90000,
+    availability: 'shipping',
+    category: 'research',
+    useCase: ['advanced research', 'bipedal locomotion R&D', 'reinforcement learning'],
+    description:
+      'Unitree\'s full-size research humanoid standing 178 cm tall with 360 N·m max joint torque. The H1 features 3D LiDAR, depth cameras, and an 864 Wh hot-swappable battery providing up to 2 hours of runtime. Designed for labs and universities pushing the boundaries of bipedal locomotion and AI.',
+    specs: {
+      height: 178,
+      weight: 47,
+      dof: 19,
+      battery: '864 Wh (15 Ah / 67.2 V), ~1.5–2 hr',
+      payload: null,
+      speed: 5.4,
+    },
+    country: 'China',
+    imageUrl: '/images/robots/unitree-h1.jpg',
+    featured: false,
+    canadaAvailable: true,
+  },
+
+  // ── 4. 1X NEO ──────────────────────────────────────────────────────────
+  {
+    id: '1x-neo',
+    name: '1X NEO',
+    manufacturer: '1X Technologies',
+    manufacturerSlug: '1x-technologies',
+    price: '$20,000 USD or $499/mo lease',
+    priceMin: 20000,
+    availability: 'preorder',
+    category: 'consumer',
+    useCase: ['home assistance', 'household chores', 'personal AI assistant'],
+    description:
+      'The world\'s first consumer-ready humanoid designed for everyday home living. NEO features a soft-bodied design for safe human interaction, IP68-rated hands, and 22 DOF per hand for human-level dexterity. It can lift up to 70 kg, carry 25 kg, and self-charges when needed. Preorders open for mid-2026 delivery.',
+    specs: {
+      height: 167,
+      weight: 30,
+      dof: 75,
+      battery: 'Integrated, self-charging dock',
+      payload: 25,
+      speed: 12,
+    },
+    country: 'Norway',
+    imageUrl: '/images/robots/1x-neo.jpg',
+    featured: true,
+    canadaAvailable: true,
+  },
+
+  // ── 5. Tesla Optimus Gen 3 ─────────────────────────────────────────────
+  {
+    id: 'tesla-optimus-gen-3',
+    name: 'Tesla Optimus Gen 3',
+    manufacturer: 'Tesla',
+    manufacturerSlug: 'tesla',
+    price: '$20,000–$30,000 USD (target)',
+    priceMin: 20000,
+    availability: 'announced',
+    category: 'announced',
+    useCase: ['general purpose', 'factory automation', 'household tasks'],
+    description:
+      'Tesla\'s next-generation humanoid robot with 22-DOF Gen 3 hands and vision-only AI derived from Full Self-Driving technology. Mass production began at the Fremont factory in January 2026, with internal deployment of 1,000+ units in Tesla factories. External consumer sales expected 2026–2027.',
+    specs: {
+      height: 173,
+      weight: 57,
+      dof: 50,
+      battery: '2.3 kWh (estimated), ~5+ hr',
+      payload: 20,
+      speed: 8,
+    },
+    country: 'USA',
+    imageUrl: '/images/robots/tesla-optimus-gen-3.jpg',
+    featured: true,
+    canadaAvailable: false,
+  },
+
+  // ── 6. Figure 02 ──────────────────────────────────────────────────────
+  {
+    id: 'figure-02',
+    name: 'Figure 02',
+    manufacturer: 'Figure AI',
+    manufacturerSlug: 'figure-ai',
+    price: '$30,000–$150,000 USD (est.)',
+    priceMin: 30000,
+    availability: 'pilot',
+    category: 'enterprise',
+    useCase: ['manufacturing', 'logistics', 'warehouse automation'],
+    description:
+      'Figure AI\'s second-generation humanoid deployed in BMW manufacturing lines. Standing 168 cm tall with 16-DOF five-fingered hands and dual high-performance GPU modules, Figure 02 operates continuously for up to 5 hours. Integrated with OpenAI\'s language models for natural-language task instruction.',
+    specs: {
+      height: 168,
+      weight: 70,
+      dof: 41,
+      battery: '~5 hr continuous runtime',
+      payload: 20,
+      speed: 4.8,
+    },
+    country: 'USA',
+    imageUrl: '/images/robots/figure-02.jpg',
+    featured: true,
+    canadaAvailable: false,
+  },
+
+  // ── 7. Figure 03 ──────────────────────────────────────────────────────
+  {
+    id: 'figure-03',
+    name: 'Figure 03',
+    manufacturer: 'Figure AI',
+    manufacturerSlug: 'figure-ai',
+    price: 'TBD',
+    priceMin: 0,
+    availability: 'announced',
+    category: 'announced',
+    useCase: ['next-gen manufacturing', 'general purpose', 'advanced autonomy'],
+    description:
+      'Figure AI\'s next-generation humanoid announced for 2026, building on the Helix autonomy framework. Expected to feature improved full-body control, enhanced dexterity, and broader task generalization. Details remain limited as the company focuses on scaling Figure 02 deployments.',
+    specs: {
+      height: null,
+      weight: null,
+      dof: null,
+      battery: null,
+      payload: null,
+      speed: null,
+    },
+    country: 'USA',
+    imageUrl: '/images/robots/figure-03.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 8. Agility Digit ──────────────────────────────────────────────────
+  {
+    id: 'agility-digit',
+    name: 'Agility Digit',
+    manufacturer: 'Agility Robotics',
+    manufacturerSlug: 'agility-robotics',
+    price: '~$250,000 USD',
+    priceMin: 250000,
+    availability: 'pilot',
+    category: 'enterprise',
+    useCase: ['warehouse logistics', 'tote handling', 'AMR unloading'],
+    description:
+      'A purpose-built warehouse humanoid with bird-like agile bipedal locomotion. Digit stands 175 cm tall, weighs 65 kg, and is built at Agility\'s RoboFab — the world\'s first humanoid robot factory. Currently in pilot deployments at Amazon and GXO logistics facilities, managed via the Arc cloud fleet platform.',
+    specs: {
+      height: 175,
+      weight: 65,
+      dof: 30,
+      battery: '~2–4 hr (task dependent)',
+      payload: 16,
+      speed: 5.5,
+    },
+    country: 'USA',
+    imageUrl: '/images/robots/agility-digit.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 9. Boston Dynamics Atlas (Electric) ────────────────────────────────
+  {
+    id: 'boston-dynamics-atlas',
+    name: 'Boston Dynamics Atlas (Electric)',
+    manufacturer: 'Boston Dynamics',
+    manufacturerSlug: 'boston-dynamics',
+    price: 'Not for sale (~$500K est.)',
+    priceMin: 500000,
+    availability: 'pilot',
+    category: 'research',
+    useCase: ['industrial automation', 'R&D', 'advanced manipulation'],
+    description:
+      'The gold standard of humanoid robotics, now fully electric. Atlas stands 190 cm tall with 56 DOF, 360° joint rotation, and titanium-aluminum construction. Capable of lifting 50 kg instantly and sustaining 30 kg loads. Fleet learning enables task knowledge transfer across all Atlas units simultaneously.',
+    specs: {
+      height: 190,
+      weight: 90,
+      dof: 56,
+      battery: '~2–4 hr (task dependent)',
+      payload: 30,
+      speed: 9,
+    },
+    country: 'USA',
+    imageUrl: '/images/robots/boston-dynamics-atlas.jpg',
+    featured: true,
+    canadaAvailable: false,
+  },
+
+  // ── 10. Apptronik Apollo ──────────────────────────────────────────────
+  {
+    id: 'apptronik-apollo',
+    name: 'Apptronik Apollo',
+    manufacturer: 'Apptronik',
+    manufacturerSlug: 'apptronik',
+    price: '$50,000–$100,000 USD (est.)',
+    priceMin: 50000,
+    availability: 'pilot',
+    category: 'enterprise',
+    useCase: ['logistics', 'manufacturing', 'material handling'],
+    description:
+      'A modular general-purpose humanoid designed for affordable industrial deployment. Apollo stands 173 cm tall with swappable battery packs providing 4 hours of runtime. NASA heritage — built by the team behind the Valkyrie robot. Targets a $50K price point at scale with partnerships including Mercedes-Benz and GXO.',
+    specs: {
+      height: 173,
+      weight: 73,
+      dof: 36,
+      battery: 'Swappable packs, ~4 hr runtime',
+      payload: 25,
+      speed: 4.8,
+    },
+    country: 'USA',
+    imageUrl: '/images/robots/apptronik-apollo.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 11. Sanctuary AI Phoenix ──────────────────────────────────────────
+  {
+    id: 'sanctuary-ai-phoenix',
+    name: 'Sanctuary AI Phoenix',
+    manufacturer: 'Sanctuary AI',
+    manufacturerSlug: 'sanctuary-ai',
+    price: '$40,000–$60,000 USD (est.)',
+    priceMin: 40000,
+    availability: 'pilot',
+    category: 'enterprise',
+    useCase: ['general-purpose labor', 'automotive manufacturing', 'logistics'],
+    description:
+      'Canada\'s leading humanoid robot, powered by the proprietary Carbon AI cognitive architecture. Phoenix features 21-DOF hydraulic hands with tactile sensitivity down to 5 millinewtons — near-human level. The Carbon AI system translates natural language into physical actions and can automate new tasks in under 24 hours. Partnered with Magna International for automotive deployment.',
+    specs: {
+      height: 170,
+      weight: 70,
+      dof: null,
+      battery: 'Not disclosed',
+      payload: 25,
+      speed: 4.8,
+    },
+    country: 'Canada',
+    imageUrl: '/images/robots/sanctuary-ai-phoenix.jpg',
+    featured: false,
+    canadaAvailable: true,
+  },
+
+  // ── 12. Fourier GR-1 ─────────────────────────────────────────────────
+  {
+    id: 'fourier-gr-1',
+    name: 'Fourier GR-1',
+    manufacturer: 'Fourier Intelligence',
+    manufacturerSlug: 'fourier-intelligence',
+    price: '$150,000–$170,000 USD',
+    priceMin: 150000,
+    availability: 'shipping',
+    category: 'research',
+    useCase: ['rehabilitation', 'research', 'healthcare'],
+    description:
+      'A research-grade humanoid with deep roots in medical rehabilitation technology. The GR-1 stands 165 cm tall with 40 DOF and FSA high-performance actuators delivering up to 300 N·m torque. Shipping to research partners globally, it bridges the gap between medical robotics and general-purpose humanoids.',
+    specs: {
+      height: 165,
+      weight: 55,
+      dof: 40,
+      battery: '~1–2 hr runtime',
+      payload: 5,
+      speed: 5,
+    },
+    country: 'China',
+    imageUrl: '/images/robots/fourier-gr-1.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 13. Fourier GR-2 ─────────────────────────────────────────────────
+  {
+    id: 'fourier-gr-2',
+    name: 'Fourier GR-2',
+    manufacturer: 'Fourier Intelligence',
+    manufacturerSlug: 'fourier-intelligence',
+    price: 'TBD',
+    priceMin: 0,
+    availability: 'announced',
+    category: 'announced',
+    useCase: ['healthcare', 'rehabilitation', 'elderly care'],
+    description:
+      'Fourier\'s next-generation humanoid standing 175 cm tall with 53 DOF and advanced 12-DOF dexterous hands with tactile sensors. Designed specifically for healthcare environments, GR-2 improves on the GR-1 with enhanced agility, precision manipulation, and a more human-like form factor.',
+    specs: {
+      height: 175,
+      weight: 63,
+      dof: 53,
+      battery: null,
+      payload: null,
+      speed: null,
+    },
+    country: 'China',
+    imageUrl: '/images/robots/fourier-gr-2.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 14. UBTECH Walker S2 ──────────────────────────────────────────────
+  {
+    id: 'ubtech-walker-s2',
+    name: 'UBTECH Walker S2',
+    manufacturer: 'UBTECH',
+    manufacturerSlug: 'ubtech',
+    price: '$80,000–$120,000 USD (est.)',
+    priceMin: 80000,
+    availability: 'pilot',
+    category: 'enterprise',
+    useCase: ['smart manufacturing', 'factory automation', 'quality inspection'],
+    description:
+      'A full-size bipedal humanoid with 52 DOF and dexterous five-fingered hands, designed for 24/7 industrial operation. The Walker S2 features an autonomous battery-swap system — one of the first humanoids capable of true continuous operation. Deployed in NIO and Dongfeng automotive factories in China.',
+    specs: {
+      height: 176,
+      weight: null,
+      dof: 52,
+      battery: 'Autonomous battery-swap system',
+      payload: null,
+      speed: null,
+    },
+    country: 'China',
+    imageUrl: '/images/robots/ubtech-walker-s2.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 15. Kepler Forerunner ─────────────────────────────────────────────
+  {
+    id: 'kepler-forerunner',
+    name: 'Kepler Forerunner',
+    manufacturer: 'Kepler Robotics',
+    manufacturerSlug: 'kepler-robotics',
+    price: '~$30,000 USD',
+    priceMin: 30000,
+    availability: 'shipping',
+    category: 'enterprise',
+    useCase: ['light industrial', 'manufacturing assistance', 'logistics'],
+    description:
+      'An aggressively priced industrial humanoid targeting the mass market. The Kepler Forerunner features 52 DOF with tactile hands and is designed for repetitive industrial tasks. At roughly $30,000, it aims to be one of the most affordable enterprise-grade humanoids available, with limited commercial shipments underway.',
+    specs: {
+      height: 178,
+      weight: 85,
+      dof: 52,
+      battery: '~2 hr runtime',
+      payload: 15,
+      speed: 5,
+    },
+    country: 'China',
+    imageUrl: '/images/robots/kepler-forerunner.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 16. SoftBank Pepper ───────────────────────────────────────────────
+  {
+    id: 'softbank-pepper',
+    name: 'SoftBank Pepper',
+    manufacturer: 'SoftBank Robotics',
+    manufacturerSlug: 'softbank-robotics',
+    price: '$20,000–$49,900 USD',
+    priceMin: 20000,
+    availability: 'shipping',
+    category: 'consumer',
+    useCase: ['retail', 'hospitality', 'customer service', 'education'],
+    description:
+      'The world\'s first social humanoid robot designed to live with humans, Pepper can read emotions through facial recognition and voice analysis. With over 15,000 units deployed worldwide in retail stores, hotels, hospitals, and schools. Available for purchase or lease with a robust app ecosystem.',
+    specs: {
+      height: 121,
+      weight: 28,
+      dof: 20,
+      battery: '~12 hr standby, ~3 hr active',
+      payload: null,
+      speed: 3,
+    },
+    country: 'Japan',
+    imageUrl: '/images/robots/softbank-pepper.jpg',
+    featured: false,
+    canadaAvailable: true,
+  },
+
+  // ── 17. Xiaomi CyberOne ───────────────────────────────────────────────
+  {
+    id: 'xiaomi-cyberone',
+    name: 'Xiaomi CyberOne',
+    manufacturer: 'Xiaomi',
+    manufacturerSlug: 'xiaomi',
+    price: '$75,000–$104,000 USD (est.)',
+    priceMin: 75000,
+    availability: 'prototype',
+    category: 'research',
+    useCase: ['R&D demonstration', 'emotion recognition', 'human-robot interaction'],
+    description:
+      'Xiaomi\'s flagship humanoid robot showcasing the company\'s AI and robotics expertise. CyberOne features the Mi-Sense depth vision module for 3D space perception and an AI interaction algorithm capable of recognizing 45 human emotions. Currently a technology demonstrator not available for commercial sale.',
+    specs: {
+      height: 177,
+      weight: 52,
+      dof: 21,
+      battery: null,
+      payload: 1.5,
+      speed: 3.6,
+    },
+    country: 'China',
+    imageUrl: '/images/robots/xiaomi-cyberone.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 18. Engineered Arts Ameca ─────────────────────────────────────────
+  {
+    id: 'engineered-arts-ameca',
+    name: 'Engineered Arts Ameca',
+    manufacturer: 'Engineered Arts',
+    manufacturerSlug: 'engineered-arts',
+    price: '~$250,000+ USD',
+    priceMin: 250000,
+    availability: 'shipping',
+    category: 'enterprise',
+    useCase: ['events', 'exhibitions', 'entertainment', 'human-robot interaction research'],
+    description:
+      'The world\'s most advanced humanoid robot for facial expression and human interaction. Ameca features over 50 pre-programmed realistic facial expressions with individually controllable degrees of freedom in the eyes, mouth, eyebrows, and cheeks. Used globally at trade shows, museums, and research institutions. Programmable via the Tritium web platform.',
+    specs: {
+      height: 187,
+      weight: 50,
+      dof: 52,
+      battery: null,
+      payload: null,
+      speed: null,
+    },
+    country: 'UK',
+    imageUrl: '/images/robots/engineered-arts-ameca.jpg',
+    featured: false,
+    canadaAvailable: true,
+  },
+
+  // ── 19. Agibot A2 ────────────────────────────────────────────────────
+  {
+    id: 'agibot-a2',
+    name: 'Agibot A2',
+    manufacturer: 'Agibot',
+    manufacturerSlug: 'agibot',
+    price: '$50,000–$80,000 USD (est.)',
+    priceMin: 50000,
+    availability: 'pilot',
+    category: 'enterprise',
+    useCase: ['industrial automation', 'manufacturing', 'material handling'],
+    description:
+      'A full-size industrial humanoid from the Shanghai-based startup backed by CATL and other major investors. The A2 features dexterous hands, whole-body control, and is designed for deployment in automotive and electronics manufacturing lines. Currently in commercial pilot programs with select partners.',
+    specs: {
+      height: 175,
+      weight: 65,
+      dof: 42,
+      battery: '~2–3 hr runtime',
+      payload: 15,
+      speed: 5,
+    },
+    country: 'China',
+    imageUrl: '/images/robots/agibot-a2.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 20. XPENG Iron ───────────────────────────────────────────────────
+  {
+    id: 'xpeng-iron',
+    name: 'XPENG Iron',
+    manufacturer: 'XPENG',
+    manufacturerSlug: 'xpeng',
+    price: 'TBD',
+    priceMin: 0,
+    availability: 'announced',
+    category: 'announced',
+    useCase: ['general purpose', 'smart home', 'commercial service'],
+    description:
+      'XPENG\'s entry into humanoid robotics, leveraging the EV maker\'s expertise in AI, autonomous driving, and manufacturing at scale. Iron is positioned as a general-purpose humanoid that can transition from factory floors to home environments. Announced with limited technical details as the company builds out its robotics division.',
+    specs: {
+      height: 178,
+      weight: 70,
+      dof: null,
+      battery: null,
+      payload: null,
+      speed: null,
+    },
+    country: 'China',
+    imageUrl: '/images/robots/xpeng-iron.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 21. Neura Robotics 4NE-1 ─────────────────────────────────────────
+  {
+    id: 'neura-robotics-4ne-1',
+    name: 'Neura Robotics 4NE-1',
+    manufacturer: 'Neura Robotics',
+    manufacturerSlug: 'neura-robotics',
+    price: 'TBD',
+    priceMin: 0,
+    availability: 'announced',
+    category: 'announced',
+    useCase: ['cognitive AI', 'human-robot interaction', 'service tasks'],
+    description:
+      'Billed as "the world\'s first cognitive robot," the 4NE-1 emphasizes advanced AI capabilities and natural human interaction. Standing 180 cm tall and weighing 80 kg, it combines multimodal perception with autonomous decision-making. Neura Robotics — Europe\'s leading humanoid startup — targets enterprise and service applications.',
+    specs: {
+      height: 180,
+      weight: 80,
+      dof: null,
+      battery: null,
+      payload: null,
+      speed: null,
+    },
+    country: 'Germany',
+    imageUrl: '/images/robots/neura-robotics-4ne-1.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+
+  // ── 22. Clone Alpha ──────────────────────────────────────────────────
+  {
+    id: 'clone-alpha',
+    name: 'Clone Alpha',
+    manufacturer: 'Clone Robotics',
+    manufacturerSlug: 'clone-robotics',
+    price: 'TBD',
+    priceMin: 0,
+    availability: 'prototype',
+    category: 'research',
+    useCase: ['musculoskeletal research', 'biomechanics', 'academic study'],
+    description:
+      'A radically different approach to humanoid robotics — Clone Alpha uses artificial muscles and tendons instead of traditional electric motors, mimicking the human musculoskeletal system. The prototype demonstrates remarkably lifelike movement patterns and aims to prove that biological-inspired actuation can outperform conventional approaches.',
+    specs: {
+      height: 175,
+      weight: null,
+      dof: null,
+      battery: null,
+      payload: null,
+      speed: null,
+    },
+    country: 'Poland',
+    imageUrl: '/images/robots/clone-alpha.jpg',
+    featured: false,
+    canadaAvailable: false,
+  },
+];
