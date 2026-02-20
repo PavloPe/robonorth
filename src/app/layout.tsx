@@ -15,6 +15,7 @@ import LiveChatWidget from '@/components/ui/LiveChatWidget';
 import WebVitals from '@/components/ui/WebVitals';
 import { websiteJsonLd, organizationJsonLd } from '@/lib/jsonld';
 import TrustBadges from '@/components/ui/TrustBadges';
+import WinterShippingBanner from '@/components/ui/WinterShippingBanner';
 import './globals.css';
 
 const inter = Inter({
@@ -138,6 +139,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CompareProvider>
         <InquiryBasketProvider>
         <TopProgressBar />
+        <WinterShippingBanner />
         <Header />
         <main id="main-content" className="flex-1" style={{ animationDuration: '300ms' }}>
           {children}

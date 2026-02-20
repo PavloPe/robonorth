@@ -13,6 +13,7 @@ import VideoEmbed from '@/components/ui/VideoEmbed';
 import RecentlyViewed from '@/components/ui/RecentlyViewed';
 import RobotDetailTracker from '@/components/ui/RobotDetailTracker';
 import ShareButton from '@/components/ui/ShareButton';
+import SocialShareButtons from '@/components/ui/SocialShareButtons';
 import FavoritesButton from '@/components/ui/FavoritesButton';
 import NotifyMeButton from '@/components/ui/NotifyMeButton';
 import DeliveryEstimator from '@/components/ui/DeliveryEstimator';
@@ -208,9 +209,13 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
             <span className="text-gray-500 dark:text-gray-400">Need help?</span>
             <a href="tel:+15873250017" className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">+1 (587) 325-0017</a>
           </div>
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-2 mb-3">
             <ShareButton title={robot.name} />
             <FavoritesButton robotId={robot.id} robotName={robot.name} />
+          </div>
+          {/* Social share buttons — Task 49 */}
+          <div className="mb-4">
+            <SocialShareButtons title={`${robot.name} by ${robot.manufacturer}`} />
           </div>
           {/* Price alert — Improvement #47 */}
           <PriceAlertSignup robotId={robot.id} robotName={robot.name} currentPrice={robot.price} />
