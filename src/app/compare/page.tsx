@@ -113,7 +113,7 @@ export default function ComparePage() {
       )}
 
       {/* Robot selector */}
-      <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6 shadow-sm">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-6 shadow-sm">
         <div className="flex flex-wrap gap-2 items-center">
           {/* Search + dropdown combo */}
           <div className="relative">
@@ -123,7 +123,7 @@ export default function ComparePage() {
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               disabled={loading || selectedIds.length >= 4}
-              className="px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64 disabled:opacity-50"
+              className="px-3.5 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-700 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64 disabled:opacity-50"
             />
             {searchTerm && filteredRobots.length > 0 && (
               <div className="absolute top-full left-0 mt-1 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-20 max-h-60 overflow-y-auto">
@@ -147,9 +147,10 @@ export default function ComparePage() {
           {/* Or use dropdown */}
           <select
             onChange={e => { addRobot(e.target.value); e.target.value = ''; }}
-            className="px-3.5 py-2 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3.5 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-700 dark:text-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             value=""
             disabled={loading || selectedIds.length >= 4}
+            aria-label="Add robot to comparison"
           >
             <option value="">{loading ? 'Loading...' : '+ Add robot'}</option>
             {availableRobots.map(r => (

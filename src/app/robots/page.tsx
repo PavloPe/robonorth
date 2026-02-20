@@ -9,11 +9,11 @@ import type { Robot } from '@/types';
 import Pagination from '@/components/ui/Pagination';
 
 export const metadata: Metadata = {
-  title: 'Humanoid Robot Catalog — Browse 22+ Models',
-  description: 'Browse all humanoid robots available for purchase, pre-order, or coming soon in Canada. Compare specs, prices, and availability. Filter by price, category, and manufacturer.',
+  title: 'Humanoid Robot Catalog — Browse 32+ Models',
+  description: 'Browse all 32+ humanoid robots available for purchase, pre-order, or coming soon in Canada. Compare specs, prices, and availability from $5,900 USD. Filter by price, category, and manufacturer.',
   openGraph: {
     title: 'Humanoid Robot Catalog | RoboNorth',
-    description: 'Browse 22+ humanoid robots from Tesla, Unitree, Figure AI, and more. Filter by price, category, and availability.',
+    description: 'Browse 32+ humanoid robots from Tesla, Unitree, Figure AI, Sanctuary AI, and more. Filter by price, category, and availability.',
     url: 'https://robonorth.ca/robots',
     images: [{ url: '/og-default.png', width: 1200, height: 630, alt: 'RoboNorth Robot Catalog' }],
   },

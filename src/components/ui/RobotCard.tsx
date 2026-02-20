@@ -30,7 +30,11 @@ const categoryIcons: Record<string, string> = {
 };
 
 // Robots added "recently" (placeholder — in production, check date field)
-const newArrivals = new Set(['unitree-r1', 'clone-alpha', 'xpeng-iron', 'neura-robotics-4ne-1']);
+const newArrivals = new Set([
+  '1x-neo-beta', 'apptronik-apollo-2', 'figure-04', 'unitree-h1-2',
+  'sanctuary-ai-phoenix-gen2', 'kepler-forerunner-k2', 'agility-digit-v2',
+  'nvidia-gr00t', 'galbot-g1', 'menteebot',
+]);
 
 export default function RobotCard({ robot }: { robot: Robot }) {
   const [quickView, setQuickView] = useState(false);

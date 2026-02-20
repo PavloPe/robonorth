@@ -86,7 +86,7 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { step: '01', icon: '🔍', title: 'Browse', desc: 'Explore 22+ humanoid robots with real specs, real prices, and Canadian availability info.' },
+              { step: '01', icon: '🔍', title: 'Browse', desc: 'Explore 32+ humanoid robots with real specs, real prices, and Canadian availability info.' },
               { step: '02', icon: '⚖️', title: 'Compare', desc: 'Use our side-by-side comparison tool to find the perfect match for your needs and budget.' },
               { step: '03', icon: '📝', title: 'Inquire', desc: 'Submit an inquiry with your requirements. No payment, no commitment — just information.' },
               { step: '04', icon: '🤝', title: 'Connect', desc: 'We connect you directly with the manufacturer or authorized dealer. You deal with them, not us.' },

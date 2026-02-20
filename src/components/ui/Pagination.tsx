@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useCallback } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -12,9 +13,7 @@ interface PaginationProps {
 export default function Pagination({ currentPage, totalPages, basePath }: PaginationProps) {
   const searchParams = useSearchParams();
 
-  if (totalPages <= 1) return null;
-
-  const createPageUrl = (page: number) => {
+  const createPageUrl = useCallback((page: number) => {
     const params = new URLSearchParams(searchParams.toString());
     if (page <= 1) {
       params.delete('page');
@@ -23,7 +22,35 @@ export default function Pagination({ currentPage, totalPages, basePath }: Pagina
     }
     const qs = params.toString();
     return qs ? `${basePath}?${qs}` : basePath;
-  };
+  }, [searchParams, basePath]);
+
+  // Inject rel=prev/next link tags for SEO (#26)
+  useEffect(() => {
+    document.querySelectorAll('link[data-pagination]').forEach(el => el.remove());
+
+    if (totalPages <= 1) return;
+
+    if (currentPage > 1) {
+      const prevLink = document.createElement('link');
+      prevLink.rel = 'prev';
+      prevLink.href = createPageUrl(currentPage - 1);
+      prevLink.setAttribute('data-pagination', 'true');
+      document.head.appendChild(prevLink);
+    }
+    if (currentPage < totalPages) {
+      const nextLink = document.createElement('link');
+      nextLink.rel = 'next';
+      nextLink.href = createPageUrl(currentPage + 1);
+      nextLink.setAttribute('data-pagination', 'true');
+      document.head.appendChild(nextLink);
+    }
+
+    return () => {
+      document.querySelectorAll('link[data-pagination]').forEach(el => el.remove());
+    };
+  }, [currentPage, totalPages, createPageUrl]);
+
+  if (totalPages <= 1) return null;
 
   // Generate page numbers to show
   const pages: (number | 'ellipsis')[] = [];
@@ -46,17 +73,19 @@ export default function Pagination({ currentPage, totalPages, basePath }: Pagina
         <Link
           href={createPageUrl(currentPage - 1)}
           className="px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          rel="prev"
+          aria-label="Go to previous page"
         >
           ← Prev
         </Link>
       ) : (
-        <span className="px-3 py-2 text-sm font-medium text-gray-300 dark:text-gray-600 cursor-not-allowed">← Prev</span>
+        <span className="px-3 py-2 text-sm font-medium text-gray-300 dark:text-gray-600 cursor-not-allowed" aria-disabled="true">← Prev</span>
       )}
 
       {/* Page numbers */}
       {pages.map((page, i) =>
         page === 'ellipsis' ? (
-          <span key={`e${i}`} className="px-2 py-2 text-sm text-gray-400">…</span>
+          <span key={`e${i}`} className="px-2 py-2 text-sm text-gray-400" aria-hidden="true">…</span>
         ) : (
           <Link
             key={page}
@@ -66,6 +95,8 @@ export default function Pagination({ currentPage, totalPages, basePath }: Pagina
                 ? 'bg-blue-600 text-white'
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
             }`}
+            aria-label={`Go to page ${page}`}
+            aria-current={page === currentPage ? 'page' : undefined}
           >
             {page}
           </Link>
@@ -77,11 +108,13 @@ export default function Pagination({ currentPage, totalPages, basePath }: Pagina
         <Link
           href={createPageUrl(currentPage + 1)}
           className="px-3 py-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          rel="next"
+          aria-label="Go to next page"
         >
           Next →
         </Link>
       ) : (
-        <span className="px-3 py-2 text-sm font-medium text-gray-300 dark:text-gray-600 cursor-not-allowed">Next →</span>
+        <span className="px-3 py-2 text-sm font-medium text-gray-300 dark:text-gray-600 cursor-not-allowed" aria-disabled="true">Next →</span>
       )}
     </nav>
   );

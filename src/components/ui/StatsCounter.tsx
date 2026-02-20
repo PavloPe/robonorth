@@ -3,9 +3,9 @@
 import { useIntersectionObserver, useCountUp } from '@/hooks/useIntersectionObserver';
 
 const stats = [
-  { end: 22, suffix: '+', label: 'Robots Cataloged', icon: '🤖' },
-  { end: 15, suffix: '+', label: 'Manufacturers', icon: '🏭' },
-  { end: 2847, suffix: '', label: 'Canadians Exploring', icon: '🇨🇦' },
+  { end: 32, suffix: '+', label: 'Robots Cataloged', icon: '🤖' },
+  { end: 21, suffix: '+', label: 'Manufacturers', icon: '🏭' },
+  { end: 4200, suffix: '', label: 'Canadians Exploring', icon: '🇨🇦' },
   { end: 100, suffix: '%', label: 'Free to Browse', icon: '💰' },
 ];
 
