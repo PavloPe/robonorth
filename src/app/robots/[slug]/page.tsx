@@ -279,6 +279,111 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
+      {/* Variants Table */}
+      {robot.variants && (() => {
+        const variants = JSON.parse(robot.variants) as Array<{ name: string; dof: number; hands: string; compute: string; price: string; priceMin: number }>;
+        return (
+          <section className="mb-16">
+            <div className="mb-8">
+              <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Models</p>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Available Variants</h2>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700/80 rounded-2xl overflow-hidden">
+                <thead className="bg-gray-50 dark:bg-gray-800">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Model</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">DOF</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Hands</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Compute</th>
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Price</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                  {variants.map((v, i) => (
+                    <tr key={i} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+                      <td className="px-4 py-3 text-sm font-medium text-gray-900 dark:text-white">{v.name}</td>
+                      <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{v.dof}</td>
+                      <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{v.hands}</td>
+                      <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300">{v.compute}</td>
+                      <td className="px-4 py-3 text-sm font-semibold text-gray-900 dark:text-white">{v.price}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        );
+      })()}
+
+      {/* Expert Review Link */}
+      {robot.reviewSlug && (
+        <section className="mb-16">
+          <Link href={`/reviews/${robot.reviewSlug}`} className="block bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/30 dark:to-cyan-950/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-6 hover:shadow-md transition-all group">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-1">Expert Review</p>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Read our in-depth {robot.name} review →</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Detailed analysis, pros & cons, and our verdict.</p>
+              </div>
+              <span className="text-3xl font-bold text-blue-600 dark:text-blue-400 hidden sm:block">📝</span>
+            </div>
+          </Link>
+        </section>
+      )}
+
+      {/* Score Badges */}
+      {robot.scores && (
+        <section className="mb-16">
+          <div className="mb-8">
+            <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Rating</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">RoboNorth Score</h2>
+          </div>
+          <div className="bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700/80 rounded-2xl p-6">
+            {robot.categoryWinners && robot.categoryWinners.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-4">
+                {robot.categoryWinners.map(badge => (
+                  <span key={badge} className="text-xs font-semibold bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 px-2.5 py-1 rounded-full">🏆 {badge}</span>
+                ))}
+              </div>
+            )}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+              {[
+                { label: 'Deployment', score: robot.scores.deployment, colour: 'emerald' },
+                { label: 'Capability', score: robot.scores.capability, colour: 'blue' },
+                { label: 'Availability', score: robot.scores.availability, colour: 'purple' },
+                { label: 'Value', score: robot.scores.value, colour: 'amber' },
+                { label: 'Impact', score: robot.scores.impact, colour: 'rose' },
+              ].map(({ label, score, colour }) => (
+                <div key={label} className="text-center">
+                  <div className={`text-2xl font-bold ${
+                    colour === 'emerald' ? 'text-emerald-600 dark:text-emerald-400' :
+                    colour === 'blue' ? 'text-blue-600 dark:text-blue-400' :
+                    colour === 'purple' ? 'text-purple-600 dark:text-purple-400' :
+                    colour === 'amber' ? 'text-amber-600 dark:text-amber-400' : 'text-rose-600 dark:text-rose-400'
+                  }`}>{score}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{label}</div>
+                  <div className="h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mt-2">
+                    <div className={`h-full rounded-full ${
+                      colour === 'emerald' ? 'bg-emerald-500' :
+                      colour === 'blue' ? 'bg-blue-500' :
+                      colour === 'purple' ? 'bg-purple-500' :
+                      colour === 'amber' ? 'bg-amber-500' : 'bg-rose-500'
+                    }`} style={{ width: `${score * 10}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
+              <span className="text-sm text-gray-500 dark:text-gray-400">Overall Score</span>
+              <span className="text-lg font-bold text-gray-900 dark:text-white">
+                {(robot.scores.deployment * 0.20 + robot.scores.capability * 0.25 + robot.scores.availability * 0.20 + robot.scores.value * 0.20 + robot.scores.impact * 0.15).toFixed(1)} / 10
+              </span>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Shipping & Import Info */}
       {extras?.shipping && (
         <section className="mb-16">
