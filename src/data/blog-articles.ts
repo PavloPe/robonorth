@@ -1238,4 +1238,335 @@ Room for 3-4 robots, dedicated testing zones, and visitor space.
 *Need help selecting robots for your lab? [Contact RoboNorth](/inquiry) — we've helped dozens of Canadian labs get set up. [Browse robots →](/robots)*
 `,
   },
+
+  // ── Comprehensive Robot Buying Guide (2000+ words) ────────────────────
+  {
+    slug: 'complete-robot-buying-guide-canada-2026',
+    title: 'The Complete Humanoid Robot Buying Guide for Canadians (2026)',
+    excerpt: 'Everything you need to know before purchasing a humanoid robot in Canada — from budgeting and import logistics to safety certification, insurance, and ROI calculation. A comprehensive 2,500+ word guide.',
+    date: '2026-06-01',
+    author: 'RoboNorth Team',
+    readTime: '14 min read',
+    category: 'Guide',
+    content: `
+## The Complete Humanoid Robot Buying Guide for Canadians
+
+Buying a humanoid robot in 2026 is no longer a fantasy — it's a business decision. With models ranging from $5,900 CAD to over $500,000, and over 30 models on the market, the choices can be overwhelming. This guide walks you through every step of the process, from defining your needs to getting the robot through Canadian customs.
+
+---
+
+## Step 1: Define Your Use Case
+
+Before looking at any specific robot, answer these fundamental questions:
+
+**What problem are you solving?**
+- Labour shortage in a specific role?
+- Dangerous task you want to remove humans from?
+- Research and development platform?
+- Customer-facing interaction (retail, hospitality)?
+- Personal home assistance?
+
+**What environment will the robot operate in?**
+- Indoor warehouse / factory floor
+- Office or retail environment
+- Home setting
+- Outdoor (limited options for Canadian climate)
+- Laboratory / research facility
+
+**Who will interact with the robot?**
+- Trained technicians only
+- General workforce alongside the robot
+- Public (customers, patients, students)
+- Children (educational settings)
+
+Your answers dramatically narrow the field. A warehouse robot (Agility Digit) is a completely different purchase than a home assistant (1X NEO) or a research platform (Unitree G1).
+
+## Step 2: Set Your Budget (Total Cost of Ownership)
+
+The sticker price is just the beginning. Here's what a realistic Canadian budget looks like:
+
+### Purchase Price Ranges (in CAD, approximate)
+
+| Category | Price Range (CAD) | Examples |
+|----------|-------------------|----------|
+| Budget / Education | $8,000 – $40,000 | Unitree R1, Unitree G1, Galbot G1 |
+| Mid-Range | $40,000 – $150,000 | 1X NEO, Kepler Forerunner, Sanctuary AI Phoenix |
+| Enterprise | $150,000 – $400,000 | Figure 02, Agility Digit, Fourier GR-1 |
+| Premium / Research | $400,000+ | Boston Dynamics Atlas, Engineered Arts Ameca |
+
+### Hidden Costs to Budget For
+
+**Year 1 Total Cost = Purchase Price × 1.4 to 1.6**
+
+| Cost Item | Typical Range | Notes |
+|-----------|---------------|-------|
+| Import duties | 0–8% | Depends on origin country and HS code |
+| GST/HST | 5–15% | On landed cost (purchase + duties + shipping) |
+| Shipping & freight | $500–$5,000 | Air vs. sea; depends on robot size |
+| Customs brokerage | $200–$1,000 | Professional broker recommended |
+| Insurance | $1,000–$10,000/yr | Commercial robot insurance is niche |
+| Extended warranty | 5–15% of purchase | Highly recommended for $50K+ robots |
+| Integration / setup | $2,000–$50,000 | Software customization, safety assessment |
+| Training | $1,000–$10,000 | Staff training on operation and safety |
+| Maintenance | 10–15%/yr | Replacement parts, software updates |
+| Charging infrastructure | $500–$5,000 | Dedicated charging stations, electrical work |
+
+### Lease / Robot-as-a-Service (RaaS)
+
+Several manufacturers offer lease options:
+- **1X NEO**: ~$690 CAD/month (estimated)
+- **Sanctuary AI Phoenix**: RaaS model, pricing on request
+- **Agility Digit**: Enterprise lease available
+
+Leasing makes sense for pilot programs, seasonal needs, or when you want to avoid capital expenditure.
+
+## Step 3: Understand Canadian Import Regulations
+
+Importing a humanoid robot to Canada involves several regulatory considerations:
+
+### Customs Classification (HS Codes)
+
+The correct HS code determines your duty rate:
+- **8479.50** — Industrial robots, not elsewhere classified: 0–6% duty
+- **8428.90** — Other lifting/handling/loading machinery: 0–8%
+- **9503.00** — Toys and models (if classified as educational): varies
+- **8479.89** — Machines with individual functions: 0–6%
+
+**Pro tip:** Work with a licensed customs broker (CSCB member) to get the optimal classification. The difference between 0% and 8% on a $100,000 robot is $8,000.
+
+### Trade Agreements That Save You Money
+
+| Origin Country | Trade Agreement | Typical Duty Savings |
+|---------------|-----------------|---------------------|
+| USA | CUSMA | 0% duty |
+| Norway | EFTA (similar to CETA) | 0% or reduced |
+| Japan | CPTPP | 0% or reduced |
+| UK | UK-Canada TCA | 0% or reduced |
+| China | No FTA | 0–8% MFN rate |
+| EU members | CETA | 0% on most robots |
+
+**Key insight:** Robots from the US (Tesla, Figure AI, Agility, Boston Dynamics, Apptronik) enter Canada duty-free under CUSMA. Chinese-origin robots (Unitree, UBTECH, Kepler) face 0–8% duties.
+
+### Safety Certification
+
+Currently, there is no specific Canadian safety certification required for humanoid robots. However:
+- **CSA Z434** — Industrial Robot Safety (applies to workplace deployment)
+- **ISO 10218** — Robot safety requirements (international standard)
+- **ISO/TS 15066** — Collaborative robot safety (force limits)
+- **Provincial OHS regulations** apply to workplace deployments
+
+We strongly recommend getting a professional safety assessment before deploying any robot in a workspace with humans.
+
+### Transport Canada Considerations
+
+Transport Canada has no specific regulations for humanoid robots yet. However, lithium batteries over 100 Wh require special shipping documentation (IATA Dangerous Goods Regulations for air freight).
+
+## Step 4: Compare Specifications That Matter
+
+Not all specs are created equal. Here's what actually matters for different use cases:
+
+### For Home Use
+1. **Safety certifications** — Force limits, collision detection
+2. **Weight** — Lighter is safer (under 40 kg preferred)
+3. **Battery life** — 3+ hours for practical home use
+4. **Noise level** — Important for living spaces
+5. **Software updates** — Active development means improving capabilities
+
+### For Industrial / Warehouse
+1. **Payload capacity** — How much can it carry?
+2. **Battery life** — 4+ hours minimum; hot-swap essential
+3. **DOF (Degrees of Freedom)** — More DOF = more dexterous
+4. **Speed** — Both walking speed and task execution speed
+5. **Fleet management** — Multi-robot coordination capabilities
+
+### For Research
+1. **SDK / API access** — Open vs. closed development platform
+2. **ROS compatibility** — ROS 2 support is essential
+3. **Compute platform** — NVIDIA Jetson Orin or equivalent
+4. **Sensor suite** — LiDAR, depth cameras, force/torque sensors
+5. **Community** — Active developer community and documentation
+
+### For Customer-Facing
+1. **Appearance** — Friendly, non-threatening design
+2. **Voice interaction** — Multilingual (English + French for Canada)
+3. **Facial expressions** — Ameca leads; others vary widely
+4. **Uptime** — Reliability for public-facing deployment
+5. **Content management** — Easy to update scripts/behaviors
+
+## Step 5: Evaluate Manufacturers
+
+When assessing a manufacturer, look beyond the spec sheet:
+
+### Red Flags 🚩
+- No verifiable deployments or customer references
+- Specs that seem too good for the price
+- No clear warranty or support plan
+- No physical address or team listed
+- "Coming soon" for more than 18 months with no progress
+
+### Green Flags ✅
+- Verifiable commercial deployments
+- Clear warranty terms
+- Active GitHub/developer community
+- Named engineering team
+- Regular software updates and version history
+- Major corporate partnerships (BMW, Amazon, Magna, etc.)
+
+### Canadian Support Matters
+
+Consider support logistics. If something breaks:
+- **Canadian-made (Sanctuary AI)**: Domestic support, fastest turnaround
+- **US-made (Tesla, Figure AI, Apptronik)**: Cross-border warranty, 1–2 week turnaround
+- **European (1X, Engineered Arts)**: 2–4 week turnaround
+- **Chinese (Unitree, Kepler, UBTECH)**: 2–6 week turnaround; may require shipping to China
+
+## Step 6: Plan Your Deployment
+
+### Pilot First
+
+We recommend **always** starting with a pilot:
+1. **Duration**: 3–6 months minimum
+2. **Scope**: One specific task, clearly defined success metrics
+3. **Team**: Dedicated internal champion + manufacturer support
+4. **Budget**: Expect pilot cost = 40–60% of full deployment cost per unit
+
+### Space Requirements
+- Charging station: 2m × 2m dedicated space
+- Operating area: Minimum 3m × 3m for safe movement
+- Storage: Climate-controlled (5–40°C for most models)
+- Power: Standard 120V/240V outlets (check robot-specific requirements)
+
+### Staff Training Plan
+| Role | Training Hours | Content |
+|------|---------------|---------|
+| Operators | 8–16 hours | Basic operation, charging, error handling |
+| Technicians | 24–40 hours | Maintenance, troubleshooting, parts replacement |
+| Safety officers | 4–8 hours | Emergency procedures, risk assessment |
+| Management | 2–4 hours | ROI tracking, deployment planning |
+
+## Step 7: Calculate ROI
+
+### Simple ROI Formula
+
+\`\`\`
+Annual Savings = (Hours Automated × Hourly Labour Cost) + (Incident Reduction × Avg Incident Cost)
+Annual Robot Cost = (Purchase Price / 3) + Maintenance + Insurance + Energy
+ROI = (Annual Savings - Annual Robot Cost) / Annual Robot Cost × 100
+\`\`\`
+
+### Example: Warehouse Humanoid
+
+| Item | Value |
+|------|-------|
+| Robot cost | $200,000 CAD |
+| Annual cost (3-year amortization) | ~$85,000 |
+| Hours automated per year | 4,000 (2 shifts) |
+| Labour cost replaced | $25/hr × 4,000 = $100,000 |
+| Incident reduction savings | $15,000/year |
+| **Net annual benefit** | **$30,000** |
+| **ROI** | **35% in Year 1** |
+
+ROI improves significantly in Years 2 and 3 as the robot is paid off and efficiency improves through software updates.
+
+## Step 8: Special Considerations for Canada
+
+### Cold Weather
+
+Most humanoid robots are rated for 0–40°C operation. Canadian reality:
+- **Alberta/Prairies**: -30°C winter lows. Outdoor deployment not viable for most models.
+- **Ontario/Quebec**: -20°C winter lows. Indoor only during winter.
+- **BC Coast**: Mild. Most robots can handle Vancouver's climate with indoor deployment.
+- **Arctic/Northern**: Not viable for any current humanoid.
+
+**Cold-rated models** (as of 2026):
+- Unitree H1-2: Rated to -20°C
+- Boston Dynamics Spot (quadruped): Rated to -20°C
+- Most others: 0°C minimum
+
+### Bilingual Requirements
+
+If deploying in Quebec or for federal government:
+- **Loi 101**: Customer-facing robots must support French
+- Most robots support English only out of the box
+- Sanctuary AI Phoenix is developing bilingual support
+- SoftBank Pepper supports French natively
+- Budget for French language pack development ($5K–$25K)
+
+### Provincial Regulations
+
+- **Ontario**: Workplace Safety and Insurance Board (WSIB) — robots may affect premium rates
+- **Quebec**: CNESST — occupational health regulations apply
+- **BC**: WorkSafeBC — collaborative robot guidelines
+- **Alberta**: OHS Code Part 25 — powered mobile equipment
+
+### Insurance
+
+Commercial robot insurance in Canada is emerging. Contact:
+- Marsh Canada (specialty insurance)
+- Aon Risk Solutions
+- Lloyd's of London syndicates (via Canadian brokers)
+
+Expect annual premiums of 2–5% of robot value for comprehensive coverage.
+
+## Step 9: Place Your Order
+
+### Pre-Order Checklist
+
+- [ ] Use case defined and documented
+- [ ] Budget approved (including TCO, not just sticker price)
+- [ ] Space prepared (charging, storage, operating area)
+- [ ] Staff training plan in place
+- [ ] Safety assessment completed or scheduled
+- [ ] Insurance quotes obtained
+- [ ] Customs broker identified (for imports)
+- [ ] IT infrastructure ready (network, cloud access for fleet management)
+- [ ] Success metrics defined for pilot period
+
+### Order Channels
+
+| Method | Best For |
+|--------|----------|
+| Direct from manufacturer | Enterprise/custom deployments |
+| RoboNorth referral | Expert guidance, import support |
+| Canadian dealer (if available) | Warranty and local support |
+| Lease/RaaS | Pilot programs, testing |
+
+## Step 10: Post-Purchase
+
+### First 30 Days
+1. Unbox and inspect for shipping damage
+2. Complete initial setup and charging
+3. Run manufacturer's calibration procedures
+4. Complete staff training
+5. Start pilot tasks (controlled environment)
+
+### First 90 Days
+1. Collect performance data against success metrics
+2. Identify and report issues to manufacturer
+3. Optimize workflows based on real-world performance
+4. Evaluate expansion (more units, new tasks)
+
+### Ongoing
+- Monthly performance reviews
+- Quarterly software updates (manufacturer-dependent)
+- Annual maintenance and safety recertification
+- ROI tracking and reporting
+
+---
+
+## Quick Decision Framework
+
+**Budget under $40K?** → Unitree G1 or Galbot G1 (education/research)
+**Home use?** → 1X NEO Beta or SoftBank Pepper
+**Canadian-made?** → Sanctuary AI Phoenix Gen 2
+**Warehouse/logistics?** → Agility Digit V2 or Apptronik Apollo 2
+**Manufacturing?** → Figure 02 or Tesla Optimus (when available)
+**Research platform?** → Unitree H1-2 or Fourier GR-1
+**Events/entertainment?** → Engineered Arts Ameca
+
+---
+
+*Ready to take the next step? [Browse our catalog](/robots) to compare models, use our [comparison tool](/compare), or [contact RoboNorth](/inquiry) for personalized guidance. We've helped dozens of Canadian businesses and research labs navigate this process.*
+`,
+  },
 ];

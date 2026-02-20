@@ -15,7 +15,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'Founded by Wang Xingxing in Hangzhou, Unitree is the world\'s leading affordable robotics company. Originally known for quadruped robots (Go1, Go2, B2), Unitree now offers the broadest humanoid lineup spanning from the $5,900 R1 to the $150K H1, shipping to over 30 countries.',
     website: 'https://www.unitree.com',
-    robotIds: ['unitree-r1', 'unitree-g1', 'unitree-h1'],
+    robotIds: ['unitree-r1', 'unitree-g1', 'unitree-h1', 'unitree-h1-2'],
     imageUrl: '/images/manufacturers/unitree-robotics.jpg',
     featured: true,
   },
@@ -27,7 +27,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'Norwegian robotics company (formerly Halodi Robotics) backed by OpenAI and Tiger Global. 1X is building NEO, the world\'s first consumer humanoid robot designed for home use, with a revolutionary soft-body design for safe human cohabitation.',
     website: 'https://www.1x.tech',
-    robotIds: ['1x-neo'],
+    robotIds: ['1x-neo', '1x-neo-beta'],
     imageUrl: '/images/manufacturers/1x-technologies.jpg',
     featured: true,
   },
@@ -51,7 +51,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'One of the most well-funded robotics startups in history ($2.6B+ raised), Figure AI is deploying humanoid robots in BMW manufacturing facilities. Their Helix autonomy framework enables whole-body neural control, and a partnership with OpenAI powers natural-language task instruction.',
     website: 'https://www.figure.ai',
-    robotIds: ['figure-02', 'figure-03'],
+    robotIds: ['figure-02', 'figure-03', 'figure-04'],
     imageUrl: '/images/manufacturers/figure-ai.jpg',
     featured: true,
   },
@@ -63,7 +63,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'Builder of Digit, the first humanoid robot in commercial warehouse deployment. Agility operates RoboFab, the world\'s first humanoid robot factory in Salem, Oregon. Backed by Amazon, with pilot deployments at major logistics providers including GXO.',
     website: 'https://www.agilityrobotics.com',
-    robotIds: ['agility-digit'],
+    robotIds: ['agility-digit', 'agility-digit-v2'],
     imageUrl: '/images/manufacturers/agility-robotics.jpg',
     featured: false,
   },
@@ -87,7 +87,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'Austin-based robotics company spun out of the Human Centered Robotics Lab at UT Austin. The team that built NASA\'s Valkyrie robot now builds Apollo, targeting a $50K price point at scale. Partnered with Mercedes-Benz and GXO for industrial deployment.',
     website: 'https://www.apptronik.com',
-    robotIds: ['apptronik-apollo'],
+    robotIds: ['apptronik-apollo', 'apptronik-apollo-2'],
     imageUrl: '/images/manufacturers/apptronik.jpg',
     featured: false,
   },
@@ -99,7 +99,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'Vancouver-based AI and robotics company building the world\'s first human-like intelligence in general-purpose robots. Their proprietary Carbon AI system is a cognitive architecture that translates human intent into robotic action. Partnered with Magna International for automotive manufacturing.',
     website: 'https://www.sanctuary.ai',
-    robotIds: ['sanctuary-ai-phoenix'],
+    robotIds: ['sanctuary-ai-phoenix', 'sanctuary-ai-phoenix-gen2'],
     imageUrl: '/images/manufacturers/sanctuary-ai.jpg',
     featured: true,
   },
@@ -135,7 +135,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'Shanghai-based humanoid robotics startup founded with the mission to make humanoid robots affordable for mass deployment. The Forerunner series targets the $30K price point, aiming to be one of the first enterprise humanoids accessible to small and mid-size businesses.',
     website: 'https://www.kepler-robotics.com',
-    robotIds: ['kepler-forerunner'],
+    robotIds: ['kepler-forerunner', 'kepler-forerunner-k2'],
     imageUrl: '/images/manufacturers/kepler-robotics.jpg',
     featured: false,
   },
@@ -221,6 +221,42 @@ export const manufacturers: Manufacturer[] = [
     website: 'https://www.clonerobotics.com',
     robotIds: ['clone-alpha'],
     imageUrl: '/images/manufacturers/clone-robotics.jpg',
+    featured: false,
+  },
+  {
+    id: 'nvidia',
+    name: 'NVIDIA',
+    country: 'USA',
+    founded: '1993',
+    description:
+      'The GPU giant powering the AI revolution. NVIDIA\'s Project GR00T provides the foundational AI platform — Isaac Sim for simulation, Omniverse for coordination, and the GR00T N1 foundation model — that many humanoid robot manufacturers build upon. Jensen Huang has positioned humanoid robotics as NVIDIA\'s next trillion-dollar opportunity.',
+    website: 'https://www.nvidia.com/en-us/robotics/',
+    robotIds: ['nvidia-gr00t'],
+    imageUrl: '/images/manufacturers/nvidia.jpg',
+    featured: false,
+  },
+  {
+    id: 'galbot',
+    name: 'Galbot',
+    country: 'China',
+    founded: '2023',
+    description:
+      'Shenzhen-based robotics startup focused on affordable, open-source humanoid robots for education and development. Galbot\'s modular design philosophy and community-driven software marketplace are attracting a growing developer community, particularly in academic settings across Asia and North America.',
+    website: 'https://www.galbot.com',
+    robotIds: ['galbot-g1'],
+    imageUrl: '/images/manufacturers/galbot.jpg',
+    featured: false,
+  },
+  {
+    id: 'mentee-robotics',
+    name: 'Mentee Robotics',
+    country: 'Israel',
+    founded: '2022',
+    description:
+      'Founded by Amnon Shashua (Mobileye co-founder) and staffed by top Israeli AI researchers, Mentee Robotics is building humanoid robots that learn entirely through neural network simulation — no traditional robotics programming required. Their transformer-based approach to motor control could reshape how robots learn physical skills.',
+    website: 'https://www.menteerobotics.com',
+    robotIds: ['menteebot'],
+    imageUrl: '/images/manufacturers/mentee-robotics.jpg',
     featured: false,
   },
 ];
