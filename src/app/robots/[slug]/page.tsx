@@ -21,6 +21,9 @@ import PriceAlertSignup from '@/components/ui/PriceAlertSignup';
 import AddToBasketButton from '@/components/ui/AddToBasketButton';
 import PartCard from '@/components/ui/PartCard';
 import LiveInquiryWidget from '@/components/ui/LiveInquiryWidget';
+import FinancingCalculator from '@/components/ui/FinancingCalculator';
+import FleetDiscount from '@/components/ui/FleetDiscount';
+import ThreeDViewerPlaceholder from '@/components/ui/ThreeDViewerPlaceholder';
 
 const availabilityVariant: Record<string, 'success' | 'warning' | 'info' | 'default'> = {
   shipping: 'success', preorder: 'info', pilot: 'warning', announced: 'default', prototype: 'default',
@@ -188,6 +191,12 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
           </div>
           {/* Price alert — Improvement #47 */}
           <PriceAlertSignup robotId={robot.id} robotName={robot.name} currentPrice={robot.price} />
+          {/* Financing Calculator — Task 16 */}
+          <FinancingCalculator priceMin={robot.priceMin} robotName={robot.name} />
+          {/* Fleet Discount — Task 17 */}
+          <div className="mt-4">
+            <FleetDiscount />
+          </div>
         </div>
       </div>
 
@@ -345,6 +354,9 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
           </div>
         </section>
       )}
+
+      {/* 3D Viewer Placeholder — Task 29 */}
+      <ThreeDViewerPlaceholder robotName={robot.name} />
 
       {/* Size Comparison — Improvement #11 */}
       <section className="mb-16">

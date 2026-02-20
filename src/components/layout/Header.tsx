@@ -5,6 +5,7 @@ import Link from 'next/link';
 import DarkModeToggle from '@/components/ui/DarkModeToggle';
 import GlobalSearch from '@/components/ui/GlobalSearch';
 import InquiryBasketIcon from '@/components/ui/InquiryBasketIcon';
+import CurrencyToggle from '@/components/ui/CurrencyToggle';
 
 const navLinks = [
   { href: '/robots', label: 'Robots' },
@@ -67,6 +68,7 @@ export default function Header() {
           {/* Right side */}
           <div className="flex items-center gap-2">
             <GlobalSearch />
+            <CurrencyToggle />
             <InquiryBasketIcon />
             <DarkModeToggle />
             <Link
