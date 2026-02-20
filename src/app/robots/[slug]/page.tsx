@@ -15,6 +15,8 @@ import ShareButton from '@/components/ui/ShareButton';
 import FavoritesButton from '@/components/ui/FavoritesButton';
 import NotifyMeButton from '@/components/ui/NotifyMeButton';
 import DeliveryEstimator from '@/components/ui/DeliveryEstimator';
+import CustomerReviews from '@/components/ui/CustomerReviews';
+import SizeComparison from '@/components/ui/SizeComparison';
 
 const availabilityVariant: Record<string, 'success' | 'warning' | 'info' | 'default'> = {
   shipping: 'success', preorder: 'info', pilot: 'warning', announced: 'default', prototype: 'default',
@@ -335,6 +337,14 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
           </div>
         </section>
       )}
+
+      {/* Size Comparison — Improvement #11 */}
+      <section className="mb-16">
+        <SizeComparison robots={[{ name: robot.name, height: robot.specs.height, weight: robot.specs.weight }]} />
+      </section>
+
+      {/* Customer Reviews — Improvement #27 */}
+      <CustomerReviews robotId={robot.id} />
 
       {/* Recently Viewed */}
       <RecentlyViewed excludeId={robot.id} />

@@ -64,8 +64,12 @@ export default function RobotCard({ robot }: { robot: Robot }) {
     <>
       <Link
         href={`/robots/${robot.id}`}
-        className="group block bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 hover:border-blue-200 dark:hover:border-blue-800 card-hover overflow-hidden relative"
+        className="group block bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 hover:border-blue-200 dark:hover:border-blue-800 card-hover card-3d overflow-hidden relative"
       >
+        {/* Improvement #9: Featured ribbon badge for premium robots */}
+        {robot.featured && (
+          <div className="featured-ribbon">⭐ Featured</div>
+        )}
         {/* Image area */}
         <div className={`aspect-[4/3] bg-gradient-to-br ${gradient} relative overflow-hidden`}>
           {/* Decorative pattern */}

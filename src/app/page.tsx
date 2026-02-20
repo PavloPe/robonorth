@@ -39,7 +39,7 @@ export default async function HomePage() {
       </section>
 
       {/* Top Manufacturers */}
-      <section className="bg-slate-50/80 border-y border-gray-200/60">
+      <section className="bg-slate-50/80 dark:bg-gray-900/50 border-y border-gray-200/60 dark:border-gray-800/60 wave-divider wave-divider-bottom">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
           <div className="flex items-end justify-between mb-10">
             <div>

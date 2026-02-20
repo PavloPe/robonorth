@@ -34,8 +34,15 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-sm shadow-blue-600/20 group-hover:shadow-blue-600/40 transition-shadow">
-              <span className="text-white text-sm font-bold">R</span>
+            {/* Improvement #6: Animated SVG robot logo */}
+            <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl flex items-center justify-center shadow-sm shadow-blue-600/20 group-hover:shadow-blue-600/40 transition-shadow logo-animated">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-white">
+                <rect x="5" y="9" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                <circle cx="12" cy="5" r="2" stroke="currentColor" strokeWidth="2" />
+                <line x1="12" y1="7" x2="12" y2="9" stroke="currentColor" strokeWidth="2" />
+                <circle cx="9" cy="14" r="1.5" fill="currentColor" />
+                <circle cx="15" cy="14" r="1.5" fill="currentColor" />
+              </svg>
             </div>
             <div className="flex items-center gap-1.5">
               <span className="text-xl font-bold text-gray-900 dark:text-white">RoboNorth</span>

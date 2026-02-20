@@ -5,6 +5,8 @@ export default function HeroSection() {
     <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 text-white">
       {/* Background grid pattern */}
       <div className="absolute inset-0 bg-grid-pattern opacity-30" />
+      {/* Improvement #3: Gradient mesh background */}
+      <div className="absolute inset-0 gradient-mesh-hero" />
       
       {/* Gradient orbs */}
       <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-3xl animate-pulse-glow" />
