@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR: rebuild every hour
 
 export default async function ManufacturersPage() {
   const manufacturers = await getAllManufacturers();

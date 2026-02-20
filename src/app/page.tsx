@@ -14,7 +14,7 @@ import MadeInCanada from '@/components/ui/MadeInCanada';
 import CrossBorderComparison from '@/components/ui/CrossBorderComparison';
 // import MediaMentions from '@/components/ui/MediaMentions';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // ISR: rebuild every hour
 
 export default async function HomePage() {
   const [featuredRobots, featuredManufacturers, partCategories, featuredParts] = await Promise.all([
