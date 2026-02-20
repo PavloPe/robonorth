@@ -72,9 +72,12 @@ export async function POST(request: NextRequest) {
         name,
         email,
         phone: body.phone || null,
+        company: body.company || null,
         city,
         robot: body.robot || null,
         message: body.message || null,
+        type: body.type || 'general',
+        contactMethod: body.contactMethod || 'email',
       },
     });
 

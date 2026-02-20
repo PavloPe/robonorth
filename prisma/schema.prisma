@@ -66,16 +66,63 @@ model PartCategory {
   updatedAt    DateTime @updatedAt
 }
 
+model Part {
+  id               String   @id // slug
+  name             String
+  description      String
+  manufacturer     String
+  manufacturerSlug String
+  category         String   // actuators|sensors|controllers|power|structural|hands|software
+  subcategory      String   @default("")
+  priceCAD         Float
+  priceUSD         Float
+  inStock          Boolean  @default(true)
+  leadTimeDays     Int?
+  specifications   String   @default("{}") // JSON key-value
+  compatibility    String   @default("[]") // JSON array of robot slugs
+  imageUrl         String   @default("")
+  datasheetUrl     String   @default("")
+  featured         Boolean  @default(false)
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([category])
+  @@index([manufacturerSlug])
+  @@index([priceCAD])
+  @@index([featured])
+  @@index([inStock])
+}
+
 model Inquiry {
   id        String   @id @default(cuid())
   name      String
   email     String
   phone     String?
+  company   String?
   city      String
   robot     String?
   message   String?
+  type      String   @default("general") // general | quick | basket
+  contactMethod String @default("email") // email | phone | either
+  referenceNumber String?
   createdAt DateTime @default(now())
+
+  items     InquiryItem[]
 
   @@index([email])
   @@index([createdAt])
+  @@index([referenceNumber])
+}
+
+model InquiryItem {
+  id          String  @id @default(cuid())
+  inquiryId   String
+  inquiry     Inquiry @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
+  itemType    String  // robot | part
+  itemId      String  // slug of robot or part
+  itemName    String
+  quantity    Int     @default(1)
+
+  @@index([inquiryId])
 }

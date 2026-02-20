@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 import { robots } from '../src/data/robots';
 import { manufacturers } from '../src/data/manufacturers';
 import { partCategories } from '../src/data/parts';
+import { parts } from '../src/data/parts-catalog';
 
 const adapter = new PrismaBetterSqlite3({
   url: process.env.DATABASE_URL || 'file:./dev.db',
@@ -13,8 +14,10 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log('🤖 Seeding RoboNorth database...\n');
 
-  // Clean slate — delete in order that avoids FK issues (none here, but good practice)
+  // Clean slate
+  await prisma.inquiryItem.deleteMany();
   await prisma.inquiry.deleteMany();
+  await prisma.part.deleteMany();
   await prisma.partCategory.deleteMany();
   await prisma.manufacturer.deleteMany();
   await prisma.robot.deleteMany();
@@ -81,6 +84,31 @@ async function main() {
     });
   }
   console.log(`✅ Seeded ${partCategories.length} part categories`);
+
+  // ── Individual Parts ────────────────────────────────────────────────────
+  for (const p of parts) {
+    await prisma.part.create({
+      data: {
+        id: p.id,
+        name: p.name,
+        description: p.description,
+        manufacturer: p.manufacturer,
+        manufacturerSlug: p.manufacturerSlug,
+        category: p.category,
+        subcategory: p.subcategory,
+        priceCAD: p.priceCAD,
+        priceUSD: p.priceUSD,
+        inStock: p.inStock,
+        leadTimeDays: p.leadTimeDays,
+        specifications: JSON.stringify(p.specifications),
+        compatibility: JSON.stringify(p.compatibility),
+        imageUrl: p.imageUrl,
+        datasheetUrl: p.datasheetUrl,
+        featured: p.featured,
+      },
+    });
+  }
+  console.log(`✅ Seeded ${parts.length} individual parts`);
 
   console.log('\n🎉 Done! Database seeded successfully.');
 }

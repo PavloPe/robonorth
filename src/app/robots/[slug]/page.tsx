@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getRobotBySlug, getRelatedRobots, getAllRobotSlugs } from '@/lib/queries';
+import { getRobotBySlug, getRelatedRobots, getAllRobotSlugs, getCompatibleParts } from '@/lib/queries';
 import { robotJsonLd, faqJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
 import { robotExtras } from '@/data/robot-extras';
 import Button from '@/components/ui/Button';
@@ -18,6 +18,9 @@ import DeliveryEstimator from '@/components/ui/DeliveryEstimator';
 import CustomerReviews from '@/components/ui/CustomerReviews';
 import SizeComparison from '@/components/ui/SizeComparison';
 import PriceAlertSignup from '@/components/ui/PriceAlertSignup';
+import AddToBasketButton from '@/components/ui/AddToBasketButton';
+import PartCard from '@/components/ui/PartCard';
+import LiveInquiryWidget from '@/components/ui/LiveInquiryWidget';
 
 const availabilityVariant: Record<string, 'success' | 'warning' | 'info' | 'default'> = {
   shipping: 'success', preorder: 'info', pilot: 'warning', announced: 'default', prototype: 'default',
@@ -76,6 +79,7 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
   if (!robot) notFound();
 
   const related = await getRelatedRobots(robot);
+  const compatibleParts = await getCompatibleParts(robot.id);
   const extras = robotExtras[robot.id];
 
   const numericSpecs = specBarConfig
@@ -175,6 +179,7 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
               </Button>
             )}
             {isPreRelease && <NotifyMeButton robotName={robot.name} robotId={robot.id} />}
+            <AddToBasketButton itemType="robot" itemId={robot.id} itemName={robot.name} price={robot.price} />
             <Button href={`/compare?robots=${robot.id}`} variant="outline" size="lg">Compare</Button>
           </div>
           <div className="flex items-center gap-2 mb-4">
@@ -351,6 +356,30 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
 
       {/* Recently Viewed */}
       <RecentlyViewed excludeId={robot.id} />
+
+      {/* Compatible Parts */}
+      {compatibleParts.length > 0 && (
+        <section className="mb-16">
+          <div className="mb-8">
+            <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Compatible</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Parts & Components</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Parts tested and verified to work with the {robot.name}</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {compatibleParts.slice(0, 4).map(part => <PartCard key={part.id} part={part} />)}
+          </div>
+          {compatibleParts.length > 4 && (
+            <div className="text-center mt-6">
+              <a href={`/parts?robot=${robot.id}`} className="text-sm text-blue-600 hover:text-blue-700 font-semibold">
+                View all {compatibleParts.length} compatible parts →
+              </a>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* Live Inquiry Widget */}
+      <LiveInquiryWidget preselectedItem={robot.id} preselectedType="robot" />
 
       {/* Related robots */}
       {related.length > 0 && (

@@ -68,3 +68,39 @@ export interface PartCategory {
   imageUrl: string;
   popularItems: PartItem[];
 }
+
+export type PartCategorySlug =
+  | 'actuators'
+  | 'sensors'
+  | 'controllers'
+  | 'power'
+  | 'structural'
+  | 'hands'
+  | 'software';
+
+export interface Part {
+  id: string;
+  name: string;
+  description: string;
+  manufacturer: string;
+  manufacturerSlug: string;
+  category: PartCategorySlug;
+  subcategory: string;
+  priceCAD: number;
+  priceUSD: number;
+  inStock: boolean;
+  leadTimeDays: number | null;
+  specifications: Record<string, string>;
+  compatibility: string[];
+  imageUrl: string;
+  datasheetUrl: string;
+  featured: boolean;
+}
+
+export interface InquiryBasketItem {
+  itemType: 'robot' | 'part';
+  itemId: string;
+  itemName: string;
+  quantity: number;
+  price?: string;
+}

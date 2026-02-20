@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { robots } from '@/data/robots';
 import { manufacturers } from '@/data/manufacturers';
 import { partCategories } from '@/data/parts';
+import { parts, partCategoryLabels } from '@/data/parts-catalog';
 import { getAllBlogPosts } from '@/data/blog';
 
 interface SearchResult {
@@ -71,13 +72,31 @@ export default function GlobalSearch() {
       href: `/manufacturers/${m.id}`, icon: '🏭',
     }));
 
-    // Search parts
-    partCategories.filter(p =>
+    // Search individual parts
+    parts.filter(p =>
       p.name.toLowerCase().includes(lower) ||
-      p.description.toLowerCase().includes(lower)
-    ).slice(0, 3).forEach(p => res.push({
-      type: 'part', title: p.name, subtitle: `${p.itemCount} items`,
-      href: '/parts', icon: '🔧',
+      p.manufacturer.toLowerCase().includes(lower) ||
+      p.description.toLowerCase().includes(lower) ||
+      p.subcategory.toLowerCase().includes(lower)
+    ).slice(0, 5).forEach(p => {
+      const priceStr = p.priceCAD > 0 ? `$${p.priceCAD.toLocaleString('en-CA')} CAD` : 'Free';
+      const catLabel = partCategoryLabels[p.category] || p.category;
+      res.push({
+        type: 'part',
+        title: p.name,
+        subtitle: `${p.manufacturer} · ${priceStr} · ${catLabel}${p.inStock ? '' : ' · Out of stock'}`,
+        href: `/parts/${p.id}`,
+        icon: '🔧',
+      });
+    });
+
+    // Search part categories
+    partCategories.filter(pc =>
+      pc.name.toLowerCase().includes(lower) ||
+      pc.description.toLowerCase().includes(lower)
+    ).slice(0, 2).forEach(pc => res.push({
+      type: 'part', title: `Browse ${pc.name}`, subtitle: `${pc.itemCount} items`,
+      href: '/parts', icon: '📦',
     }));
 
     // Search blog

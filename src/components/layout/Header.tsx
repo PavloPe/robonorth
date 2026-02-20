@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import DarkModeToggle from '@/components/ui/DarkModeToggle';
 import GlobalSearch from '@/components/ui/GlobalSearch';
+import InquiryBasketIcon from '@/components/ui/InquiryBasketIcon';
 
 const navLinks = [
   { href: '/robots', label: 'Robots' },
@@ -66,6 +67,7 @@ export default function Header() {
           {/* Right side */}
           <div className="flex items-center gap-2">
             <GlobalSearch />
+            <InquiryBasketIcon />
             <DarkModeToggle />
             <Link
               href="/inquiry"

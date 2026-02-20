@@ -8,6 +8,8 @@ import ExitIntentPopup from '@/components/ui/ExitIntentPopup';
 import ServiceWorkerRegistration from '@/components/ui/ServiceWorkerRegistration';
 import { CompareProvider } from '@/components/ui/CompareBar';
 import { ToastProvider } from '@/components/ui/Toast';
+import { InquiryBasketProvider } from '@/components/ui/InquiryBasketProvider';
+import InquiryBasketDrawer from '@/components/ui/InquiryBasketDrawer';
 import TopProgressBar from '@/components/ui/TopProgressBar';
 import LiveChatWidget from '@/components/ui/LiveChatWidget';
 import WebVitals from '@/components/ui/WebVitals';
@@ -131,6 +133,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <ToastProvider>
         <CompareProvider>
+        <InquiryBasketProvider>
         <TopProgressBar />
         <Header />
         <main id="main-content" className="flex-1" style={{ animationDuration: '300ms' }}>
@@ -141,8 +144,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CookieConsent />
         <ExitIntentPopup />
         <LiveChatWidget />
+        <InquiryBasketDrawer />
         <WebVitals />
         <ServiceWorkerRegistration />
+        </InquiryBasketProvider>
         </CompareProvider>
         </ToastProvider>
       </body>

@@ -1,5 +1,5 @@
 import prisma from './db';
-import type { Robot, Manufacturer, PartCategory } from '@/types';
+import type { Robot, Manufacturer, PartCategory, Part } from '@/types';
 
 type DbRobot = {
   id: string; name: string; manufacturer: string; manufacturerSlug: string;
@@ -113,4 +113,75 @@ export async function getAllRobotSlugs(): Promise<string[]> {
 export async function getAllManufacturerSlugs(): Promise<string[]> {
   const rows = await prisma.manufacturer.findMany({ select: { id: true } });
   return rows.map(m => m.id);
+}
+
+// ── Parts ─────────────────────────────────────────────────────────────────
+
+type DbPart = {
+  id: string; name: string; description: string; manufacturer: string;
+  manufacturerSlug: string; category: string; subcategory: string;
+  priceCAD: number; priceUSD: number; inStock: boolean; leadTimeDays: number | null;
+  specifications: string; compatibility: string; imageUrl: string;
+  datasheetUrl: string; featured: boolean;
+};
+
+function toPart(p: DbPart): Part {
+  return {
+    ...p,
+    category: p.category as Part['category'],
+    specifications: JSON.parse(p.specifications),
+    compatibility: JSON.parse(p.compatibility),
+  };
+}
+
+export async function getAllParts(): Promise<Part[]> {
+  const rows = await prisma.part.findMany({ orderBy: { name: 'asc' } });
+  return rows.map(toPart);
+}
+
+export async function getFeaturedParts(limit = 6): Promise<Part[]> {
+  const rows = await prisma.part.findMany({ where: { featured: true }, take: limit });
+  return rows.map(toPart);
+}
+
+export async function getPartBySlug(slug: string): Promise<Part | null> {
+  const row = await prisma.part.findUnique({ where: { id: slug } });
+  return row ? toPart(row) : null;
+}
+
+export async function getRelatedParts(part: Part, limit = 4): Promise<Part[]> {
+  const rows = await prisma.part.findMany({
+    where: {
+      id: { not: part.id },
+      category: part.category,
+    },
+    take: limit,
+  });
+  return rows.map(toPart);
+}
+
+export async function getPartsByCategory(category: string): Promise<Part[]> {
+  const rows = await prisma.part.findMany({
+    where: { category },
+    orderBy: { name: 'asc' },
+  });
+  return rows.map(toPart);
+}
+
+export async function getCompatibleParts(robotSlug: string): Promise<Part[]> {
+  // Since SQLite stores compatibility as JSON string, we use contains
+  const rows = await prisma.part.findMany({
+    where: { compatibility: { contains: robotSlug } },
+    orderBy: { name: 'asc' },
+  });
+  return rows.map(toPart);
+}
+
+export async function getAllPartSlugs(): Promise<string[]> {
+  const rows = await prisma.part.findMany({ select: { id: true } });
+  return rows.map(p => p.id);
+}
+
+export async function getPartsCount(): Promise<number> {
+  return prisma.part.count();
 }
