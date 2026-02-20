@@ -8,6 +8,8 @@ type DbRobot = {
   featured: boolean; canadaAvailable: boolean;
   specHeight: number | null; specWeight: number | null; specDof: number | null;
   specBattery: string | null; specPayload: number | null; specSpeed: number | null;
+  variants: string | null; scores: string | null; categoryWinners: string | null;
+  reviewSlug: string | null;
 };
 
 export function toRobot(r: DbRobot): Robot {
@@ -34,6 +36,10 @@ export function toRobot(r: DbRobot): Robot {
       payload: r.specPayload,
       speed: r.specSpeed,
     },
+    variants: r.variants,
+    scores: r.scores ? JSON.parse(r.scores) : null,
+    categoryWinners: r.categoryWinners ? JSON.parse(r.categoryWinners) : [],
+    reviewSlug: r.reviewSlug,
   };
 }
 

@@ -6,6 +6,7 @@ import type { Robot } from '@/types';
 import Badge from './Badge';
 import QuickViewModal from './QuickViewModal';
 import { useCompare } from './CompareBar';
+import { useInquiryBasket } from './InquiryBasketProvider';
 
 const availabilityConfig: Record<string, { label: string; variant: 'success' | 'warning' | 'info' | 'default' }> = {
   shipping: { label: 'In Stock', variant: 'success' },
@@ -38,19 +39,31 @@ const newArrivals = new Set([
 
 export default function RobotCard({ robot }: { robot: Robot }) {
   const [quickView, setQuickView] = useState(false);
-  const { addItem, removeItem, isInCompare } = useCompare();
+  const { addItem: addCompare, removeItem: removeCompare, isInCompare } = useCompare();
+  const { addItem: addToCart, hasItem: inCart, removeItem: removeFromCart } = useInquiryBasket();
   const badge = availabilityConfig[robot.availability] ?? availabilityConfig.announced;
   const gradient = categoryGradients[robot.category] || 'from-gray-50 to-gray-100 dark:from-gray-900/30 dark:to-gray-900/30';
   const isNew = newArrivals.has(robot.id);
   const inCompare = isInCompare(robot.id);
+  const isInCart = inCart(robot.id);
 
   const handleCompare = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     if (inCompare) {
-      removeItem(robot.id);
+      removeCompare(robot.id);
     } else {
-      addItem({ id: robot.id, name: robot.name, manufacturer: robot.manufacturer });
+      addCompare({ id: robot.id, name: robot.name, manufacturer: robot.manufacturer });
+    }
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isInCart) {
+      removeFromCart(robot.id);
+    } else {
+      addToCart({ itemType: 'robot', itemId: robot.id, itemName: robot.name, price: robot.price });
     }
   };
 
@@ -136,29 +149,45 @@ export default function RobotCard({ robot }: { robot: Robot }) {
           <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3 min-h-[2.5rem] leading-relaxed">
             {robot.description}
           </p>
-          <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
-            <span className="text-sm font-bold text-gray-900 dark:text-white">
+          {/* Price & stock */}
+          <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800 mb-3">
+            <span className="text-lg font-bold text-gray-900 dark:text-white">
               {robot.price}
             </span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleCompare}
-                className={`text-xs font-medium px-2 py-1 rounded-md transition-colors ${
-                  inCompare
-                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
-                    : 'text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20'
-                }`}
-                title={inCompare ? 'Remove from compare' : 'Add to compare'}
-              >
-                ⚖️
-              </button>
-              <span className="text-xs text-blue-600 dark:text-blue-400 font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
-                Details
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </span>
-            </div>
+            {robot.availability === 'shipping' && (
+              <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-full">● In Stock</span>
+            )}
+            {robot.availability === 'preorder' && (
+              <span className="text-[10px] font-bold text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded-full">Pre-Order</span>
+            )}
+          </div>
+          {/* Action buttons */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleAddToCart}
+              className={`flex-1 py-2 text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1.5 ${
+                isInCart
+                  ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
+                  : 'bg-blue-600 hover:bg-blue-700 text-white'
+              }`}
+            >
+              {isInCart ? (
+                <><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg> In Cart</>
+              ) : (
+                <><svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121 0 2.09-.773 2.34-1.872l1.946-8.522A1.125 1.125 0 0018.16 2.25H6.228" /></svg> Add to Cart</>
+              )}
+            </button>
+            <button
+              onClick={handleCompare}
+              className={`p-2 rounded-lg transition-colors ${
+                inCompare
+                  ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
+                  : 'text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+              }`}
+              title={inCompare ? 'Remove from compare' : 'Add to compare'}
+            >
+              ⚖️
+            </button>
           </div>
         </div>
       </Link>

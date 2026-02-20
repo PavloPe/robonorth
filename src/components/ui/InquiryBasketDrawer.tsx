@@ -20,8 +20,8 @@ export default function InquiryBasketDrawer() {
         {/* Header */}
         <div className="px-5 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-lg">📋</span>
-            <h2 className="text-base font-bold text-gray-900 dark:text-white">Inquiry Basket</h2>
+            <span className="text-lg">🛒</span>
+            <h2 className="text-base font-bold text-gray-900 dark:text-white">Shopping Cart</h2>
             <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-bold px-2 py-0.5 rounded-full">
               {itemCount}
             </span>
@@ -40,9 +40,9 @@ export default function InquiryBasketDrawer() {
         <div className="flex-1 overflow-y-auto p-5">
           {items.length === 0 ? (
             <div className="text-center py-12">
-              <div className="text-4xl mb-3">📋</div>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Your inquiry basket is empty</p>
-              <p className="text-xs text-gray-400 dark:text-gray-500">Add robots or parts to get a quote</p>
+              <div className="text-4xl mb-3">🛒</div>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Your cart is empty</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500">Add robots or parts to get started</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -110,17 +110,17 @@ export default function InquiryBasketDrawer() {
         {items.length > 0 && (
           <div className="px-5 py-4 border-t border-gray-200 dark:border-gray-700 space-y-3">
             <Link
-              href="/inquiry/basket"
+              href="/cart"
               onClick={() => setIsOpen(false)}
               className="block w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-semibold rounded-xl text-center transition-all shadow-sm"
             >
-              Submit Inquiry ({itemCount} {itemCount === 1 ? 'item' : 'items'})
+              Proceed to Checkout ({itemCount} {itemCount === 1 ? 'item' : 'items'})
             </Link>
             <button
               onClick={clearBasket}
               className="w-full py-2 text-xs text-gray-400 hover:text-red-500 transition-colors"
             >
-              Clear basket
+              Clear cart
             </button>
           </div>
         )}

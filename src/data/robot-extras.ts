@@ -186,19 +186,19 @@ export const robotExtras: Record<string, RobotExtras> = {
 
   'boston-dynamics-atlas': {
     cadPricing: {
-      cadEstimate: '~$690,000 CAD (est.)',
-      usdOriginal: '~$500,000 USD (est.)',
-      exchangeNote: 'Atlas is not commercially sold. Cost estimate based on industry sources.',
+      cadEstimate: '~$580,000 CAD',
+      usdOriginal: '~$420,000 USD',
+      exchangeNote: `Based on approximate exchange rate of 1 USD = ${USD_TO_CAD} CAD. Enterprise pricing — contact Boston Dynamics.`,
     },
     shipping: {
       origin: 'Waltham, Massachusetts, USA',
-      estimatedShipping: 'Not commercially available',
-      customsDuty: '0% under CUSMA (if sold)',
+      estimatedShipping: 'Enterprise deployment — shipping to Hyundai Metaplant',
+      customsDuty: '0% under CUSMA',
       hsCode: '8479.50 (Industrial robots)',
-      importNotes: 'Atlas is available only through Boston Dynamics\' commercial partnerships. Hyundai ownership may open Canadian industrial partnerships through Hyundai Motor Canada.',
+      importNotes: 'Atlas is now commercially deployed at Hyundai\'s Georgia Metaplant. Contact Boston Dynamics for enterprise partnerships. Hyundai ownership may open Canadian deployments through Hyundai Motor Canada.',
     },
     faqs: [
-      { question: 'Can I buy an Atlas?', answer: 'Atlas is not currently for sale. Boston Dynamics offers it through commercial partnerships and research agreements. Contact Boston Dynamics\' sales team for partnership inquiries.' },
+      { question: 'Can I buy an Atlas?', answer: 'Atlas is available through commercial partnerships with Boston Dynamics, priced at approximately $420,000 USD. It\'s currently deployed at Hyundai\'s Georgia Metaplant for automotive manufacturing.' },
       { question: 'How is the electric Atlas different from the hydraulic one?', answer: 'The all-electric Atlas (2024+) replaces hydraulic actuators with custom electric drives, is lighter, quieter, and maintenance-friendly. It retains the 360° joint rotation and dynamic capabilities of its predecessor.' },
       { question: 'What can Atlas do that other humanoids can\'t?', answer: 'Atlas leads in dynamic athleticism — backflips, parkour, heavy lifting (50 kg instant). Its 56 DOF and 360° joint rotation enable movements impossible for other humanoids. Fleet learning shares skills across all units.' },
     ],
@@ -322,8 +322,8 @@ export const robotExtras: Record<string, RobotExtras> = {
 
   'engineered-arts-ameca': {
     cadPricing: {
-      cadEstimate: '~$345,000+ CAD',
-      usdOriginal: '~$250,000+ USD',
+      cadEstimate: '$138,000–$193,200 CAD',
+      usdOriginal: '$100,000–$140,000 USD',
       exchangeNote: `Based on approximate exchange rate of 1 USD = ${USD_TO_CAD} CAD.`,
     },
     shipping: {
@@ -357,6 +357,129 @@ export const robotExtras: Record<string, RobotExtras> = {
     },
     faqs: [
       { question: 'How does Kepler achieve such a low price?', answer: 'Kepler uses a modular design with standardized components, reducing manufacturing complexity. High-volume production targets and a focus on essential features over premium fit-and-finish keep costs down.' },
+    ],
+    videos: [],
+  },
+
+  'figure-03': {
+    cadPricing: {
+      cadEstimate: '$69,000–$96,600 CAD (pilot)',
+      usdOriginal: '$50,000–$70,000 USD (pilot)',
+      exchangeNote: `Based on approximate exchange rate of 1 USD = ${USD_TO_CAD} CAD. Pilot pricing may differ from volume.`,
+    },
+    shipping: {
+      origin: 'Sunnyvale, California, USA (BotQ Factory)',
+      estimatedShipping: 'Enterprise deployment — custom timeline',
+      customsDuty: '0% under CUSMA',
+      hsCode: '8479.50 (Industrial robots)',
+      importNotes: 'Figure AI handles logistics for all deployments. CUSMA ensures duty-free import from the US. BotQ factory has 12,000 units/year capacity.',
+    },
+    faqs: [
+      { question: 'What makes the Figure 03 the top-ranked humanoid of 2026?', answer: 'Figure 03 combines the most advanced AI (Helix), highest production capacity (12K/year at BotQ), wireless charging, palm cameras for precision tasks, and 48+ DOF — the best overall package of any humanoid available.' },
+      { question: 'How does wireless charging work?', answer: 'Figure 03 can charge wirelessly via induction pads on the factory floor. It autonomously navigates to charging zones when battery is low, eliminating the need for manual plug-in or battery swaps.' },
+      { question: 'What is Helix AI?', answer: 'Helix is Figure AI\'s proprietary whole-body neural control system. It processes visual, audio, and tactile input to coordinate all 48+ degrees of freedom simultaneously, enabling human-like manipulation and locomotion.' },
+    ],
+    videos: [
+      { youtubeId: '0SRVJaOg9Co', title: 'Figure — Next Generation Humanoid Demo' },
+    ],
+  },
+
+  'unitree-h2': {
+    cadPricing: {
+      cadEstimate: '~$41,300 CAD',
+      usdOriginal: '$29,900 USD',
+      exchangeNote: `Based on approximate exchange rate of 1 USD = ${USD_TO_CAD} CAD.`,
+    },
+    shipping: {
+      origin: 'Hangzhou, China',
+      estimatedShipping: '3–5 weeks via air/sea freight',
+      customsDuty: '0–8% depending on HS classification',
+      hsCode: '8479.50 (Industrial robots)',
+      importNotes: 'Ships worldwide. Import broker recommended due to size and weight. GST/HST applies on landed cost.',
+    },
+    faqs: [
+      { question: 'How does the H2 differ from the H1-2?', answer: 'The H2 is designed for enterprise deployment at a much lower price ($29,900 vs $90,000+). It trades some research-grade flexibility for industrial durability and a larger frame optimised for real-world tasks.' },
+      { question: 'When does the H2 ship?', answer: 'Pre-orders are open now via Unitree\'s website. Deliveries expected to begin mid-2026. CES 2026 announcement generated strong demand.' },
+    ],
+    videos: [],
+  },
+
+  'neura-robotics-4ne-1': {
+    cadPricing: {
+      cadEstimate: '~$29,000–$142,000 CAD',
+      usdOriginal: '€19,999–€98,000',
+      exchangeNote: 'Pricing in Euros. CAD estimate based on EUR/CAD exchange rate. CETA may reduce duties.',
+    },
+    shipping: {
+      origin: 'Metzingen, Germany',
+      estimatedShipping: '4–8 weeks',
+      customsDuty: '0% under CETA (Canada-EU trade agreement)',
+      hsCode: '8479.50 (Industrial robots)',
+      importNotes: 'CETA eliminates duties on EU-origin industrial robots. Porsche-designed aesthetics and German engineering. Multiple variants available from home to industrial.',
+    },
+    faqs: [
+      { question: 'What is the difference between the home and industrial variants?', answer: 'The home variant (from €19,999) is lighter, focuses on domestic tasks, and has a consumer-friendly interface. The industrial variant (up to €98,000) adds heavier payload capacity, industrial-grade sensors, and 24/7 operation capability.' },
+      { question: 'Why does it say "Porsche-designed"?', answer: 'NEURA partnered with Porsche Design to create the 4NE1\'s exterior. The result is arguably the most aesthetically striking humanoid robot on the market — a CES 2026 standout.' },
+    ],
+    videos: [],
+  },
+
+  '1x-eve': {
+    cadPricing: {
+      cadEstimate: 'Enterprise pricing (contact sales)',
+      usdOriginal: 'Enterprise pricing',
+      exchangeNote: 'Contact 1X Technologies for pricing. CETA-adjacent trade terms may apply.',
+    },
+    shipping: {
+      origin: 'Moss, Norway',
+      estimatedShipping: 'Enterprise deployment timeline',
+      customsDuty: '0% under CETA/EFTA trade terms',
+      hsCode: '8479.50 (Industrial robots)',
+      importNotes: 'Norway benefits from CETA-adjacent trade terms. 1X handles logistics for enterprise deployments.',
+    },
+    faqs: [
+      { question: 'Is EVE a humanoid if it has wheels?', answer: 'EVE has a humanoid upper body (torso, arms, hands, head) mounted on a wheeled base. This makes it a "partial humanoid" or "upper-body humanoid" — optimised for environments where wheels are more efficient than legs.' },
+      { question: 'Can EVE navigate stairs?', answer: 'No. EVE\'s wheeled base requires flat surfaces or ramps. It excels in single-floor warehouse, office, and retail environments.' },
+    ],
+    videos: [],
+  },
+
+  'promobot-v4': {
+    cadPricing: {
+      cadEstimate: '$34,500–$69,000 CAD',
+      usdOriginal: '$25,000–$50,000 USD',
+      exchangeNote: `Based on approximate exchange rate of 1 USD = ${USD_TO_CAD} CAD.`,
+    },
+    shipping: {
+      origin: 'Philadelphia, Pennsylvania, USA',
+      estimatedShipping: '2–4 weeks',
+      customsDuty: '0% under CUSMA',
+      hsCode: '8479.50 (Industrial robots)',
+      importNotes: 'US-headquartered, CUSMA ensures duty-free. Promobot has Canadian customers in hospitality and healthcare.',
+    },
+    faqs: [
+      { question: 'Can Promobot V.4 speak French?', answer: 'Yes. Promobot supports 30+ languages including English and French, making it ideal for bilingual Canadian deployments.' },
+      { question: 'Can I customise the face?', answer: 'Yes. Promobot offers custom face options — you can make the robot look like a brand mascot, historical figure, or any custom design. This is popular for branding and marketing applications.' },
+    ],
+    videos: [],
+  },
+
+  'aldebaran-nao': {
+    cadPricing: {
+      cadEstimate: '~$12,400 CAD',
+      usdOriginal: '~$9,000 USD',
+      exchangeNote: `Based on approximate exchange rate of 1 USD = ${USD_TO_CAD} CAD.`,
+    },
+    shipping: {
+      origin: 'Paris, France',
+      estimatedShipping: '2–4 weeks',
+      customsDuty: '0% under CETA',
+      hsCode: '8479.50 or 9503.00 (educational robot)',
+      importNotes: 'CETA eliminates duties on French-origin products. NAO is widely used in Canadian schools and universities. Aldebaran/SoftBank has established educational distribution channels.',
+    },
+    faqs: [
+      { question: 'Is NAO good for teaching programming?', answer: 'Excellent. NAO supports visual programming (Choregraphe), Python, C++, and ROS. It\'s used in thousands of educational institutions worldwide for STEM and computer science education.' },
+      { question: 'Can NAO help with autism therapy?', answer: 'Yes. NAO is one of the most researched robots in autism therapy. Its predictable behaviour, non-threatening size, and ability to maintain consistent interactions make it effective for social skills training.' },
     ],
     videos: [],
   },

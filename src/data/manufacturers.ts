@@ -15,7 +15,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'Founded by Wang Xingxing in Hangzhou, Unitree is the world\'s leading affordable robotics company. Originally known for quadruped robots (Go1, Go2, B2), Unitree now offers the broadest humanoid lineup spanning from the $5,900 R1 to the $150K H1, shipping to over 30 countries.',
     website: 'https://www.unitree.com',
-    robotIds: ['unitree-r1', 'unitree-g1', 'unitree-h1', 'unitree-h1-2'],
+    robotIds: ['unitree-r1', 'unitree-g1', 'unitree-h1', 'unitree-h1-2', 'unitree-h2'],
     imageUrl: '/images/manufacturers/unitree-robotics.jpg',
     featured: true,
   },
@@ -27,7 +27,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'Norwegian robotics company (formerly Halodi Robotics) backed by OpenAI and Tiger Global. 1X is building NEO, the world\'s first consumer humanoid robot designed for home use, with a revolutionary soft-body design for safe human cohabitation.',
     website: 'https://www.1x.tech',
-    robotIds: ['1x-neo', '1x-neo-beta'],
+    robotIds: ['1x-neo', '1x-neo-beta', '1x-eve'],
     imageUrl: '/images/manufacturers/1x-technologies.jpg',
     featured: true,
   },
@@ -147,7 +147,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'A subsidiary of SoftBank Group, SoftBank Robotics is the creator of Pepper — the world\'s first social humanoid robot for consumer use. Over 15,000 Pepper units have been deployed worldwide in retail, hospitality, healthcare, and education settings.',
     website: 'https://www.softbankrobotics.com',
-    robotIds: ['softbank-pepper'],
+    robotIds: ['softbank-pepper', 'aldebaran-nao'],
     imageUrl: '/images/manufacturers/softbank-robotics.jpg',
     featured: false,
   },
@@ -257,6 +257,66 @@ export const manufacturers: Manufacturer[] = [
     website: 'https://www.menteerobotics.com',
     robotIds: ['menteebot'],
     imageUrl: '/images/manufacturers/mentee-robotics.jpg',
+    featured: false,
+  },
+  {
+    id: 'lg-electronics',
+    name: 'LG Electronics',
+    country: 'South Korea',
+    founded: '1958',
+    description:
+      'Global consumer electronics giant entering the humanoid robotics space with CLOi-D, a home assistance robot that integrates with LG\'s ThinQ smart home ecosystem. LG\'s massive distribution network and consumer brand recognition could make CLOi-D the first humanoid available at mainstream retailers.',
+    website: 'https://www.lg.com',
+    robotIds: ['lg-cloid'],
+    imageUrl: '/images/manufacturers/lg-electronics.jpg',
+    featured: false,
+  },
+  {
+    id: 'robotera',
+    name: 'RobotEra',
+    country: 'China',
+    founded: '2023',
+    description:
+      'Chinese humanoid robotics startup building STAR1, a full-size enterprise humanoid for logistics and service applications. Targeting rapid commercialisation with competitive pricing and multi-terrain mobility capabilities.',
+    website: 'https://www.robotera.com',
+    robotIds: ['robotera-star1'],
+    imageUrl: '/images/manufacturers/robotera.jpg',
+    featured: false,
+  },
+  {
+    id: 'fauna-robotics',
+    name: 'Fauna Robotics',
+    country: 'USA',
+    founded: '2023',
+    description:
+      'American robotics startup building Sprout, a dual-purpose home robot and developer platform. Fauna focuses on safety-first design and an open development ecosystem to foster home robotics innovation.',
+    website: 'https://www.faunarobotics.com',
+    robotIds: ['fauna-sprout'],
+    imageUrl: '/images/manufacturers/fauna-robotics.jpg',
+    featured: false,
+  },
+  {
+    id: 'hmnd',
+    name: 'HMND',
+    country: 'USA',
+    founded: '2022',
+    description:
+      'Builder of the HMND 01 Alpha, the largest commercially available humanoid robot at 220 cm (7\'3") tall. HMND targets heavy industrial applications — construction, shipyards, and heavy manufacturing — where no other humanoid can operate due to size constraints.',
+    website: 'https://www.hmnd.ai',
+    robotIds: ['hmnd-01-alpha'],
+    imageUrl: '/images/manufacturers/hmnd.jpg',
+    featured: false,
+  },
+  {
+    id: 'promobot',
+    name: 'Promobot',
+    country: 'USA',
+    founded: '2015',
+    description:
+      'Originally Russian, now US-headquartered, Promobot is one of the most commercially successful service robot companies with units deployed in 45+ countries. Promobot V.4 is used in healthcare, retail, and hospitality for customer engagement and information services.',
+    website: 'https://www.promobot.com',
+    robotIds: ['promobot-v4'],
+    imageUrl: '/images/manufacturers/promobot.jpg',
     featured: false,
   },
 ];

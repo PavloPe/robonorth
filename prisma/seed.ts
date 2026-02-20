@@ -47,6 +47,10 @@ async function main() {
         specBattery: r.specs.battery ?? null,
         specPayload: r.specs.payload ?? null,
         specSpeed: r.specs.speed ?? null,
+        variants: r.variants ?? null,
+        scores: r.scores ? JSON.stringify(r.scores) : null,
+        categoryWinners: r.categoryWinners ? JSON.stringify(r.categoryWinners) : null,
+        reviewSlug: r.reviewSlug ?? null,
       },
     });
   }

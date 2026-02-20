@@ -29,6 +29,11 @@ model Robot {
   specPayload      Float?
   specSpeed        Float?
 
+  variants         String?  // JSON array of variant objects
+  scores           String?  // JSON object with scoring data
+  categoryWinners  String?  // JSON array of category winner badges
+  reviewSlug       String?  // slug for linked review page
+
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 

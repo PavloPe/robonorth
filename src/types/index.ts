@@ -24,6 +24,23 @@ export interface RobotSpecs {
   speed: number | null;
 }
 
+export interface RobotScores {
+  deployment: number;
+  capability: number;
+  availability: number;
+  value: number;
+  impact: number;
+}
+
+export interface RobotVariant {
+  name: string;
+  dof: number;
+  hands: string;
+  compute: string;
+  price: string;
+  priceMin: number;
+}
+
 export interface Robot {
   id: string;
   name: string;
@@ -40,6 +57,10 @@ export interface Robot {
   imageUrl: string;
   featured: boolean;
   canadaAvailable: boolean;
+  variants?: string | null;
+  scores?: RobotScores | null;
+  categoryWinners?: string[];
+  reviewSlug?: string | null;
 }
 
 export interface Manufacturer {

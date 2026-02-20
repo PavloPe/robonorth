@@ -169,21 +169,43 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
           
           <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">{robot.description}</p>
 
+          {/* Urgency element — Task 48 */}
+          {robot.availability === 'shipping' && robot.canadaAvailable && (
+            <div className="mb-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl px-4 py-2.5 flex items-center gap-2">
+              <span className="text-amber-600 text-sm">🔥</span>
+              <span className="text-xs font-semibold text-amber-700 dark:text-amber-400">Only limited units available in Canada — order now to secure yours</span>
+            </div>
+          )}
+          {robot.availability === 'preorder' && (
+            <div className="mb-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl px-4 py-2.5 flex items-center gap-2">
+              <span className="text-blue-600 text-sm">⚡</span>
+              <span className="text-xs font-semibold text-blue-700 dark:text-blue-400">Pre-order filling fast — secure your spot in the queue</span>
+            </div>
+          )}
+
           <div className="flex flex-col sm:flex-row gap-3 mb-4">
-            <Button href={`/inquiry?robot=${robot.id}`} size="lg">
+            {/* Buy Now button — Task 2 */}
+            <Button href={`/cart?buyNow=${robot.id}`} size="lg" className="!bg-gradient-to-r !from-emerald-600 !to-emerald-700 hover:!from-emerald-700 hover:!to-emerald-800">
               <span className="flex items-center gap-2">
-                Inquire Now
+                Buy Now
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
               </span>
             </Button>
+            <AddToBasketButton itemType="robot" itemId={robot.id} itemName={robot.name} price={robot.price} />
             {isPilotOrEnterprise && (
               <Button href={`/inquiry?robot=${robot.id}&type=quote`} variant="dark" size="lg">
                 Request a Quote
               </Button>
             )}
             {isPreRelease && <NotifyMeButton robotName={robot.name} robotId={robot.id} />}
-            <AddToBasketButton itemType="robot" itemId={robot.id} itemName={robot.name} price={robot.price} />
             <Button href={`/compare?robots=${robot.id}`} variant="outline" size="lg">Compare</Button>
+          </div>
+
+          {/* Sales phone — Task 9 */}
+          <div className="mb-4 flex items-center gap-2 text-sm">
+            <span className="text-gray-400">📞</span>
+            <span className="text-gray-500 dark:text-gray-400">Need help?</span>
+            <a href="tel:+15873250017" className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">+1 (587) 325-0017</a>
           </div>
           <div className="flex items-center gap-2 mb-4">
             <ShareButton title={robot.name} />
