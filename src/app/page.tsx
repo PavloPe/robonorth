@@ -7,6 +7,7 @@ import Button from '@/components/ui/Button';
 import { getFeaturedRobots, getFeaturedManufacturers, getAllPartCategories } from '@/lib/queries';
 import { getAllBlogPosts } from '@/data/blog';
 import StatsCounter from '@/components/ui/StatsCounter';
+import RobotOfMonth from '@/components/ui/RobotOfMonth';
 
 export const dynamic = 'force-dynamic';
 
@@ -73,6 +74,9 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Robot of the Month — Improvement #44 */}
+      <RobotOfMonth />
 
       {/* Stats Counter */}
       <StatsCounter />

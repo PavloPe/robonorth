@@ -17,6 +17,7 @@ import NotifyMeButton from '@/components/ui/NotifyMeButton';
 import DeliveryEstimator from '@/components/ui/DeliveryEstimator';
 import CustomerReviews from '@/components/ui/CustomerReviews';
 import SizeComparison from '@/components/ui/SizeComparison';
+import PriceAlertSignup from '@/components/ui/PriceAlertSignup';
 
 const availabilityVariant: Record<string, 'success' | 'warning' | 'info' | 'default'> = {
   shipping: 'success', preorder: 'info', pilot: 'warning', announced: 'default', prototype: 'default',
@@ -176,10 +177,12 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
             {isPreRelease && <NotifyMeButton robotName={robot.name} robotId={robot.id} />}
             <Button href={`/compare?robots=${robot.id}`} variant="outline" size="lg">Compare</Button>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-4">
             <ShareButton title={robot.name} />
             <FavoritesButton robotId={robot.id} robotName={robot.name} />
           </div>
+          {/* Price alert — Improvement #47 */}
+          <PriceAlertSignup robotId={robot.id} robotName={robot.name} currentPrice={robot.price} />
         </div>
       </div>
 
