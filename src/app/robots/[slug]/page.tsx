@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getRobotBySlug, getRelatedRobots, getAllRobotSlugs, getCompatibleParts } from '@/lib/queries';
 import { robotJsonLd, faqJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
 import { robotExtras } from '@/data/robot-extras';
+import { getReviewByRobotId } from '@/data/reviews';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import RobotCard from '@/components/ui/RobotCard';

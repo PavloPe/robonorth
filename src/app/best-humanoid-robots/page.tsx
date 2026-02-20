@@ -19,8 +19,19 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://robonorth.ca/best-humanoid-robots' },
 };
 
-function scoreRobot(robot: Robot): { total: number; value: number; capability: number; availability: number; support: number } {
-  // Value: price/capability ratio (lower price + more features = higher score)
+function scoreRobot(robot: Robot): { total: number; deployment: number; capability: number; availability: number; value: number; impact: number } {
+  // Use pre-computed scores if available
+  if (robot.scores) {
+    const total = Math.round(
+      (robot.scores.deployment * 0.20 +
+       robot.scores.capability * 0.25 +
+       robot.scores.availability * 0.20 +
+       robot.scores.value * 0.20 +
+       robot.scores.impact * 0.15) * 10
+    ) / 10;
+    return { total, ...robot.scores };
+  }
+  // Fallback scoring for robots without pre-computed scores
   let value = 5;
   if (robot.priceMin > 0 && robot.priceMin < 10000) value = 10;
   else if (robot.priceMin >= 10000 && robot.priceMin < 25000) value = 9;
@@ -28,9 +39,8 @@ function scoreRobot(robot: Robot): { total: number; value: number; capability: n
   else if (robot.priceMin >= 50000 && robot.priceMin < 100000) value = 6;
   else if (robot.priceMin >= 100000 && robot.priceMin < 250000) value = 5;
   else if (robot.priceMin >= 250000) value = 4;
-  if (robot.priceMin === 0) value = 3; // unknown price
+  if (robot.priceMin === 0) value = 3;
 
-  // Capability: DOF, payload, speed, features
   let capability = 5;
   const dof = robot.specs.dof || 0;
   if (dof >= 50) capability = 10;
@@ -38,13 +48,7 @@ function scoreRobot(robot: Robot): { total: number; value: number; capability: n
   else if (dof >= 30) capability = 7;
   else if (dof >= 20) capability = 6;
   else if (dof > 0) capability = 5;
-  
-  const payload = robot.specs.payload || 0;
-  if (payload >= 20) capability = Math.min(10, capability + 1);
-  const speed = robot.specs.speed || 0;
-  if (speed >= 8) capability = Math.min(10, capability + 1);
 
-  // Availability
   let availability = 3;
   if (robot.availability === 'shipping') availability = 10;
   else if (robot.availability === 'preorder') availability = 7;
@@ -52,15 +56,13 @@ function scoreRobot(robot: Robot): { total: number; value: number; capability: n
   else if (robot.availability === 'announced') availability = 3;
   else if (robot.availability === 'prototype') availability = 2;
 
-  // Support: Canada availability, established manufacturer
-  let support = 5;
-  if (robot.canadaAvailable) support += 2;
-  if (robot.featured) support += 1;
-  if (robot.availability === 'shipping') support += 1;
-  support = Math.min(10, support);
+  const deployment = availability >= 7 ? 6 : 3;
+  const impact = robot.featured ? 7 : 5;
 
-  const total = Math.round((value * 0.25 + capability * 0.30 + availability * 0.25 + support * 0.20) * 10) / 10;
-  return { total, value, capability, availability, support };
+  const total = Math.round(
+    (deployment * 0.20 + capability * 0.25 + availability * 0.20 + value * 0.20 + impact * 0.15) * 10
+  ) / 10;
+  return { total, deployment, capability, availability, value, impact };
 }
 
 const availabilityLabels: Record<string, string> = {
@@ -124,11 +126,12 @@ export default async function BestHumanoidRobotsPage() {
       {/* Scoring Methodology */}
       <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-2xl p-6 mb-12">
         <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-3">📊 How We Score</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-          <div><span className="font-semibold text-gray-900 dark:text-white">Value (25%)</span><p className="text-gray-500 dark:text-gray-400">Price-to-capability ratio</p></div>
-          <div><span className="font-semibold text-gray-900 dark:text-white">Capability (30%)</span><p className="text-gray-500 dark:text-gray-400">DOF, payload, speed, features</p></div>
-          <div><span className="font-semibold text-gray-900 dark:text-white">Availability (25%)</span><p className="text-gray-500 dark:text-gray-400">Can you buy/order it today?</p></div>
-          <div><span className="font-semibold text-gray-900 dark:text-white">Support (20%)</span><p className="text-gray-500 dark:text-gray-400">Canada shipping, ecosystem</p></div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
+          <div><span className="font-semibold text-gray-900 dark:text-white">Deployment (20%)</span><p className="text-gray-500 dark:text-gray-400">Real-world deployments</p></div>
+          <div><span className="font-semibold text-gray-900 dark:text-white">Capability (25%)</span><p className="text-gray-500 dark:text-gray-400">DOF, payload, speed, AI</p></div>
+          <div><span className="font-semibold text-gray-900 dark:text-white">Availability (20%)</span><p className="text-gray-500 dark:text-gray-400">Can you buy it today?</p></div>
+          <div><span className="font-semibold text-gray-900 dark:text-white">Value (20%)</span><p className="text-gray-500 dark:text-gray-400">Price-to-capability ratio</p></div>
+          <div><span className="font-semibold text-gray-900 dark:text-white">Impact (15%)</span><p className="text-gray-500 dark:text-gray-400">Industry significance</p></div>
         </div>
       </div>
 
@@ -153,18 +156,28 @@ export default async function BestHumanoidRobotsPage() {
                     </Link>
                     <Badge text={availabilityLabels[robot.availability]} variant={availabilityVariant[robot.availability] || 'default'} />
                     {robot.canadaAvailable && <Badge text="🇨🇦" variant="success" />}
+                    {robot.reviewSlug && <Link href={`/reviews/${robot.reviewSlug}`} className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-medium ml-1">📝 Review</Link>}
                   </div>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                     {robot.manufacturer} · {robot.price} · {robot.country}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-3">{robot.description}</p>
+                  {/* Category Winner Badges */}
+                  {robot.categoryWinners && robot.categoryWinners.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-2">
+                      {robot.categoryWinners.map(badge => (
+                        <span key={badge} className="text-xs font-semibold bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded-full">🏆 {badge}</span>
+                      ))}
+                    </div>
+                  )}
                   {/* Score bars */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
                     {[
-                      { label: 'Value', score: scores.value, colour: 'emerald' },
+                      { label: 'Deployment', score: scores.deployment, colour: 'emerald' },
                       { label: 'Capability', score: scores.capability, colour: 'blue' },
                       { label: 'Availability', score: scores.availability, colour: 'purple' },
-                      { label: 'Support', score: scores.support, colour: 'amber' },
+                      { label: 'Value', score: scores.value, colour: 'amber' },
+                      { label: 'Impact', score: scores.impact, colour: 'rose' },
                     ].map(({ label, score, colour }) => (
                       <div key={label}>
                         <div className="flex items-center justify-between mb-1">
@@ -175,7 +188,8 @@ export default async function BestHumanoidRobotsPage() {
                           <div className={`h-full rounded-full ${
                             colour === 'emerald' ? 'bg-emerald-500' :
                             colour === 'blue' ? 'bg-blue-500' :
-                            colour === 'purple' ? 'bg-purple-500' : 'bg-amber-500'
+                            colour === 'purple' ? 'bg-purple-500' :
+                            colour === 'rose' ? 'bg-rose-500' : 'bg-amber-500'
                           }`} style={{ width: `${score * 10}%` }} />
                         </div>
                       </div>

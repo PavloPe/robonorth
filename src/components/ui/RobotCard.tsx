@@ -105,6 +105,11 @@ export default function RobotCard({ robot }: { robot: Robot }) {
                 ✨ New
               </span>
             )}
+            {robot.categoryWinners && robot.categoryWinners.length > 0 && robot.categoryWinners.map(badge => (
+              <span key={badge} className="text-[10px] font-bold bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 px-2 py-0.5 rounded-md shadow-sm">
+                🏆 {badge}
+              </span>
+            ))}
           </div>
           {robot.canadaAvailable && (
             <div className="absolute top-3 left-3 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-lg px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-700/50 shadow-sm">
@@ -149,6 +154,20 @@ export default function RobotCard({ robot }: { robot: Robot }) {
           <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mb-3 min-h-[2.5rem] leading-relaxed">
             {robot.description}
           </p>
+          {/* Score bar (if scores available) */}
+          {robot.scores && (
+            <div className="flex items-center gap-2 mb-2">
+              <div className="flex-1 h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
+                  style={{ width: `${(robot.scores.deployment * 0.20 + robot.scores.capability * 0.25 + robot.scores.availability * 0.20 + robot.scores.value * 0.20 + robot.scores.impact * 0.15) * 10}%` }}
+                />
+              </div>
+              <span className="text-xs font-bold text-blue-600 dark:text-blue-400 shrink-0">
+                {(robot.scores.deployment * 0.20 + robot.scores.capability * 0.25 + robot.scores.availability * 0.20 + robot.scores.value * 0.20 + robot.scores.impact * 0.15).toFixed(1)}
+              </span>
+            </div>
+          )}
           {/* Price & stock */}
           <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800 mb-3">
             <span className="text-lg font-bold text-gray-900 dark:text-white">
