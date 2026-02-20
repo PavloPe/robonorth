@@ -1,5 +1,10 @@
 // RoboNorth Service Worker — PWA Support
-const CACHE_NAME = 'robonorth-v1';
+// Improvement #31: Advanced caching strategies
+
+const CACHE_VERSION = 'v2';
+const STATIC_CACHE = `robonorth-static-${CACHE_VERSION}`;
+const DYNAMIC_CACHE = `robonorth-dynamic-${CACHE_VERSION}`;
+const API_CACHE = `robonorth-api-${CACHE_VERSION}`;
 const OFFLINE_URL = '/offline.html';
 
 const PRECACHE_URLS = [
@@ -11,45 +16,104 @@ const PRECACHE_URLS = [
 // Install: precache critical resources
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(PRECACHE_URLS))
+    caches.open(STATIC_CACHE)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
   );
   self.skipWaiting();
 });
 
 // Activate: clean old caches
 self.addEventListener('activate', (event) => {
+  const currentCaches = [STATIC_CACHE, DYNAMIC_CACHE, API_CACHE];
   event.waitUntil(
     caches.keys().then((keys) =>
-      Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))
+      Promise.all(
+        keys
+          .filter((key) => !currentCaches.includes(key))
+          .map((key) => caches.delete(key))
+      )
     )
   );
   self.clients.claim();
 });
 
-// Fetch: network-first with offline fallback
+// Fetch handler with multiple strategies
 self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
+  const { request } = event;
+  const url = new URL(request.url);
+
+  // Skip non-GET requests
+  if (request.method !== 'GET') return;
+
+  // Skip external requests
+  if (url.origin !== self.location.origin) return;
+
+  // Strategy 1: Navigation — Network-first with offline fallback
+  if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request).catch(() =>
-        caches.match(OFFLINE_URL).then((response) => response || new Response('Offline', { status: 503 }))
-      )
+      fetch(request)
+        .then((response) => {
+          const clone = response.clone();
+          caches.open(DYNAMIC_CACHE).then((cache) => cache.put(request, clone));
+          return response;
+        })
+        .catch(() =>
+          caches.match(request)
+            .then((cached) => cached || caches.match(OFFLINE_URL))
+            .then((response) => response || new Response('Offline', { status: 503 }))
+        )
     );
     return;
   }
 
-  // Cache-first for static assets
-  if (event.request.url.match(/\.(js|css|png|jpg|jpeg|svg|ico|woff2?)$/)) {
+  // Strategy 2: API routes — Stale-while-revalidate
+  if (url.pathname.startsWith('/api/')) {
     event.respondWith(
-      caches.match(event.request).then((cached) =>
-        cached || fetch(event.request).then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          return response;
+      caches.open(API_CACHE).then((cache) =>
+        cache.match(request).then((cached) => {
+          const fetchPromise = fetch(request)
+            .then((response) => {
+              if (response.ok) {
+                cache.put(request, response.clone());
+              }
+              return response;
+            })
+            .catch(() => cached);
+
+          return cached || fetchPromise;
         })
       )
     );
     return;
   }
 
-  event.respondWith(fetch(event.request));
+  // Strategy 3: Static assets — Cache-first
+  if (request.url.match(/\.(js|css|png|jpg|jpeg|svg|ico|woff2?|webp|avif)$/)) {
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        if (cached) return cached;
+        return fetch(request).then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(STATIC_CACHE).then((cache) => cache.put(request, clone));
+          }
+          return response;
+        });
+      })
+    );
+    return;
+  }
+
+  // Strategy 4: Dynamic pages — Network-first, cache as fallback
+  event.respondWith(
+    fetch(request)
+      .then((response) => {
+        if (response.ok) {
+          const clone = response.clone();
+          caches.open(DYNAMIC_CACHE).then((cache) => cache.put(request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(request))
+  );
 });

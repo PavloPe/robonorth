@@ -10,6 +10,7 @@ import { CompareProvider } from '@/components/ui/CompareBar';
 import { ToastProvider } from '@/components/ui/Toast';
 import TopProgressBar from '@/components/ui/TopProgressBar';
 import LiveChatWidget from '@/components/ui/LiveChatWidget';
+import WebVitals from '@/components/ui/WebVitals';
 import { websiteJsonLd, organizationJsonLd } from '@/lib/jsonld';
 import './globals.css';
 
@@ -140,6 +141,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CookieConsent />
         <ExitIntentPopup />
         <LiveChatWidget />
+        <WebVitals />
         <ServiceWorkerRegistration />
         </CompareProvider>
         </ToastProvider>

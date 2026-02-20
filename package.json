@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "db:seed": "npx tsx prisma/seed.ts",
-    "db:backup": "bash scripts/backup-db.sh"
+    "db:backup": "bash scripts/backup-db.sh",
+    "analyze": "ANALYZE=true next build",
+    "bundle-check": "node scripts/bundle-check.js"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.4.0",
