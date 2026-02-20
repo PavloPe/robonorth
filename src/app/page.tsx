@@ -4,18 +4,20 @@ import RobotCard from '@/components/ui/RobotCard';
 import ManufacturerCard from '@/components/ui/ManufacturerCard';
 import PartCategoryCard from '@/components/ui/PartCategoryCard';
 import Button from '@/components/ui/Button';
-import { getFeaturedRobots, getFeaturedManufacturers, getAllPartCategories } from '@/lib/queries';
+import { getFeaturedRobots, getFeaturedManufacturers, getAllPartCategories, getFeaturedParts } from '@/lib/queries';
 import { getAllBlogPosts } from '@/data/blog';
 import StatsCounter from '@/components/ui/StatsCounter';
 import RobotOfMonth from '@/components/ui/RobotOfMonth';
+import PartCard from '@/components/ui/PartCard';
 
 export const dynamic = 'force-dynamic';
 
 export default async function HomePage() {
-  const [featuredRobots, featuredManufacturers, partCategories] = await Promise.all([
+  const [featuredRobots, featuredManufacturers, partCategories, featuredParts] = await Promise.all([
     getFeaturedRobots(),
     getFeaturedManufacturers(),
     getAllPartCategories(),
+    getFeaturedParts(6),
   ]);
 
   return (
@@ -62,15 +64,28 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2">Components</p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Parts & Components</h2>
-            <p className="text-gray-500 mt-2 text-sm max-w-lg">Everything you need to build, maintain, or upgrade</p>
+            <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Components</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Featured Parts & Components</h2>
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm max-w-lg">Top-selling actuators, sensors, controllers, and more — all with Canadian shipping</p>
           </div>
-          <Button href="/parts" variant="ghost" size="sm">Browse Parts →</Button>
+          <Button href="/parts" variant="ghost" size="sm">Browse All 71+ Parts →</Button>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {partCategories.slice(0, 4).map(cat => (
-            <PartCategoryCard key={cat.id} category={cat} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {featuredParts.map(part => (
+            <PartCard key={part.id} part={part} />
+          ))}
+        </div>
+
+        {/* Category quick links */}
+        <div className="mt-8 flex flex-wrap gap-2 justify-center">
+          {partCategories.slice(0, 7).map(cat => (
+            <a
+              key={cat.id}
+              href={`/parts?category=${cat.id.split('-')[0]}`}
+              className="px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-xs font-medium text-gray-600 dark:text-gray-400 hover:border-blue-200 dark:hover:border-blue-800 hover:text-blue-600 dark:hover:text-blue-400 transition-all"
+            >
+              {cat.name}
+            </a>
           ))}
         </div>
       </section>

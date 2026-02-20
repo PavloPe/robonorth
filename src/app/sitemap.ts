@@ -1,13 +1,14 @@
 import type { MetadataRoute } from 'next';
-import { getAllRobotSlugs, getAllManufacturerSlugs } from '@/lib/queries';
+import { getAllRobotSlugs, getAllManufacturerSlugs, getAllPartSlugs } from '@/lib/queries';
 import { getAllBlogPosts } from '@/data/blog';
 
 const BASE_URL = 'https://robonorth.ca';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [robotSlugs, manufacturerSlugs] = await Promise.all([
+  const [robotSlugs, manufacturerSlugs, partSlugs] = await Promise.all([
     getAllRobotSlugs(),
     getAllManufacturerSlugs(),
+    getAllPartSlugs(),
   ]);
 
   const blogPosts = getAllBlogPosts();
@@ -76,5 +77,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...robotPages, ...manufacturerPages, ...categoryPages, ...useCasePages, ...blogPages];
+  const partPages: MetadataRoute.Sitemap = partSlugs.map(slug => ({
+    url: `${BASE_URL}/parts/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly',
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...robotPages, ...manufacturerPages, ...categoryPages, ...useCasePages, ...partPages, ...blogPages];
 }
