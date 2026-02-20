@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getRobotBySlug, getRelatedRobots, getAllRobotSlugs } from '@/lib/queries';
-import { robotJsonLd } from '@/lib/jsonld';
+import { robotJsonLd, faqJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
+import { robotExtras } from '@/data/robot-extras';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import RobotCard from '@/components/ui/RobotCard';
@@ -10,6 +11,9 @@ import ImageGallery from '@/components/ui/ImageGallery';
 import VideoEmbed from '@/components/ui/VideoEmbed';
 import RecentlyViewed from '@/components/ui/RecentlyViewed';
 import RobotDetailTracker from '@/components/ui/RobotDetailTracker';
+import ShareButton from '@/components/ui/ShareButton';
+import FavoritesButton from '@/components/ui/FavoritesButton';
+import NotifyMeButton from '@/components/ui/NotifyMeButton';
 
 const availabilityVariant: Record<string, 'success' | 'warning' | 'info' | 'default'> = {
   shipping: 'success', preorder: 'info', pilot: 'warning', announced: 'default', prototype: 'default',
@@ -68,6 +72,7 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
   if (!robot) notFound();
 
   const related = await getRelatedRobots(robot);
+  const extras = robotExtras[robot.id];
 
   const numericSpecs = specBarConfig
     .map(cfg => {
@@ -84,7 +89,14 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
   ].filter(s => s.value);
 
   const jsonLd = robotJsonLd(robot);
+  const breadcrumbLd = breadcrumbJsonLd([
+    { name: 'Home', url: 'https://robonorth.ca' },
+    { name: 'Robots', url: 'https://robonorth.ca/robots' },
+    { name: robot.name, url: `https://robonorth.ca/robots/${robot.id}` },
+  ]);
+  const faqLd = extras?.faqs?.length ? faqJsonLd(extras.faqs) : null;
   const isPilotOrEnterprise = robot.availability === 'pilot' || robot.category === 'enterprise';
+  const isPreRelease = robot.availability === 'announced' || robot.availability === 'prototype';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -93,6 +105,16 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
+      {faqLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+        />
+      )}
 
       {/* Track robot view */}
       <RobotDetailTracker id={robot.id} name={robot.name} manufacturer={robot.manufacturer} price={robot.price} />
@@ -124,11 +146,19 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
             {robot.canadaAvailable && <Badge text="🇨🇦 Ships to Canada" variant="success" />}
           </div>
 
-          <div className="text-3xl font-bold text-gray-900 dark:text-white mb-6">{robot.price}</div>
+          <div className="mb-6">
+            <div className="text-3xl font-bold text-gray-900 dark:text-white">{robot.price}</div>
+            {extras?.cadPricing && (
+              <div className="mt-1.5">
+                <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">{extras.cadPricing.cadEstimate}</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">{extras.cadPricing.exchangeNote}</span>
+              </div>
+            )}
+          </div>
           
           <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-8">{robot.description}</p>
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex flex-col sm:flex-row gap-3 mb-4">
             <Button href={`/inquiry?robot=${robot.id}`} size="lg">
               <span className="flex items-center gap-2">
                 Inquire Now
@@ -140,7 +170,12 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
                 Request a Quote
               </Button>
             )}
+            {isPreRelease && <NotifyMeButton robotName={robot.name} robotId={robot.id} />}
             <Button href={`/compare?robots=${robot.id}`} variant="outline" size="lg">Compare</Button>
+          </div>
+          <div className="flex items-center gap-2">
+            <ShareButton title={robot.name} />
+            <FavoritesButton robotId={robot.id} robotName={robot.name} />
           </div>
         </div>
       </div>
@@ -202,8 +237,92 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
-      {/* Video Embed */}
-      <VideoEmbed robotName={robot.name} manufacturer={robot.manufacturer} />
+      {/* Shipping & Import Info */}
+      {extras?.shipping && (
+        <section className="mb-16">
+          <div className="mb-8">
+            <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Import</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Shipping to Canada</h2>
+          </div>
+          <div className="bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700/80 rounded-2xl p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { label: 'Ships From', value: extras.shipping.origin, icon: '📍' },
+                { label: 'Estimated Shipping', value: extras.shipping.estimatedShipping, icon: '🚚' },
+                { label: 'Customs Duty', value: extras.shipping.customsDuty, icon: '🏛️' },
+                { label: 'HS Code', value: extras.shipping.hsCode, icon: '📋' },
+              ].map(item => (
+                <div key={item.label} className="flex items-start gap-3">
+                  <span className="text-lg">{item.icon}</span>
+                  <div>
+                    <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{item.label}</div>
+                    <div className="text-sm text-gray-900 dark:text-white mt-0.5">{item.value}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {extras.shipping.importNotes && (
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 leading-relaxed">
+                💡 {extras.shipping.importNotes}
+              </p>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Video Embed with real YouTube IDs */}
+      {extras?.videos && extras.videos.length > 0 ? (
+        <section className="mb-16">
+          <div className="mb-8">
+            <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Media</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Videos</h2>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {extras.videos.map(video => (
+              <div key={video.youtubeId} className="bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700/80 rounded-2xl overflow-hidden">
+                <div className="aspect-video">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${video.youtubeId}`}
+                    title={video.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-3">
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">{video.title}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : (
+        <VideoEmbed robotName={robot.name} manufacturer={robot.manufacturer} />
+      )}
+
+      {/* FAQ Section */}
+      {extras?.faqs && extras.faqs.length > 0 && (
+        <section className="mb-16">
+          <div className="mb-8">
+            <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">FAQ</p>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Frequently Asked Questions</h2>
+          </div>
+          <div className="space-y-3">
+            {extras.faqs.map((faq, i) => (
+              <details key={i} className="bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700/80 rounded-xl group">
+                <summary className="flex items-center justify-between px-6 py-4 cursor-pointer list-none text-sm font-semibold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                  {faq.question}
+                  <svg className="w-4 h-4 shrink-0 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </summary>
+                <div className="px-6 pb-4 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                  {faq.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Recently Viewed */}
       <RecentlyViewed excludeId={robot.id} />

@@ -7,6 +7,8 @@ import CookieConsent from '@/components/ui/CookieConsent';
 import ExitIntentPopup from '@/components/ui/ExitIntentPopup';
 import ServiceWorkerRegistration from '@/components/ui/ServiceWorkerRegistration';
 import { CompareProvider } from '@/components/ui/CompareBar';
+import { ToastProvider } from '@/components/ui/Toast';
+import TopProgressBar from '@/components/ui/TopProgressBar';
 import { websiteJsonLd, organizationJsonLd } from '@/lib/jsonld';
 import './globals.css';
 
@@ -51,6 +53,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: 'https://robonorth.ca',
+    languages: {
+      'en-CA': 'https://robonorth.ca',
+    },
   },
   manifest: '/manifest.json',
 };
@@ -76,8 +81,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <meta name="theme-color" content="#2563EB" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col antialiased">
+        {/* Skip to content — accessibility */}
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-4 focus:left-4 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold">
+          Skip to main content
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
@@ -114,9 +127,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             `,
           }}
         />
+        <ToastProvider>
         <CompareProvider>
+        <TopProgressBar />
         <Header />
-        <main className="flex-1" style={{ animationDuration: '300ms' }}>
+        <main id="main-content" className="flex-1" style={{ animationDuration: '300ms' }}>
           {children}
         </main>
         <Footer />
@@ -125,6 +140,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ExitIntentPopup />
         <ServiceWorkerRegistration />
         </CompareProvider>
+        </ToastProvider>
       </body>
     </html>
   );

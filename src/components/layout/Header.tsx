@@ -83,29 +83,57 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile menu — slide-in overlay */}
         {mobileOpen && (
-          <div className="md:hidden py-3 border-t border-gray-100 dark:border-gray-800 animate-fade-in-up">
-            {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="block py-3 px-3 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl text-sm font-medium"
-                onClick={() => setMobileOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <div className="pt-3 mt-2 border-t border-gray-100 dark:border-gray-800">
-              <Link
-                href="/inquiry"
-                className="block py-3 mx-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-semibold rounded-xl text-center"
-                onClick={() => setMobileOpen(false)}
-              >
-                Get Early Access
-              </Link>
+          <>
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black/30 z-40 md:hidden animate-fade-in"
+              onClick={() => setMobileOpen(false)}
+              aria-hidden="true"
+            />
+            {/* Slide-in panel */}
+            <div className="fixed top-0 right-0 bottom-0 w-72 bg-white dark:bg-gray-900 z-50 md:hidden shadow-2xl mobile-menu-slide-in">
+              <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                <span className="text-sm font-bold text-gray-900 dark:text-white">Menu</span>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-lg"
+                  aria-label="Close menu"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+              <nav className="p-3 space-y-1" role="navigation" aria-label="Mobile navigation">
+                {navLinks.map(link => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl text-sm font-medium transition-colors"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <Link
+                  href="/quiz"
+                  className="block py-3 px-4 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl text-sm font-medium transition-colors"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  🧭 Robot Quiz
+                </Link>
+              </nav>
+              <div className="p-3 mt-2 border-t border-gray-100 dark:border-gray-800">
+                <Link
+                  href="/inquiry"
+                  className="block py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm font-semibold rounded-xl text-center"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Get Early Access
+                </Link>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </header>

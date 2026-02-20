@@ -10,7 +10,19 @@ const columns = [
       { label: 'All Robots', href: '/robots' },
       { label: 'Brands', href: '/manufacturers' },
       { label: 'Parts & Components', href: '/parts' },
-      { label: 'Compare', href: '/compare' },
+      { label: 'Compare Robots', href: '/compare' },
+      { label: 'Robot Quiz', href: '/quiz' },
+      { label: 'New Arrivals', href: '/robots?sort=newest' },
+    ],
+  },
+  {
+    title: 'Categories',
+    links: [
+      { label: 'Consumer Robots', href: '/robots/category/consumer' },
+      { label: 'Enterprise Robots', href: '/robots/category/enterprise' },
+      { label: 'Research Robots', href: '/robots/category/research' },
+      { label: 'Coming Soon', href: '/robots/category/announced' },
+      { label: 'Use Cases', href: '/use-cases' },
     ],
   },
   {
@@ -19,17 +31,28 @@ const columns = [
       { label: 'About Us', href: '/about' },
       { label: 'Blog', href: '/blog' },
       { label: 'Press & Media', href: '/press' },
-      { label: 'Contact', href: '/inquiry' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'Partners', href: '/partners' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {
-    title: 'Support',
+    title: 'Resources',
     links: [
-      { label: 'Buying Guide', href: '/blog' },
+      { label: 'Buying Guide', href: '/blog/complete-robot-buying-guide-canada-2026' },
       { label: 'FAQ', href: '/faq' },
+      { label: 'Glossary', href: '/glossary' },
+      { label: 'API Docs', href: '/api-docs' },
       { label: 'Warranty & Support', href: '/warranty' },
+      { label: 'Financing', href: '/financing' },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
       { label: 'Privacy Policy', href: '/privacy' },
       { label: 'Terms of Service', href: '/terms' },
+      { label: "What's New", href: '/changelog' },
     ],
   },
 ];
@@ -57,7 +80,7 @@ export default function Footer() {
     <footer className="bg-slate-900 dark:bg-gray-950 text-slate-300 mt-16 border-t border-slate-800 dark:border-gray-800">
       {/* Main footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 mb-12">
           {columns.map(col => (
             <div key={col.title}>
               <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">{col.title}</h4>
