@@ -85,6 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <meta name="theme-color" content="#2563EB" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
+        <link rel="alternate" type="application/rss+xml" title="RoboNorth Blog" href="/feed.xml" />
         <link rel="dns-prefetch" href="https://www.youtube.com" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

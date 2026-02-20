@@ -1,7 +1,21 @@
-# RoboNorth — Canada's Humanoid Robot Marketplace
+# RoboNorth — robots.txt
+# https://robonorth.ca
+
 User-agent: *
 Allow: /
-Disallow: /api/
-Disallow: /inquiry
 
+# Block admin and API routes
+Disallow: /admin
+Disallow: /api/
+Disallow: /_next/
+Disallow: /api-docs
+
+# Block utility pages
+Disallow: /loading
+Disallow: /error
+
+# Sitemap
 Sitemap: https://robonorth.ca/sitemap.xml
+
+# Crawl delay (be polite)
+Crawl-delay: 1

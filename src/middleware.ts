@@ -122,8 +122,10 @@ export function middleware(request: NextRequest) {
   response.headers.set('X-DNS-Prefetch-Control', 'on');
   response.headers.set(
     'Permissions-Policy',
-    'camera=(), microphone=(), geolocation=(), interest-cohort=()'
+    'camera=(), microphone=(), geolocation=(), interest-cohort=(), accelerometer=(), gyroscope=(), magnetometer=(), payment=(), usb=(), browsing-topics=()'
   );
+  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
+  response.headers.set('Cross-Origin-Resource-Policy', 'same-origin');
 
   // CSP — Improvement #39: nonce-based would require per-request nonce injection
   // For SSG/static pages we use hash-based CSP instead

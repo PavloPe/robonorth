@@ -8,54 +8,55 @@ const columns = [
     title: 'Shop',
     links: [
       { label: 'All Robots', href: '/robots' },
-      { label: 'Brands', href: '/manufacturers' },
-      { label: 'Parts & Components', href: '/parts' },
+      { label: 'Buy in Canada', href: '/buy' },
       { label: 'Compare Robots', href: '/compare' },
+      { label: 'Pricing Guide', href: '/pricing-guide' },
+      { label: 'Best Robots 2026', href: '/best-humanoid-robots' },
       { label: 'Robot Quiz', href: '/quiz' },
-      { label: 'New Arrivals', href: '/robots?sort=newest' },
     ],
   },
   {
-    title: 'Categories',
+    title: 'Solutions',
     links: [
-      { label: 'Consumer Robots', href: '/robots/category/consumer' },
-      { label: 'Enterprise Robots', href: '/robots/category/enterprise' },
-      { label: 'Research Robots', href: '/robots/category/research' },
-      { label: 'Coming Soon', href: '/robots/category/announced' },
-      { label: 'Use Cases', href: '/use-cases' },
+      { label: 'Robot Rental', href: '/rental' },
+      { label: 'RaaS (Leasing)', href: '/raas' },
+      { label: 'Request a Demo', href: '/demo' },
+      { label: 'Pre-Owned Robots', href: '/used-robots' },
+      { label: 'Parts & Components', href: '/parts' },
+      { label: 'Financing', href: '/financing' },
+    ],
+  },
+  {
+    title: 'Industries',
+    links: [
+      { label: 'Manufacturing', href: '/robots-for/manufacturing' },
+      { label: 'Warehouse & Logistics', href: '/robots-for/warehouse-logistics' },
+      { label: 'Healthcare', href: '/robots-for/healthcare' },
+      { label: 'Education', href: '/robots-for/education' },
+      { label: 'Agriculture', href: '/robots-for/agriculture' },
+      { label: 'Hospitality', href: '/robots-for/hospitality' },
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Blog', href: '/blog' },
+      { label: 'Government Grants', href: '/grants' },
+      { label: 'Canadian Robotics', href: '/canadian-robotics' },
+      { label: 'TCO Calculator', href: '/tco-calculator' },
+      { label: 'ROI Calculator', href: '/roi-calculator' },
+      { label: 'Glossary', href: '/glossary' },
     ],
   },
   {
     title: 'Company',
     links: [
       { label: 'About Us', href: '/about' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Press & Media', href: '/press' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Partners', href: '/partners' },
+      { label: 'Why RoboNorth', href: '/why-robonorth' },
+      { label: 'Jobs Board', href: '/jobs-board' },
       { label: 'Contact', href: '/contact' },
-    ],
-  },
-  {
-    title: 'Resources',
-    links: [
-      { label: 'Getting Started', href: '/getting-started' },
-      { label: 'FAQ', href: '/faq' },
-      { label: 'Resources & Downloads', href: '/resources' },
-      { label: 'Government Grants', href: '/grants' },
-      { label: 'ROI Calculator', href: '/roi-calculator' },
-      { label: 'Glossary', href: '/glossary' },
-    ],
-  },
-  {
-    title: 'Community',
-    links: [
-      { label: 'Community Forum', href: '/community' },
-      { label: 'Events', href: '/events' },
-      { label: 'Webinars', href: '/webinars' },
-      { label: 'Newsletter Archive', href: '/newsletter-archive' },
-      { label: 'Referral Program', href: '/referral' },
-      { label: "What's New", href: '/changelog' },
+      { label: 'Press & Media', href: '/press' },
+      { label: 'Canada Report 2026', href: '/canada-robotics-report' },
     ],
   },
 ];
@@ -147,6 +148,7 @@ export default function Footer() {
           <div className="flex items-center gap-4">
             <Link href="/privacy" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">Privacy</Link>
             <Link href="/terms" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">Terms</Link>
+            <Link href="/accessibility" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">Accessibility</Link>
             <p className="text-xs text-slate-500">© {new Date().getFullYear()} RoboNorth. All rights reserved.</p>
           </div>
         </div>
