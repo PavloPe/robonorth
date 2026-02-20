@@ -81,9 +81,31 @@ export default function NotFound() {
           Our robot looked everywhere but couldn&apos;t find this page. It might have been moved, deleted, or never existed.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
           <Button href="/" size="lg">← Go Home</Button>
           <Button href="/robots" variant="outline" size="lg">Browse Robots</Button>
+        </div>
+
+        {/* Search bar — Task 50 */}
+        <div className="max-w-sm mx-auto mb-8">
+          <form action="/robots" className="flex gap-2">
+            <input
+              type="text"
+              name="q"
+              placeholder="Search for a robot..."
+              className="flex-1 px-4 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            />
+            <button type="submit" className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-colors">
+              🔍
+            </button>
+          </form>
+        </div>
+
+        {/* Need help CTA */}
+        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-xl px-6 py-4 mb-8 inline-block">
+          <p className="text-sm text-gray-700 dark:text-gray-300">
+            Need help? Call us at <a href="tel:+15873250017" className="text-blue-600 dark:text-blue-400 font-semibold hover:underline">+1 (587) 325-0017</a>
+          </p>
         </div>
 
         {/* Quick links */}
@@ -94,7 +116,8 @@ export default function NotFound() {
               { href: '/robots', label: 'Robot Catalog' },
               { href: '/manufacturers', label: 'Brands' },
               { href: '/compare', label: 'Compare' },
-              { href: '/quiz', label: 'Robot Quiz' },
+              { href: '/cart', label: 'Shopping Cart' },
+              { href: '/enterprise', label: 'Enterprise' },
               { href: '/contact', label: 'Contact' },
               { href: '/blog', label: 'Blog' },
             ].map(link => (

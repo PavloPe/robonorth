@@ -9,6 +9,10 @@ import { getAllBlogPosts } from '@/data/blog';
 import StatsCounter from '@/components/ui/StatsCounter';
 import RobotOfMonth from '@/components/ui/RobotOfMonth';
 import PartCard from '@/components/ui/PartCard';
+import PartnerLogoBanner from '@/components/ui/PartnerLogoBanner';
+import MadeInCanada from '@/components/ui/MadeInCanada';
+import CrossBorderComparison from '@/components/ui/CrossBorderComparison';
+import MediaMentions from '@/components/ui/MediaMentions';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,6 +44,9 @@ export default async function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Partner brand logos — Task 32 */}
+      <PartnerLogoBanner />
 
       {/* Top Manufacturers */}
       <section className="bg-slate-50/80 dark:bg-gray-900/50 border-y border-gray-200/60 dark:border-gray-800/60 wave-divider wave-divider-bottom">
@@ -151,6 +158,14 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Made in Canada — Task 22 */}
+      <MadeInCanada />
+
+      {/* Cross-border comparison — Task 30 */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <CrossBorderComparison />
+      </section>
+
       {/* Testimonials / Social Proof */}
       <section className="bg-slate-50/80 border-y border-gray-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
@@ -160,30 +175,53 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { quote: "RoboNorth made it incredibly easy to understand the import process. We had our Unitree G1 in the lab within 4 weeks.", name: 'Dr. Sarah Chen', role: 'Robotics Lab Director, University of Toronto', avatar: 'SC' },
-              { quote: "The comparison tool saved us weeks of research. We were able to shortlist three models and make a confident decision for our warehouse pilot.", name: 'Marcus Williams', role: 'VP Operations, GTA Logistics Co.', avatar: 'MW' },
-              { quote: "Finally, a Canadian resource for robot buyers. The pricing transparency and customs guidance is exactly what we needed.", name: 'Jean-Pierre Bouchard', role: 'CTO, Montreal AI Startup', avatar: 'JB' },
+              { quote: "RoboNorth made it incredibly easy to understand the import process. We had our Unitree G1 in the lab within 4 weeks.", name: 'Dr. Sarah Chen', role: 'Robotics Lab Director, University of Toronto', avatar: 'SC', badge: '✓ Verified Buyer' },
+              { quote: "The comparison tool saved us weeks of research. We were able to shortlist three models and make a confident decision for our warehouse pilot.", name: 'Marcus Williams', role: 'VP Operations, GTA Logistics Co.', avatar: 'MW', badge: '✓ Verified Business' },
+              { quote: "Finally, a Canadian resource for robot buyers. The pricing transparency and customs guidance is exactly what we needed.", name: 'Jean-Pierre Bouchard', role: 'CTO, Montreal AI Startup', avatar: 'JB', badge: '✓ Verified Buyer' },
             ].map(t => (
-              <div key={t.name} className="bg-white rounded-2xl border border-gray-200/80 p-6">
-                <div className="flex items-center gap-1 mb-4">
+              <div key={t.name} className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 p-6">
+                {/* Video placeholder — Task 34 */}
+                <div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg mb-4 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-2">
+                      <svg className="w-5 h-5 text-blue-600 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <p className="text-[10px] text-gray-400">Video testimonial coming soon</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 mb-3">
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
                 </div>
-                <p className="text-sm text-gray-600 leading-relaxed mb-4 italic">&ldquo;{t.quote}&rdquo;</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 text-xs font-bold">
-                    {t.avatar}
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-4 italic">&ldquo;{t.quote}&rdquo;</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center text-blue-700 dark:text-blue-400 text-xs font-bold">
+                      {t.avatar}
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-gray-900 dark:text-white">{t.name}</div>
+                      <div className="text-xs text-gray-400">{t.role}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-sm font-semibold text-gray-900">{t.name}</div>
-                    <div className="text-xs text-gray-400">{t.role}</div>
-                  </div>
+                  {/* Verified badge — Task 36 */}
+                  <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 rounded-full whitespace-nowrap">{t.badge}</span>
                 </div>
               </div>
             ))}
+          </div>
+          {/* Google Reviews badge — Task 35 */}
+          <div className="mt-8 text-center">
+            <a href="https://g.page/r/robonorth/review" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl px-5 py-3 hover:shadow-md transition-shadow">
+              <span className="text-lg">⭐</span>
+              <div className="text-left">
+                <p className="text-sm font-bold text-gray-900 dark:text-white">4.9/5 on Google</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Rate us on Google Reviews →</p>
+              </div>
+            </a>
           </div>
         </div>
       </section>
@@ -257,6 +295,9 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Media mentions — Task 31 */}
+      <MediaMentions />
 
       {/* CTA Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">

@@ -67,15 +67,19 @@ export default function ExitIntentPopup() {
         </button>
 
         <div className="p-8 text-center">
-          <div className="text-4xl mb-4">🤖</div>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Wait! Don&apos;t miss out</h2>
+          <div className="text-4xl mb-3">💰</div>
+          <div className="inline-flex items-center gap-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs font-bold px-3 py-1 rounded-full mb-3">
+            LIMITED TIME OFFER
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Get $500 Off Your First Order</h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-            Join 2,800+ Canadians getting early access to new robots, exclusive pricing, and industry insights.
+            Enter your email to receive an exclusive $500 discount code — valid for any robot or parts order over $5,000.
           </p>
 
           {submitted ? (
             <div className="bg-emerald-50 dark:bg-emerald-900/30 rounded-xl p-4">
-              <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">✓ You&apos;re in! Check your inbox.</p>
+              <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">✓ Check your inbox for your $500 coupon code!</p>
+              <p className="text-xs text-emerald-600 dark:text-emerald-500 mt-1">Code: WELCOME500 — valid for 30 days</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-3">
@@ -89,11 +93,11 @@ export default function ExitIntentPopup() {
               />
               <button
                 type="submit"
-                className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-xl transition-colors"
+                className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold rounded-xl transition-colors"
               >
-                Get Early Access — It&apos;s Free
+                Get My $500 Discount →
               </button>
-              <p className="text-xs text-gray-400">No spam. Unsubscribe anytime.</p>
+              <p className="text-xs text-gray-400">No spam. Discount code sent instantly. Valid on orders over $5,000 CAD.</p>
             </form>
           )}
         </div>
