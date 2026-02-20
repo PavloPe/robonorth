@@ -25,9 +25,27 @@ export default function QuickViewModal({ robot, onClose }: QuickViewModalProps) 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
+      // Focus trap
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     document.addEventListener('keydown', handler);
     document.body.style.overflow = 'hidden';
+    // Auto-focus the modal
+    modalRef.current?.focus();
     return () => {
       document.removeEventListener('keydown', handler);
       document.body.style.overflow = '';
@@ -51,12 +69,19 @@ export default function QuickViewModal({ robot, onClose }: QuickViewModalProps) 
   ].filter(Boolean) as { label: string; value: string }[];
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Quick view: ${robot.name}`}
+    >
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" aria-hidden="true" />
       <div
         ref={modalRef}
         className="relative w-full max-w-2xl bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-fade-in-up max-h-[90vh] overflow-y-auto"
         onClick={e => e.stopPropagation()}
+        tabIndex={-1}
       >
         {/* Close button */}
         <button

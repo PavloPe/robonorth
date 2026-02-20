@@ -218,9 +218,25 @@ export default function ComparePage() {
         <CompareTable robots={selectedRobots} />
       </div>
 
-      {/* Tip */}
+      {/* Share comparison URL + Tip */}
+      {selectedIds.length >= 2 && (
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-4">
+          <button
+            onClick={() => {
+              const url = `${window.location.origin}/compare?robots=${selectedIds.join(',')}`;
+              navigator.clipboard.writeText(url).then(() => {
+                alert('Comparison link copied to clipboard!');
+              });
+            }}
+            className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 font-medium flex items-center gap-1"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z" /></svg>
+            Share this comparison
+          </button>
+        </div>
+      )}
       {selectedIds.length > 0 && selectedIds.length < 4 && (
-        <p className="text-center text-xs text-gray-400 mt-4">
+        <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-4">
           💡 Tip: Add more robots to see how they stack up. You can compare up to 4 models.
         </p>
       )}

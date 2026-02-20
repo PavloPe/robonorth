@@ -137,8 +137,8 @@ export default function GlobalSearch() {
 
       {/* Modal overlay */}
       {open && (
-        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]" onClick={() => setOpen(false)}>
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]" onClick={() => setOpen(false)} role="dialog" aria-modal="true" aria-label="Search RoboNorth">
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" aria-hidden="true" />
           <div
             className="relative w-full max-w-lg mx-4 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-fade-in-up"
             onClick={e => e.stopPropagation()}
@@ -150,12 +150,16 @@ export default function GlobalSearch() {
               </svg>
               <input
                 ref={inputRef}
-                type="text"
+                type="search"
                 placeholder="Search robots, brands, parts, articles..."
                 value={query}
                 onChange={e => search(e.target.value)}
                 onKeyDown={handleKeyDown}
                 className="flex-1 py-4 text-sm bg-transparent text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none"
+                aria-label="Search robots, brands, parts, and articles"
+                role="combobox"
+                aria-expanded={results.length > 0}
+                aria-autocomplete="list"
               />
               <kbd className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded font-mono">ESC</kbd>
             </div>

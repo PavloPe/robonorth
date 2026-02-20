@@ -14,6 +14,7 @@ import RobotDetailTracker from '@/components/ui/RobotDetailTracker';
 import ShareButton from '@/components/ui/ShareButton';
 import FavoritesButton from '@/components/ui/FavoritesButton';
 import NotifyMeButton from '@/components/ui/NotifyMeButton';
+import DeliveryEstimator from '@/components/ui/DeliveryEstimator';
 
 const availabilityVariant: Record<string, 'success' | 'warning' | 'info' | 'default'> = {
   shipping: 'success', preorder: 'info', pilot: 'warning', announced: 'default', prototype: 'default',
@@ -300,6 +301,17 @@ export default async function RobotDetailPage({ params }: { params: Promise<{ sl
       ) : (
         <VideoEmbed robotName={robot.name} manufacturer={robot.manufacturer} />
       )}
+
+      {/* Delivery Estimator */}
+      <section className="mb-16">
+        <div className="mb-8">
+          <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">Delivery</p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Estimated Delivery</h2>
+        </div>
+        <div className="max-w-md">
+          <DeliveryEstimator availability={robot.availability} country={robot.country} canadaAvailable={robot.canadaAvailable} />
+        </div>
+      </section>
 
       {/* FAQ Section */}
       {extras?.faqs && extras.faqs.length > 0 && (
