@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getAllRobotSlugs, getAllManufacturerSlugs } from '@/lib/queries';
+import { getAllBlogPosts } from '@/data/blog';
 
 const BASE_URL = 'https://robonorth.ca';
 
@@ -8,6 +9,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getAllRobotSlugs(),
     getAllManufacturerSlugs(),
   ]);
+
+  const blogPosts = getAllBlogPosts();
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: BASE_URL, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
@@ -22,6 +25,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/glossary`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/calculator`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/use-cases`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/quiz`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${BASE_URL}/contact`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/careers`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.4 },
+    { url: `${BASE_URL}/partners`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${BASE_URL}/financing`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${BASE_URL}/success-stories`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${BASE_URL}/api-docs`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.4 },
+    { url: `${BASE_URL}/changelog`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.3 },
     { url: `${BASE_URL}/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE_URL}/terms`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE_URL}/warranty`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
@@ -42,7 +53,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  // Category pages
   const categoryPages: MetadataRoute.Sitemap = ['consumer', 'enterprise', 'research', 'announced'].map(cat => ({
     url: `${BASE_URL}/robots/category/${cat}`,
     lastModified: new Date(),
@@ -50,7 +60,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  // Use case pages
   const useCasePages: MetadataRoute.Sitemap = [
     'education', 'research', 'manufacturing', 'home-assistance', 'healthcare', 'entertainment',
   ].map(uc => ({
@@ -60,16 +69,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  const blogPosts: MetadataRoute.Sitemap = [
-    'the-rise-of-humanoid-robots-in-canadian-industry',
-    'top-5-humanoid-robots-available-in-canada-2026',
-    'how-canadian-businesses-are-adopting-humanoid-robots',
-  ].map(slug => ({
-    url: `${BASE_URL}/blog/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly',
+  const blogPages: MetadataRoute.Sitemap = blogPosts.map(post => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));
 
-  return [...staticPages, ...robotPages, ...manufacturerPages, ...categoryPages, ...useCasePages, ...blogPosts];
+  return [...staticPages, ...robotPages, ...manufacturerPages, ...categoryPages, ...useCasePages, ...blogPages];
 }

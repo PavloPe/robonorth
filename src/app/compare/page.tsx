@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import type { Robot } from '@/types';
 import CompareTable from '@/components/ui/CompareTable';
+import RadarChart from '@/components/ui/RadarChart';
 
 const availabilityLabels: Record<string, string> = {
   shipping: 'In Stock', preorder: 'Pre-Order', pilot: 'Pilot',
@@ -205,8 +206,15 @@ export default function ComparePage() {
         )}
       </div>
 
+      {/* Radar Chart */}
+      {selectedRobots.length >= 2 && (
+        <div className="mb-6">
+          <RadarChart robots={selectedRobots} />
+        </div>
+      )}
+
       {/* Compare table */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm">
         <CompareTable robots={selectedRobots} />
       </div>
 

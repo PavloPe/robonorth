@@ -7,6 +7,7 @@ import { toRobot } from '@/lib/queries';
 import { manufacturerJsonLd } from '@/lib/jsonld';
 import RobotCard from '@/components/ui/RobotCard';
 import Badge from '@/components/ui/Badge';
+import { manufacturerStories } from '@/data/manufacturer-stories';
 
 // Manufacturer verification status (placeholder — eventually from DB)
 const verificationStatus: Record<string, { level: 'partner' | 'reseller' | 'verified' | 'listed'; note?: string }> = {
@@ -107,6 +108,21 @@ export default async function ManufacturerDetailPage({ params }: { params: Promi
         )}
         <p className="text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl">{manufacturer.description}</p>
       </div>
+
+      {/* Founding Story */}
+      {manufacturerStories[slug] && (
+        <section className="mb-12">
+          <div className="mb-6">
+            <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-2">History</p>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">The {manufacturer.name} Story</h2>
+          </div>
+          <div className="bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700/80 rounded-2xl p-6">
+            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+              {manufacturerStories[slug]}
+            </p>
+          </div>
+        </section>
+      )}
 
       <section>
         <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
