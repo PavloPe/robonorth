@@ -40,6 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/tco-calculator`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/roi-calculator`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/calculator`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${BASE_URL}/import-calculator`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
 
     // Commerce pages
     { url: `${BASE_URL}/demo`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
@@ -141,6 +142,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
+  // French language pages
+  const frenchPages: MetadataRoute.Sitemap = [
+    { url: `${BASE_URL}/fr`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${BASE_URL}/fr/robots`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${BASE_URL}/fr/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+  ];
+
   return [
     ...staticPages,
     ...robotPages,
@@ -151,5 +159,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...blogPages,
     ...comparisonPages,
     ...industryPages,
+    ...frenchPages,
   ];
 }
