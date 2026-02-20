@@ -5,8 +5,8 @@ import { useIntersectionObserver, useCountUp } from '@/hooks/useIntersectionObse
 const stats = [
   { end: 32, suffix: '+', label: 'Robots Cataloged', icon: '🤖' },
   { end: 21, suffix: '+', label: 'Manufacturers', icon: '🏭' },
-  { end: 4200, suffix: '', label: 'Canadians Exploring', icon: '🇨🇦' },
-  { end: 100, suffix: '%', label: 'Free to Browse', icon: '💰' },
+  { end: 71, suffix: '+', label: 'Parts & Components', icon: '🔧' },
+  { end: 10, suffix: '', label: 'Canadian Provinces', icon: '🇨🇦' },
 ];
 
 function StatItem({ end, suffix, label, icon, isVisible }: {
@@ -31,9 +31,9 @@ export default function StatsCounter() {
     <section ref={ref} className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
       <div className="bg-gradient-to-br from-slate-50 to-blue-50/50 dark:from-gray-900 dark:to-blue-950/20 rounded-3xl border border-gray-200/60 dark:border-gray-700/60 p-10 sm:p-14">
         <div className="text-center mb-10">
-          <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2">Trusted</p>
+          <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-2">By the Numbers</p>
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-            Trusted by Thousands of Canadians
+            Canada&apos;s Most Comprehensive Robot Catalog
           </h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">

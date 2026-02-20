@@ -89,10 +89,12 @@ export default function RobotCard({ robot }: { robot: Robot }) {
           <div className="absolute inset-0 bg-dot-pattern opacity-50" />
           
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative">
-              <div className="text-7xl opacity-30 group-hover:scale-110 group-hover:opacity-40 transition-all duration-500">🤖</div>
-              <div className="absolute -bottom-1 -right-1 text-lg">
+            <div className="relative text-center px-4">
+              <div className="text-5xl opacity-20 group-hover:scale-110 transition-all duration-500 mb-2">
                 {categoryIcons[robot.category] || '🤖'}
+              </div>
+              <div className="text-[10px] font-bold text-gray-400/60 dark:text-gray-500/60 uppercase tracking-wider">
+                {robot.manufacturer}
               </div>
             </div>
           </div>
