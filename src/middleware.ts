@@ -141,12 +141,13 @@ export function middleware(request: NextRequest) {
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",
-    "upgrade-insecure-requests",
+    // Only upgrade insecure requests when HTTPS is available
+    ...(process.env.ENABLE_HTTPS === 'true' ? ["upgrade-insecure-requests"] : []),
   ].join('; ');
   response.headers.set('Content-Security-Policy', csp);
 
-  // HSTS for production
-  if (process.env.NODE_ENV === 'production') {
+  // HSTS only when HTTPS is actually configured
+  if (process.env.ENABLE_HTTPS === 'true') {
     response.headers.set(
       'Strict-Transport-Security',
       'max-age=31536000; includeSubDomains; preload'
