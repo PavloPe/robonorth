@@ -41,6 +41,7 @@ const columns = [
     title: 'Resources',
     links: [
       { label: 'Blog', href: '/blog' },
+      { label: 'Why RoboNorth?', href: '/why-robonorth' },
       { label: 'University Partners', href: '/universities' },
       { label: 'Education Pricing', href: '/education-pricing' },
       { label: 'Certification Course', href: '/certification' },
@@ -52,6 +53,7 @@ const columns = [
     title: 'Company',
     links: [
       { label: 'About Us', href: '/about' },
+      { label: 'Why Humanoid-First?', href: '/why-humanoid-first' },
       { label: 'Meet the Team', href: '/team' },
       { label: 'Become a Seller', href: '/sell' },
       { label: 'Contact', href: '/contact' },

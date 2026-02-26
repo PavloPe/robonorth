@@ -13,7 +13,8 @@ export type RobotCategory =
   | 'consumer'
   | 'enterprise'
   | 'research'
-  | 'announced';
+  | 'announced'
+  | 'quadruped';
 
 export interface RobotSpecs {
   height: number | null;

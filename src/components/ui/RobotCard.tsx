@@ -21,6 +21,7 @@ const categoryGradients: Record<string, string> = {
   enterprise: 'from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30',
   research: 'from-purple-50 to-pink-50 dark:from-purple-950/30 dark:to-pink-950/30',
   announced: 'from-slate-50 to-gray-100 dark:from-slate-900/30 dark:to-gray-900/30',
+  quadruped: 'from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30',
 };
 
 const categoryIcons: Record<string, string> = {
@@ -28,6 +29,7 @@ const categoryIcons: Record<string, string> = {
   enterprise: '🏭',
   research: '🔬',
   announced: '📢',
+  quadruped: '🐕',
 };
 
 // Robots added "recently" (placeholder — in production, check date field)

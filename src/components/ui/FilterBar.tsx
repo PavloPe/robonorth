@@ -43,6 +43,7 @@ export default function FilterBar({ filters, onChange }: FilterBarProps) {
           <option value="consumer">Consumer</option>
           <option value="enterprise">Enterprise</option>
           <option value="research">Research</option>
+          <option value="quadruped">Quadruped</option>
           <option value="announced">Announced</option>
         </select>
 

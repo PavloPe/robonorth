@@ -46,6 +46,7 @@ const categoryLabels: Record<string, string> = {
   enterprise: 'Enterprise',
   research: 'Research',
   announced: 'Announced',
+  quadruped: 'Quadruped',
 };
 
 function dbRobotToRobot(r: {

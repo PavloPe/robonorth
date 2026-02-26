@@ -96,7 +96,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const categoryPages: MetadataRoute.Sitemap = ['consumer', 'enterprise', 'research', 'announced'].map(cat => ({
+  const categoryPages: MetadataRoute.Sitemap = ['consumer', 'enterprise', 'research', 'announced', 'quadruped'].map(cat => ({
     url: `${BASE_URL}/robots/category/${cat}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',

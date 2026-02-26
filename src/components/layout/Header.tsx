@@ -12,6 +12,7 @@ const navLinks = [
   { href: '/manufacturers', label: 'Brands' },
   { href: '/parts', label: 'Parts' },
   { href: '/compare', label: 'Compare' },
+  { href: '/why-humanoid-first', label: 'Why Humanoid?' },
   { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
 ];

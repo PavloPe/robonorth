@@ -15,7 +15,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'Founded by Wang Xingxing in Hangzhou, Unitree is the world\'s leading affordable robotics company. Originally known for quadruped robots (Go1, Go2, B2), Unitree now offers the broadest humanoid lineup spanning from the $5,900 R1 to the $150K H1, shipping to over 30 countries.',
     website: 'https://www.unitree.com',
-    robotIds: ['unitree-r1', 'unitree-g1', 'unitree-h1', 'unitree-h1-2', 'unitree-h2'],
+    robotIds: ['unitree-r1', 'unitree-g1', 'unitree-h1', 'unitree-h1-2', 'unitree-h2', 'unitree-go2', 'unitree-b2'],
     imageUrl: '/images/manufacturers/unitree-robotics.jpg',
     featured: true,
   },
@@ -75,7 +75,7 @@ export const manufacturers: Manufacturer[] = [
     description:
       'The iconic robotics company founded at MIT, now owned by Hyundai Motor Group. Boston Dynamics pioneered dynamic legged locomotion and continues to set the benchmark with the all-electric Atlas. Their Spot and Stretch robots are commercially deployed worldwide.',
     website: 'https://www.bostondynamics.com',
-    robotIds: ['boston-dynamics-atlas'],
+    robotIds: ['boston-dynamics-atlas', 'boston-dynamics-spot'],
     imageUrl: '/images/manufacturers/boston-dynamics.jpg',
     featured: true,
   },

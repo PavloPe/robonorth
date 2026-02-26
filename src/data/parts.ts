@@ -112,6 +112,18 @@ export const partCategories: PartCategory[] = [
           'Extended-range stereo depth camera with improved accuracy. 1280×800 depth at 90 fps, 87°×58° FOV, ideal range 0.6–6m. 2× the range and accuracy of D435 series. (~$370 USD)',
       },
       {
+        name: 'Unitree LiDAR L1',
+        priceRange: '$349 CAD',
+        description:
+          'Compact 3D LiDAR for Unitree quadruped and humanoid robots. 360° scanning, 90m range, only 59g. The most affordable robot-grade LiDAR on the market.',
+      },
+      {
+        name: 'Unitree LiDAR L2',
+        priceRange: '$587 CAD',
+        description:
+          'Advanced 3D LiDAR with 200m range and 240,000 pts/s. Designed for outdoor mapping and SLAM on mobile robots. Drop-in ROS 2 support.',
+      },
+      {
         name: 'Livox Mid-360 3D LiDAR',
         priceRange: '$1,035–$1,100 CAD',
         description:
@@ -205,9 +217,9 @@ export const partCategories: PartCategory[] = [
     popularItems: [
       {
         name: 'Unitree Go2 Battery Pack',
-        priceRange: '$690–$700 CAD',
+        priceRange: '$700–$980 CAD',
         description:
-          'Official replacement battery for Unitree Go2 quadruped robot. High energy density lithium-ion pack with integrated protection circuitry. Drop-in replacement. ($500 USD from Unitree)',
+          'Official replacement battery for Unitree Go2 quadruped robot. High energy density lithium-ion pack with integrated BMS. Price varies by Go2 variant (Air/Pro/EDU). Hot-swappable for quick field replacement.',
       },
       {
         name: 'Unitree Go2 Quick Charger',
@@ -332,6 +344,12 @@ export const partCategories: PartCategory[] = [
           'Open-source 16-DOF anthropomorphic robot hand using off-the-shelf Dynamixel servos. Designed for research in dexterous manipulation and sim-to-real transfer.',
       },
       {
+        name: 'Unitree Z1 Robotic Arm',
+        priceRange: '$22,398 CAD',
+        description:
+          '6-DOF lightweight robotic arm for Unitree quadrupeds (Go2, B2). 5 kg payload, ±0.1mm repeatability, integrated gripper. Enables mobile manipulation with full ROS 2 SDK.',
+      },
+      {
         name: 'ATI QC-11 Robotic Tool Changer',
         priceRange: '$2,200–$3,000 CAD',
         description:
@@ -412,10 +430,10 @@ export const partCategories: PartCategory[] = [
           'Rugged all-terrain unmanned ground vehicle with 100kg payload. 2 m/s max speed, 4-12h runtime, ROS 2 Jazzy native. Modular payload interface for LiDAR, cameras, and manipulators. (Canadian — Clearpath, Kitchener ON)',
       },
       {
-        name: 'Unitree Go2 Controller',
-        priceRange: '$415–$420 CAD',
+        name: 'Unitree Go2 Wireless Controller',
+        priceRange: '$420 CAD',
         description:
-          'Official wireless controller for Unitree Go2 quadruped robot. Ergonomic design with dedicated robot control buttons and dual joysticks. ($300 USD from Unitree)',
+          'Official wireless controller for Unitree Go2 quadruped robot. Ergonomic design with dedicated robot control buttons, dual joysticks, and 100m+ wireless range.',
       },
       {
         name: 'ROBOTIS TurtleBot3 Waffle Pi',
