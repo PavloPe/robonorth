@@ -89,7 +89,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 mb-12">
           {columns.map(col => (
             <div key={col.title}>
-              <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">{col.title}</h4>
+              <div className="text-xs font-semibold text-white uppercase tracking-wider mb-4" role="heading" aria-level={6}>{col.title}</div>
               <ul className="space-y-2.5">
                 {col.links.map(link => (
                   <li key={link.label}>
@@ -104,7 +104,7 @@ export default function Footer() {
 
           {/* Newsletter — Task 46 */}
           <div>
-            <h4 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">Stay Updated</h4>
+            <div className="text-xs font-semibold text-white uppercase tracking-wider mb-4" role="heading" aria-level={6}>Stay Updated</div>
             <p className="text-sm text-slate-400 mb-2">Join 2,000+ Canadian robotics professionals.</p>
             <p className="text-xs text-slate-500 mb-4">Get our free Robot Buyer&apos;s Checklist + weekly insights.</p>
             {newsletterStatus === 'success' ? (
