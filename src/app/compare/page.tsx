@@ -15,11 +15,15 @@ export default function ComparePage() {
   const [allRobots, setAllRobots] = useState<Robot[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetch('/api/robots')
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error(`Failed to load robots (${r.status})`);
+        return r.json();
+      })
       .then((data: Robot[]) => {
         setAllRobots(data);
         setLoading(false);
@@ -31,6 +35,11 @@ export default function ComparePage() {
           const ids = robotsParam.split(',').filter(id => data.some((r: Robot) => r.id === id));
           setSelectedIds(ids.slice(0, 4));
         }
+      })
+      .catch((err: Error) => {
+        console.error('[RoboNorth] Failed to fetch robots:', err);
+        setError('Could not load robots. Please refresh the page.');
+        setLoading(false);
       });
   }, []);
 
@@ -91,6 +100,14 @@ export default function ComparePage() {
           Select 2–4 humanoid robots to compare specs, pricing, and availability. Best values are highlighted automatically.
         </p>
       </div>
+
+      {/* Error state */}
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 flex items-center gap-2">
+          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+          {error}
+        </div>
+      )}
 
       {/* Quick presets */}
       {selectedIds.length === 0 && !loading && (

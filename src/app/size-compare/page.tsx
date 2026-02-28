@@ -10,10 +10,14 @@ export default function SizeComparePage() {
   const [robots, setRobots] = useState<Robot[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('/api/robots')
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error(`Failed to load robots (${r.status})`);
+        return r.json();
+      })
       .then((data: Robot[]) => {
         setRobots(data.filter(r => r.specs.height && r.specs.height > 0));
         setLoading(false);
@@ -21,6 +25,11 @@ export default function SizeComparePage() {
         const params = new URLSearchParams(window.location.search);
         const ids = params.get('robots')?.split(',') || ['unitree-g1', 'unitree-h1', 'boston-dynamics-atlas'];
         setSelected(ids.filter(id => data.some(r => r.id === id)));
+      })
+      .catch((err: Error) => {
+        console.error('[RoboNorth] Failed to fetch robots:', err);
+        setError('Could not load robots. Please refresh the page.');
+        setLoading(false);
       });
   }, []);
 
@@ -39,6 +48,15 @@ export default function SizeComparePage() {
   };
 
   if (loading) return <div className="max-w-5xl mx-auto px-4 py-16 text-center text-gray-400">Loading robots...</div>;
+
+  if (error) return (
+    <div className="max-w-5xl mx-auto px-4 py-16 text-center">
+      <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 inline-flex items-center gap-2">
+        <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+        {error}
+      </div>
+    </div>
+  );
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
