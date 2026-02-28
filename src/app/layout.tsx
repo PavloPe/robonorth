@@ -2,17 +2,11 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import BackToTop from '@/components/ui/BackToTop';
-import CookieConsent from '@/components/ui/CookieConsent';
-import ExitIntentPopup from '@/components/ui/ExitIntentPopup';
-import ServiceWorkerRegistration from '@/components/ui/ServiceWorkerRegistration';
+import ClientShell from '@/components/layout/ClientShell';
 import { CompareProvider } from '@/components/ui/CompareBar';
 import { ToastProvider } from '@/components/ui/Toast';
 import { InquiryBasketProvider } from '@/components/ui/InquiryBasketProvider';
-import InquiryBasketDrawer from '@/components/ui/InquiryBasketDrawer';
 import TopProgressBar from '@/components/ui/TopProgressBar';
-import LiveChatWidget from '@/components/ui/LiveChatWidget';
-import WebVitals from '@/components/ui/WebVitals';
 import { websiteJsonLd, organizationJsonLd } from '@/lib/jsonld';
 import TrustBadges from '@/components/ui/TrustBadges';
 import WinterShippingBanner from '@/components/ui/WinterShippingBanner';
@@ -146,13 +140,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
         <TrustBadges />
         <Footer />
-        <BackToTop />
-        <CookieConsent />
-        <ExitIntentPopup />
-        <LiveChatWidget />
-        <InquiryBasketDrawer />
-        <WebVitals />
-        <ServiceWorkerRegistration />
+        <ClientShell />
         </InquiryBasketProvider>
         </CompareProvider>
         </ToastProvider>

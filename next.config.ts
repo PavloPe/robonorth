@@ -30,6 +30,27 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Generate ETags for caching
   generateEtags: true,
+  // Static asset caching headers
+  headers: async () => [
+    {
+      source: '/_next/static/:path*',
+      headers: [
+        { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+      ],
+    },
+    {
+      source: '/images/:path*',
+      headers: [
+        { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+      ],
+    },
+    {
+      source: '/icons/:path*',
+      headers: [
+        { key: 'Cache-Control', value: 'public, max-age=2592000, immutable' },
+      ],
+    },
+  ],
 };
 
 export default nextConfig;
