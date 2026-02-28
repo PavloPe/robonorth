@@ -27,13 +27,16 @@ function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
   return { allowed: entry.count <= RATE_LIMIT, remaining };
 }
 
-// Cleanup old entries periodically (avoid memory leak)
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, val] of rateLimitMap.entries()) {
-    if (now > val.resetAt) rateLimitMap.delete(key);
+// Lazy cleanup: purge stale entries when map grows beyond threshold
+const CLEANUP_THRESHOLD = 1000;
+function cleanupIfNeeded() {
+  if (rateLimitMap.size > CLEANUP_THRESHOLD) {
+    const now = Date.now();
+    for (const [key, val] of rateLimitMap.entries()) {
+      if (now > val.resetAt) rateLimitMap.delete(key);
+    }
   }
-}, 5 * 60 * 1000); // every 5 minutes
+}
 
 // Redirect map for old/moved pages (Improvement #40)
 const redirects: Record<string, string> = {
@@ -54,6 +57,22 @@ const redirects: Record<string, string> = {
   '/maintenance': '/support-plans',
 };
 
+// Pre-compute CSP header at module load (constant across requests)
+const CSP_HEADER = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com",
+  "img-src 'self' data: https: blob:",
+  "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com",
+  "frame-src 'self' https://www.youtube.com https://youtube.com",
+  "media-src 'self' https:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  ...(process.env.ENABLE_HTTPS === 'true' ? ["upgrade-insecure-requests"] : []),
+].join('; ');
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -69,6 +88,7 @@ export function middleware(request: NextRequest) {
 
   // ── Rate Limiting for API routes (Improvement #34) ───────────────────
   if (pathname.startsWith('/api/')) {
+    cleanupIfNeeded();
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
                request.headers.get('x-real-ip') || 
                'unknown';
@@ -127,24 +147,8 @@ export function middleware(request: NextRequest) {
   response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
   response.headers.set('Cross-Origin-Resource-Policy', 'same-origin');
 
-  // CSP — Improvement #39: nonce-based would require per-request nonce injection
-  // For SSG/static pages we use hash-based CSP instead
-  const csp = [
-    "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "font-src 'self' https://fonts.gstatic.com",
-    "img-src 'self' data: https: blob:",
-    "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com",
-    "frame-src 'self' https://www.youtube.com https://youtube.com",
-    "media-src 'self' https:",
-    "object-src 'none'",
-    "base-uri 'self'",
-    "form-action 'self'",
-    // Only upgrade insecure requests when HTTPS is available
-    ...(process.env.ENABLE_HTTPS === 'true' ? ["upgrade-insecure-requests"] : []),
-  ].join('; ');
-  response.headers.set('Content-Security-Policy', csp);
+  // CSP — hoisted to module scope for performance (see CSP_HEADER above)
+  response.headers.set('Content-Security-Policy', CSP_HEADER);
 
   // HSTS only when HTTPS is actually configured
   if (process.env.ENABLE_HTTPS === 'true') {

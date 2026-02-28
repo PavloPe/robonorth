@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { robots } from '@/data/robots';
 import { manufacturers } from '@/data/manufacturers';
@@ -47,8 +47,10 @@ export default function GlobalSearch() {
     }
   }, [open]);
 
-  const search = useCallback((q: string) => {
-    setQuery(q);
+  // Debounce search to avoid re-filtering on every keystroke
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const performSearch = useCallback((q: string) => {
     if (!q.trim()) { setResults([]); return; }
     const lower = q.toLowerCase();
     const res: SearchResult[] = [];
@@ -110,6 +112,18 @@ export default function GlobalSearch() {
 
     setResults(res);
     setSelectedIndex(0);
+  }, []);
+
+  const search = useCallback((q: string) => {
+    setQuery(q);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (!q.trim()) { setResults([]); return; }
+    debounceRef.current = setTimeout(() => performSearch(q), 150);
+  }, [performSearch]);
+
+  // Cleanup debounce timer on unmount
+  useEffect(() => {
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
   }, []);
 
   const navigate = (href: string) => {
