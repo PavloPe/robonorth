@@ -106,7 +106,7 @@ export default function BasketInquiryForm() {
                       <p className="text-sm font-semibold text-gray-900 dark:text-white mt-1 line-clamp-2">{item.itemName}</p>
                       {item.price && <p className="text-xs text-gray-500 dark:text-gray-400">{item.price}</p>}
                     </div>
-                    <button onClick={() => removeItem(item.itemId)} className="text-gray-400 hover:text-red-500 p-1 shrink-0">
+                    <button onClick={() => removeItem(item.itemId)} className="text-gray-400 hover:text-red-500 p-1 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 rounded" aria-label={`Remove ${item.itemName} from basket`}>
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                       </svg>

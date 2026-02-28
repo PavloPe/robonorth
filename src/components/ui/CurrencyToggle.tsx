@@ -57,8 +57,9 @@ export default function CurrencyToggle() {
   return (
     <button
       onClick={toggle}
-      className="flex items-center gap-1 px-2 py-1.5 text-xs font-semibold rounded-lg border transition-colors bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-gray-300 dark:hover:border-gray-600"
+      className="flex items-center gap-1 px-2 py-1.5 text-xs font-semibold rounded-lg border transition-colors bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:border-gray-300 dark:hover:border-gray-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
       title={`Switch to ${currency === 'CAD' ? 'USD' : 'CAD'}`}
+      aria-label={`Currency: ${currency}. Switch to ${currency === 'CAD' ? 'USD' : 'CAD'}`}
     >
       {currency === 'CAD' ? '🇨🇦' : '🇺🇸'}
       <span>{currency}</span>

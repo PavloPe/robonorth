@@ -112,11 +112,17 @@ export default function CustomerReviews({ robotId }: { robotId: string }) {
           <p className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Write a Review</p>
           <p className="text-xs text-gray-400 mb-4">Reviews are moderated before publishing. Only verified purchases will be marked.</p>
           <div className="space-y-3">
-            <input type="text" placeholder="Your name" className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white" />
-            <textarea placeholder="Write your review..." rows={3} className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white resize-none" />
+            <div>
+              <label htmlFor="review-author" className="sr-only">Your name</label>
+              <input id="review-author" type="text" placeholder="Your name" className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" />
+            </div>
+            <div>
+              <label htmlFor="review-text" className="sr-only">Your review</label>
+              <textarea id="review-text" placeholder="Write your review..." rows={3} className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white resize-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500" />
+            </div>
             <div className="flex gap-2">
-              <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors">Submit Review</button>
-              <button onClick={() => setShowForm(false)} className="px-4 py-2 text-gray-500 text-sm">Cancel</button>
+              <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2">Submit Review</button>
+              <button onClick={() => setShowForm(false)} className="px-4 py-2 text-gray-500 text-sm hover:text-gray-700 dark:hover:text-gray-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 rounded-lg">Cancel</button>
             </div>
           </div>
         </div>

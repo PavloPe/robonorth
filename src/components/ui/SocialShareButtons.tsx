@@ -45,8 +45,9 @@ export default function SocialShareButtons({ title, variant = 'horizontal' }: Pr
         <button
           key={btn.name}
           onClick={btn.action}
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors border border-gray-200 dark:border-gray-700"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors border border-gray-200 dark:border-gray-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           title={btn.name}
+          aria-label={`Share on ${btn.name}`}
         >
           <span>{btn.icon}</span>
           {btn.name}
