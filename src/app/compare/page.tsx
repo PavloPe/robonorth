@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import Link from 'next/link';
 import type { Robot } from '@/types';
 import CompareTable from '@/components/ui/CompareTable';
-import RadarChart from '@/components/ui/RadarChart';
+
+/* Lazy-load RadarChart — only rendered when robots are selected */
+const RadarChart = lazy(() => import('@/components/ui/RadarChart'));
 
 const availabilityLabels: Record<string, string> = {
   shipping: 'In Stock', preorder: 'Pre-Order', pilot: 'Pilot',
@@ -227,7 +229,9 @@ export default function ComparePage() {
       {/* Radar Chart */}
       {selectedRobots.length >= 2 && (
         <div className="mb-6">
-          <RadarChart robots={selectedRobots} />
+          <Suspense fallback={<div className="h-[250px] bg-gray-100 dark:bg-gray-800 rounded-xl animate-pulse" />}>
+            <RadarChart robots={selectedRobots} />
+          </Suspense>
         </div>
       )}
 

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { getRobotBySlug, getRelatedRobots, getAllRobotSlugs, getCompatibleParts } from '@/lib/queries';
 import { robotJsonLd, faqJsonLd, breadcrumbJsonLd } from '@/lib/jsonld';
 import { robotExtras } from '@/data/robot-extras';
@@ -17,15 +18,17 @@ import SocialShareButtons from '@/components/ui/SocialShareButtons';
 import FavoritesButton from '@/components/ui/FavoritesButton';
 import NotifyMeButton from '@/components/ui/NotifyMeButton';
 import DeliveryEstimator from '@/components/ui/DeliveryEstimator';
-import CustomerReviews from '@/components/ui/CustomerReviews';
-import SizeComparison from '@/components/ui/SizeComparison';
 import PriceAlertSignup from '@/components/ui/PriceAlertSignup';
 import AddToBasketButton from '@/components/ui/AddToBasketButton';
 import PartCard from '@/components/ui/PartCard';
-import LiveInquiryWidget from '@/components/ui/LiveInquiryWidget';
 import FinancingCalculator from '@/components/ui/FinancingCalculator';
 import FleetDiscount from '@/components/ui/FleetDiscount';
-import ThreeDViewerPlaceholder from '@/components/ui/ThreeDViewerPlaceholder';
+
+/* Dynamically import below-fold heavy client components — code-split into separate chunks */
+const CustomerReviews = dynamic(() => import('@/components/ui/CustomerReviews'));
+const SizeComparison = dynamic(() => import('@/components/ui/SizeComparison'));
+const ThreeDViewerPlaceholder = dynamic(() => import('@/components/ui/ThreeDViewerPlaceholder'));
+const LiveInquiryWidget = dynamic(() => import('@/components/ui/LiveInquiryWidget'));
 
 const availabilityVariant: Record<string, 'success' | 'warning' | 'info' | 'default'> = {
   shipping: 'success', preorder: 'info', pilot: 'warning', announced: 'default', prototype: 'default',
