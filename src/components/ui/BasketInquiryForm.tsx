@@ -152,13 +152,13 @@ export default function BasketInquiryForm() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="phone" className={labelClass}>Phone <span className="text-gray-400 font-normal">(optional)</span></label>
+                <label htmlFor="phone" className={labelClass}>Phone <span className="text-gray-500 dark:text-gray-400 font-normal">(optional)</span></label>
                 <input id="phone" type="tel" value={formData.phone}
                   onChange={e => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                   className={inputClass} placeholder="+1 (403) 555-0123" />
               </div>
               <div>
-                <label htmlFor="company" className={labelClass}>Company <span className="text-gray-400 font-normal">(optional)</span></label>
+                <label htmlFor="company" className={labelClass}>Company <span className="text-gray-500 dark:text-gray-400 font-normal">(optional)</span></label>
                 <input id="company" type="text" value={formData.company}
                   onChange={e => setFormData(prev => ({ ...prev, company: e.target.value }))}
                   className={inputClass} placeholder="Company name" />
@@ -186,7 +186,7 @@ export default function BasketInquiryForm() {
               </div>
             </div>
             <div>
-              <label htmlFor="message" className={labelClass}>Message / Notes <span className="text-gray-400 font-normal">(optional)</span></label>
+              <label htmlFor="message" className={labelClass}>Message / Notes <span className="text-gray-500 dark:text-gray-400 font-normal">(optional)</span></label>
               <textarea id="message" rows={4} value={formData.message}
                 onChange={e => setFormData(prev => ({ ...prev, message: e.target.value }))}
                 className={`${inputClass} resize-none`} placeholder="Any specific requirements, questions, or notes for our team..." />

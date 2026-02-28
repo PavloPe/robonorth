@@ -53,7 +53,7 @@ export default function CustomerReviews({ robotId }: { robotId: string }) {
           <div className="text-center">
             <p className="text-4xl font-bold text-gray-900 dark:text-white">{avgRating.toFixed(1)}</p>
             <StarRating rating={Math.round(avgRating)} size="md" />
-            <p className="text-xs text-gray-400 mt-1">{reviews.length} reviews</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{reviews.length} reviews</p>
           </div>
           <div className="flex-1 space-y-1.5">
             {[5, 4, 3, 2, 1].map(star => {
@@ -65,7 +65,7 @@ export default function CustomerReviews({ robotId }: { robotId: string }) {
                   <div className="flex-1 h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
                     <div className="h-full bg-amber-400 rounded-full transition-all" style={{ width: `${pct}%` }} />
                   </div>
-                  <span className="text-gray-400 w-6 text-right">{count}</span>
+                  <span className="text-gray-500 dark:text-gray-400 w-6 text-right">{count}</span>
                 </div>
               );
             })}
@@ -89,7 +89,7 @@ export default function CustomerReviews({ robotId }: { robotId: string }) {
                       <span className="text-[9px] bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-1.5 py-0.5 rounded-md font-semibold">✓ Verified</span>
                     )}
                   </div>
-                  <p className="text-[10px] text-gray-400">{review.role} · {review.date}</p>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400">{review.role} · {review.date}</p>
                 </div>
               </div>
               <StarRating rating={review.rating} />
@@ -110,7 +110,7 @@ export default function CustomerReviews({ robotId }: { robotId: string }) {
       ) : (
         <div className="mt-4 bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-700/80 rounded-xl p-5">
           <p className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Write a Review</p>
-          <p className="text-xs text-gray-400 mb-4">Reviews are moderated before publishing. Only verified purchases will be marked.</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">Reviews are moderated before publishing. Only verified purchases will be marked.</p>
           <div className="space-y-3">
             <div>
               <label htmlFor="review-author" className="sr-only">Your name</label>
