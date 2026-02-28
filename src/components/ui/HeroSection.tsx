@@ -2,65 +2,82 @@ import Button from './Button';
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 text-white">
-      {/* Background grid pattern */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-30" />
-      {/* Improvement #3: Gradient mesh background */}
-      <div className="absolute inset-0 gradient-mesh-hero" />
+    <section className="relative overflow-hidden bg-slate-950 text-white">
+      {/* Subtle noise texture via CSS */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
       
-      {/* Gradient orbs */}
-      <div className="absolute top-[-20%] right-[-10%] w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-3xl animate-pulse-glow" />
-      <div className="absolute bottom-[-20%] left-[-10%] w-[400px] h-[400px] bg-cyan-500/15 rounded-full blur-3xl animate-pulse-glow animation-delay-200" />
-      
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-28 lg:py-32">
-        <div className="max-w-3xl">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm text-blue-200 font-medium mb-8 animate-fade-in-up">
-            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-            🇨🇦 Canada&apos;s First Humanoid Robot Marketplace
+      {/* Single subtle accent line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid lg:grid-cols-[1fr,auto] gap-12 lg:gap-20 items-center py-20 sm:py-28 lg:py-36">
+          {/* Left — text content */}
+          <div className="max-w-2xl">
+            {/* Marker */}
+            <div className="flex items-center gap-3 mb-8 animate-fade-in-up">
+              <div className="h-px w-8 bg-blue-500" />
+              <span className="text-xs font-semibold text-blue-400 uppercase tracking-[0.2em]">
+                Canada&apos;s Robot Marketplace
+              </span>
+            </div>
+
+            {/* Heading — oversized, editorial */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight leading-[0.95] mb-6 animate-fade-in-up animation-delay-100">
+              Humanoid robots,
+              <br />
+              <span className="text-slate-400">finally within reach.</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p className="text-base sm:text-lg text-slate-400 max-w-lg mb-10 leading-relaxed animate-fade-in-up animation-delay-200">
+              Compare 22+ models from 15 manufacturers. Real specs, real prices, shipping to every province.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3 animate-fade-in-up animation-delay-300">
+              <Button href="/robots" size="lg" className="!bg-white !text-slate-900 hover:!bg-slate-100 !font-bold !rounded-lg !shadow-none">
+                Browse Robots
+              </Button>
+              <Button href="/inquiry" variant="outline" size="lg" className="!border-slate-700 !text-slate-300 hover:!bg-slate-800 hover:!border-slate-600 !rounded-lg">
+                Get Early Access
+              </Button>
+            </div>
           </div>
 
-          {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight mb-6 animate-fade-in-up animation-delay-100">
-            The Future of Robotics,
-            <br />
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
-              Delivered to Canada
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-slate-300 max-w-2xl mb-10 leading-relaxed animate-fade-in-up animation-delay-200">
-            Browse, compare, and pre-order from 22+ humanoid robots. Real prices, real specs — from $5,900 research bots to enterprise systems.
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-16 animate-fade-in-up animation-delay-300">
-            <Button href="/robots" size="lg" className="!bg-white !text-slate-900 hover:!bg-slate-100 !font-bold !shadow-lg !shadow-white/10">
-              Browse Robots →
-            </Button>
-            <Button href="/inquiry" variant="outline" size="lg" className="!border-white/30 !text-white hover:!bg-white/10">
-              Get Early Access
-            </Button>
+          {/* Right — stats column */}
+          <div className="hidden lg:flex flex-col gap-6 animate-fade-in-up animation-delay-400">
+            {[
+              { value: '22+', label: 'Robot Models' },
+              { value: '15', label: 'Manufacturers' },
+              { value: '$5.9K', label: 'Starting Price' },
+              { value: '10/13', label: 'Provinces' },
+            ].map((stat) => (
+              <div key={stat.label} className="border-l-2 border-slate-800 pl-5 py-1 hover:border-blue-500 transition-colors">
+                <div className="text-2xl font-bold text-white tracking-tight">{stat.value}</div>
+                <div className="text-xs text-slate-500 uppercase tracking-wider mt-0.5">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Stats row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl animate-fade-in-up animation-delay-400">
+        {/* Mobile stats — horizontal scroll */}
+        <div className="lg:hidden flex gap-4 pb-12 animate-fade-in-up animation-delay-400 overflow-x-auto -mx-4 px-4">
           {[
-            { value: '22+', label: 'Robot Models', icon: '🤖' },
-            { value: '15+', label: 'Top Brands', icon: '🏭' },
-            { value: '$5.9K', label: 'Starting From', icon: '💰' },
-            { value: '🇨🇦', label: 'All Provinces', icon: '' },
+            { value: '22+', label: 'Models' },
+            { value: '15', label: 'Brands' },
+            { value: '$5.9K', label: 'From' },
+            { value: '🇨🇦', label: 'All Provinces' },
           ].map((stat) => (
-            <div key={stat.label} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 transition-colors">
-              <div className="text-2xl font-bold text-white">{stat.icon || stat.value}</div>
-              {stat.icon && <div className="text-xl font-bold text-white mt-0.5">{stat.value}</div>}
-              <div className="text-xs text-slate-400 mt-1">{stat.label}</div>
+            <div key={stat.label} className="border border-slate-800 rounded-lg px-5 py-3 text-center shrink-0 min-w-[100px]">
+              <div className="text-lg font-bold text-white">{stat.value}</div>
+              <div className="text-[10px] text-slate-500 uppercase tracking-wider mt-0.5">{stat.label}</div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Bottom border accent */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent" />
     </section>
   );
 }
