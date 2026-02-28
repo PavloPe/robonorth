@@ -77,7 +77,7 @@ export default function Footer() {
     if (typeof window !== 'undefined' && window.dataLayer) {
       window.dataLayer.push({ event: 'newsletter_signup', email_domain: email.split('@')[1] });
     }
-    console.log('[RoboNorth] Newsletter signup:', email);
+    // Newsletter signup submitted (integrate with email service)
     setNewsletterStatus('success');
     setEmail('');
   };

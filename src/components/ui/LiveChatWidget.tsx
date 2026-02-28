@@ -12,7 +12,7 @@ export default function LiveChatWidget() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
-    console.log('[Chat]', message);
+    // Chat message submitted (integrate with chat service)
     setSubmitted(true);
     setMessage('');
   };

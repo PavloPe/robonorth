@@ -101,14 +101,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
         />
-        {/* GA4 Placeholder — replace G-XXXXXXXXXX with real measurement ID */}
+        {/* GA4 — set NEXT_PUBLIC_GA_ID env var to enable tracking */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-XXXXXXXXXX', { send_page_view: true });
+              ${process.env.NEXT_PUBLIC_GA_ID ? `gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', { send_page_view: true });` : '// GA4 not configured — set NEXT_PUBLIC_GA_ID to enable'}
 
               // UTM parameter handling
               (function() {

@@ -18,7 +18,7 @@ export default function SubmitRobotPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('[Submit Robot]', form);
+    // Robot submission received (integrate with admin dashboard)
     setSubmitted(true);
   };
 

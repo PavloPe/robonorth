@@ -13,7 +13,7 @@ export default function NotifyMeButton({ robotName, robotId }: { robotName: stri
     if (typeof window !== 'undefined' && window.dataLayer) {
       window.dataLayer.push({ event: 'notify_me', robot: robotId, email_domain: email.split('@')[1] });
     }
-    console.log('[RoboNorth] Notify me:', { robotId, email });
+    // Notify-me request submitted (integrate with notification service)
     setState('success');
   };
 

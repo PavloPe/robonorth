@@ -19,7 +19,7 @@ export default function ContactForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    console.log('[RoboNorth] Contact form:', form);
+    // Contact form submitted (integrate with email service)
     if (typeof window !== 'undefined' && window.dataLayer) {
       window.dataLayer.push({ event: 'contact_form_submit' });
     }

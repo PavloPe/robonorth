@@ -13,7 +13,7 @@ export default function ThreeDViewerPlaceholder({ robotName }: ThreeDViewerPlace
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      console.log('[RoboNorth] 3D viewer interest:', { robotName, email });
+      // 3D viewer interest submitted (integrate with email service)
       setSubmitted(true);
       setEmail('');
     }

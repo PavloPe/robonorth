@@ -62,7 +62,7 @@ export default function FleetBuilderPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('[Fleet Quote]', { companyName, email, fleet, notes, totalCost, discountedCost });
+    // Fleet quote submitted (integrate with CRM/email service)
     setSubmitted(true);
   };
 

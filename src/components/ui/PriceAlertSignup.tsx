@@ -11,7 +11,7 @@ export default function PriceAlertSignup({ robotId, robotName, currentPrice }: {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-    console.log('[Price Alert]', { robotId, robotName, email, currentPrice });
+    // Price alert submitted (integrate with notification service)
     setSubmitted(true);
   };
 

@@ -42,7 +42,7 @@ export default function ExitIntentPopup() {
     if (typeof window !== 'undefined' && window.dataLayer) {
       window.dataLayer.push({ event: 'exit_intent_signup', email_domain: email.split('@')[1] });
     }
-    console.log('[RoboNorth] Exit intent signup:', email);
+    // Exit intent signup submitted (integrate with email service)
     setSubmitted(true);
     setTimeout(handleClose, 2000);
   };
