@@ -222,3 +222,63 @@ export async function getAdminStats() {
 
   return { robotCount, manufacturerCount, inquiryCount, recentInquiries, robots, categoryCounts, availabilityCounts };
 }
+
+// ── Robots Page Queries ────────────────────────────────────────────────────
+
+export async function getRobotsCount(): Promise<number> {
+  return prisma.robot.count();
+}
+
+export async function getFilteredRobotsCount(where: Record<string, unknown>): Promise<number> {
+  return prisma.robot.count({ where });
+}
+
+export async function getFilteredRobots(
+  where: Record<string, unknown>,
+  orderBy: Record<string, string>,
+  skip: number,
+  take: number
+): Promise<Robot[]> {
+  const rows = await prisma.robot.findMany({ where, orderBy, skip, take });
+  return rows.map(toRobot);
+}
+
+export async function getRobotFacets() {
+  const rows = await prisma.robot.findMany({
+    select: { category: true, availability: true, manufacturerSlug: true, manufacturer: true, country: true, priceMin: true },
+  });
+  return rows;
+}
+
+// ── Parts Page Queries ─────────────────────────────────────────────────────
+
+export async function getFilteredPartsCount(where: Record<string, unknown>): Promise<number> {
+  return prisma.part.count({ where });
+}
+
+export async function getFilteredParts(
+  where: Record<string, unknown>,
+  orderBy: Record<string, string>,
+  skip: number,
+  take: number
+): Promise<Part[]> {
+  const rows = await prisma.part.findMany({ where, orderBy, skip, take });
+  return rows.map(toPart);
+}
+
+export async function getPartFacets() {
+  const rows = await prisma.part.findMany({
+    select: { category: true, manufacturerSlug: true, manufacturer: true },
+  });
+  return rows;
+}
+
+// ── Manufacturer Detail Queries ────────────────────────────────────────────
+
+export async function getRobotsByManufacturerSlug(slug: string): Promise<Robot[]> {
+  const rows = await prisma.robot.findMany({
+    where: { manufacturerSlug: slug },
+    orderBy: { name: 'asc' },
+  });
+  return rows.map(toRobot);
+}

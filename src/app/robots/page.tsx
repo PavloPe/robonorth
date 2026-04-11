@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import prisma from '@/lib/db';
+import { getRobotsCount, getFilteredRobotsCount, getFilteredRobots, getRobotFacets } from '@/lib/queries';
 import RobotCard from '@/components/ui/RobotCard';
 import SidebarFilters from '@/components/ui/SidebarFilters';
 import MobileFilters from '@/components/ui/MobileFilters';
@@ -49,40 +49,6 @@ const categoryLabels: Record<string, string> = {
   quadruped: 'Quadruped',
 };
 
-function dbRobotToRobot(r: {
-  id: string; name: string; manufacturer: string; manufacturerSlug: string;
-  price: string; priceMin: number; availability: string; category: string;
-  useCase: string; description: string; country: string; imageUrl: string;
-  featured: boolean; canadaAvailable: boolean;
-  specHeight: number | null; specWeight: number | null; specDof: number | null;
-  specBattery: string | null; specPayload: number | null; specSpeed: number | null;
-}): Robot {
-  return {
-    id: r.id,
-    name: r.name,
-    manufacturer: r.manufacturer,
-    manufacturerSlug: r.manufacturerSlug,
-    price: r.price,
-    priceMin: r.priceMin,
-    availability: r.availability as Robot['availability'],
-    category: r.category as Robot['category'],
-    useCase: JSON.parse(r.useCase),
-    description: r.description,
-    country: r.country,
-    imageUrl: r.imageUrl,
-    featured: r.featured,
-    canadaAvailable: r.canadaAvailable,
-    specs: {
-      height: r.specHeight,
-      weight: r.specWeight,
-      dof: r.specDof,
-      battery: r.specBattery,
-      payload: r.specPayload,
-      speed: r.specSpeed,
-    },
-  };
-}
-
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
@@ -130,10 +96,10 @@ export default async function RobotsPage({ searchParams }: PageProps) {
 
   // Fetch data
   const [allRobots, filteredCount, filteredRobots, allForFacets] = await Promise.all([
-    prisma.robot.count(),
-    prisma.robot.count({ where }),
-    prisma.robot.findMany({ where, orderBy, skip: (page - 1) * perPage, take: perPage }),
-    prisma.robot.findMany({ select: { category: true, availability: true, manufacturerSlug: true, manufacturer: true, country: true, priceMin: true } }),
+    getRobotsCount(),
+    getFilteredRobotsCount(where),
+    getFilteredRobots(where, orderBy, (page - 1) * perPage, perPage),
+    getRobotFacets(),
   ]);
 
   const totalPages = Math.ceil(filteredCount / perPage);
@@ -154,7 +120,6 @@ export default async function RobotsPage({ searchParams }: PageProps) {
     countryCounts[r.country] = (countryCounts[r.country] || 0) + 1;
   }
 
-  const robots = filteredRobots.map(dbRobotToRobot);
   const hasFilters = category || availability || manufacturer || country || priceRange || search || canadaOnly;
 
   const filterProps = {
@@ -223,7 +188,7 @@ export default async function RobotsPage({ searchParams }: PageProps) {
 
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            {robots.map(robot => (
+            {filteredRobots.map(robot => (
               <RobotCard key={robot.id} robot={robot} />
             ))}
           </div>
@@ -233,7 +198,7 @@ export default async function RobotsPage({ searchParams }: PageProps) {
             <Pagination currentPage={page} totalPages={totalPages} basePath="/robots" />
           </Suspense>
 
-          {robots.length === 0 && (
+          {filteredRobots.length === 0 && (
             <div className="text-center py-20">
               <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">🔍</div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">No robots found</h3>

@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getManufacturerBySlug, getAllManufacturerSlugs } from '@/lib/queries';
-import prisma from '@/lib/db';
-import { toRobot } from '@/lib/queries';
+import { getManufacturerBySlug, getAllManufacturerSlugs, getRobotsByManufacturerSlug } from '@/lib/queries';
 import { manufacturerJsonLd } from '@/lib/jsonld';
 import RobotCard from '@/components/ui/RobotCard';
 import Badge from '@/components/ui/Badge';
@@ -58,11 +56,7 @@ export default async function ManufacturerDetailPage({ params }: { params: Promi
   const manufacturer = await getManufacturerBySlug(slug);
   if (!manufacturer) notFound();
 
-  const dbRobots = await prisma.robot.findMany({
-    where: { manufacturerSlug: slug },
-    orderBy: { name: 'asc' },
-  });
-  const theirRobots = dbRobots.map(toRobot);
+  const theirRobots = await getRobotsByManufacturerSlug(slug);
 
   const jsonLd = manufacturerJsonLd(manufacturer);
   const verification = verificationStatus[slug] || { level: 'listed' as const };

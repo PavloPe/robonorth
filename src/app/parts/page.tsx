@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
-import prisma from '@/lib/db';
+import { getPartsCount, getFilteredPartsCount, getFilteredParts, getPartFacets } from '@/lib/queries';
 import PartCard from '@/components/ui/PartCard';
 import PartsSidebarFilters from '@/components/ui/PartsSidebarFilters';
 import PartsMobileFilters from '@/components/ui/PartsMobileFilters';
@@ -24,21 +24,6 @@ export const metadata: Metadata = {
 };
 
 export const dynamic = 'force-dynamic';
-
-function dbPartToPart(p: {
-  id: string; name: string; description: string; manufacturer: string;
-  manufacturerSlug: string; category: string; subcategory: string;
-  priceCAD: number; priceUSD: number; inStock: boolean; leadTimeDays: number | null;
-  specifications: string; compatibility: string; imageUrl: string;
-  datasheetUrl: string; featured: boolean;
-}): Part {
-  return {
-    ...p,
-    category: p.category as Part['category'],
-    specifications: JSON.parse(p.specifications),
-    compatibility: JSON.parse(p.compatibility),
-  };
-}
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -90,10 +75,10 @@ export default async function PartsPage({ searchParams }: PageProps) {
 
   // Fetch data
   const [allPartsCount, filteredCount, filteredParts, allForFacets] = await Promise.all([
-    prisma.part.count(),
-    prisma.part.count({ where }),
-    prisma.part.findMany({ where, orderBy, skip: (page - 1) * perPage, take: perPage }),
-    prisma.part.findMany({ select: { category: true, manufacturerSlug: true, manufacturer: true } }),
+    getPartsCount(),
+    getFilteredPartsCount(where),
+    getFilteredParts(where, orderBy, (page - 1) * perPage, perPage),
+    getPartFacets(),
   ]);
 
   const totalPages = Math.ceil(filteredCount / perPage);
@@ -110,7 +95,6 @@ export default async function PartsPage({ searchParams }: PageProps) {
     manufacturerMap[p.manufacturerSlug].count++;
   }
 
-  const parts = filteredParts.map(dbPartToPart);
   const hasFilters = category || manufacturer || search || inStockOnly || minPrice || maxPrice || robotFilter;
 
   const filterProps = {
@@ -175,7 +159,7 @@ export default async function PartsPage({ searchParams }: PageProps) {
 
           {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
-            {parts.map(part => (
+            {filteredParts.map(part => (
               <PartCard key={part.id} part={part} />
             ))}
           </div>
@@ -185,7 +169,7 @@ export default async function PartsPage({ searchParams }: PageProps) {
             <Pagination currentPage={page} totalPages={totalPages} basePath="/parts" />
           </Suspense>
 
-          {parts.length === 0 && (
+          {filteredParts.length === 0 && (
             <div className="text-center py-20">
               <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4">🔍</div>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">No parts found</h3>
