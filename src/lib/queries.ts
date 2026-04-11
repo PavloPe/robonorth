@@ -191,3 +191,34 @@ export async function getAllPartSlugs(): Promise<string[]> {
 export async function getPartsCount(): Promise<number> {
   return prisma.part.count();
 }
+
+export async function getAdminStats() {
+  const [robotCount, manufacturerCount, inquiryCount, recentInquiries] = await Promise.all([
+    prisma.robot.count(),
+    prisma.manufacturer.count(),
+    prisma.inquiry.count(),
+    prisma.inquiry.findMany({ orderBy: { createdAt: 'desc' }, take: 10 }),
+  ]);
+
+  const robots = await prisma.robot.findMany({
+    select: { id: true, name: true, manufacturer: true, category: true, availability: true, featured: true, priceMin: true },
+    orderBy: { name: 'asc' },
+  });
+
+  const categoryCounts = {
+    consumer: robots.filter(r => r.category === 'consumer').length,
+    enterprise: robots.filter(r => r.category === 'enterprise').length,
+    research: robots.filter(r => r.category === 'research').length,
+    announced: robots.filter(r => r.category === 'announced').length,
+  };
+
+  const availabilityCounts = {
+    shipping: robots.filter(r => r.availability === 'shipping').length,
+    preorder: robots.filter(r => r.availability === 'preorder').length,
+    pilot: robots.filter(r => r.availability === 'pilot').length,
+    announced: robots.filter(r => r.availability === 'announced').length,
+    prototype: robots.filter(r => r.availability === 'prototype').length,
+  };
+
+  return { robotCount, manufacturerCount, inquiryCount, recentInquiries, robots, categoryCounts, availabilityCounts };
+}

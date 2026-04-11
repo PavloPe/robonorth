@@ -60,7 +60,7 @@ const redirects: Record<string, string> = {
 // Pre-compute CSP header at module load (constant across requests)
 const CSP_HEADER = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+  "script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com",
   "img-src 'self' data: https: blob:",
@@ -75,6 +75,27 @@ const CSP_HEADER = [
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // ── Admin auth (P0 fix) ─────────────────────────────────────────────
+  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    if (!adminPassword) {
+      return new NextResponse('Admin not configured', { status: 503 });
+    }
+    const cookie = request.cookies.get('admin_session');
+    if (cookie?.value !== adminPassword) {
+      // If this is a POST to /admin/login, check the password
+      if (pathname === '/admin/login' && request.method === 'POST') {
+        // Login handled by API route — let it through
+      } else if (pathname === '/admin/login') {
+        // Show login page — let it through
+      } else {
+        // Redirect to login
+        const loginUrl = new URL('/admin/login', request.url);
+        return NextResponse.redirect(loginUrl);
+      }
+    }
+  }
 
   // ── Redirects (Improvement #40) ──────────────────────────────────────
   const redirectTo = redirects[pathname];
