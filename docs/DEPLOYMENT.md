@@ -359,3 +359,5 @@ If you outgrow SQLite:
 - [ ] **Email notifications** — configure SMTP for inquiry alerts (optional)
 - [ ] **Backup schedule** — daily database backups for VPS/Docker setups
 - [ ] **Monitoring** — `/api/health` endpoint for uptime checks
+- [ ] **Domain auto-renewal** — Namecheap auto-renew ON + valid payment method on file (a lapsed renewal sends DNS to Namecheap/ParkLogic parking and breaks production immediately; see Troubleshooting → "Domain parked" in `.claude/skills/robonorth-deploy/SKILL.md`)
+- [ ] **WHOIS-expiry alert** — uptime monitor configured to warn ≥30 days before domain expiry

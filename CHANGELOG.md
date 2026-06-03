@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased]
+
+### Docs
+- **Deployment guide** — documented Namecheap/ParkLogic expired-domain parking failure mode and added a domain-renewal/WHOIS-alert item to the post-deployment checklist.
+- **Deploy skill** — corrected stale "Domain/SSL: Not yet configured" claim (production is on `robonorth.ca` via Namecheap DNS + Let's Encrypt on the DO droplet); added a Troubleshooting section for diagnosing the parking-page failure mode (`server: openresty`, SOA `parklogic.com`, MX `plingest.com`).
+
+---
+
 ## [4.0.0] — 2026-02-20 — E-commerce & Canadian Marketplace
 
 The biggest release yet — RoboNorth evolves from a catalog into a full Canadian robotics marketplace with e-commerce capabilities, trust infrastructure, and deep Canadian regulatory content.
