@@ -17,4 +17,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx prisma generate
+      # The build pre-renders pages that hit Prisma (manufacturers/[slug],
+      # robots/[slug], parts/[slug], sitemap, RSS, etc.), so the SQLite file
+      # must exist with the schema + seed data BEFORE `next build` runs.
+      # See ROBONORTH-59.
+      - run: npx prisma migrate deploy
+        env:
+          DATABASE_URL: file:./prisma/dev.db
+      - run: npm run db:seed
+        env:
+          DATABASE_URL: file:./prisma/dev.db
       - run: npm run build
+        env:
+          DATABASE_URL: file:./prisma/dev.db
