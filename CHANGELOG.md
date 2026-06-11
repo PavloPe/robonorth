@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased]
+
+### Added — Test foundation
+- Vitest harness (`vitest.config.ts`, `npm test` / `test:run` / `test:coverage`).
+- 29 starter tests across 5 files: `rate-limit`, `queries.toRobot`, `/api/health`, `/api/robots`, `/api/inquiry`. All mock the data layer — no real DB.
+- `docs/TESTING.md` documenting the harness, mocking patterns, and what's in/out of scope.
+
+### Fixed
+- `checkRateLimit` parameter signature widened from literal `5`/`60000` to plain `number`, so callers can pass custom limits without a type assertion.
+
+---
+
 ## [4.0.0] — 2026-02-20 — E-commerce & Canadian Marketplace
 
 The biggest release yet — RoboNorth evolves from a catalog into a full Canadian robotics marketplace with e-commerce capabilities, trust infrastructure, and deep Canadian regulatory content.

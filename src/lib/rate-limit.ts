@@ -31,8 +31,8 @@ export interface RateLimitResult {
 
 export function checkRateLimit(
   key: string,
-  maxRequests = RATE_LIMIT.maxRequests,
-  windowMs = RATE_LIMIT.windowMs
+  maxRequests: number = RATE_LIMIT.maxRequests,
+  windowMs: number = RATE_LIMIT.windowMs
 ): RateLimitResult {
   const now = Date.now();
   const existing = store.get(key);
