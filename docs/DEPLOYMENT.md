@@ -59,6 +59,11 @@ npm start
 | `SMTP_USER` | No | — | Email username |
 | `SMTP_PASS` | No | — | Email password |
 | `SMTP_FROM` | No | — | Sender email address |
+| `SENTRY_DSN` | No | — | Sentry DSN for server + edge error reporting. Unset = Sentry is a complete no-op (no init, no network). |
+| `NEXT_PUBLIC_SENTRY_DSN` | No | — | Sentry DSN for browser error reporting. Unset = no client Sentry. |
+| `SENTRY_AUTH_TOKEN` | No | — | Only needed to upload source maps at build time (`SENTRY_ORG` + `SENTRY_PROJECT` too). Unset = no upload. |
+
+> **Sentry** is gated entirely on the DSN env vars. With them unset the SDK never initializes — safe to deploy before provisioning the DSN. Set `SENTRY_DSN` (and `NEXT_PUBLIC_SENTRY_DSN` for the browser) in the PM2 runtime `.env` on the droplet, then `pm2 restart robonorth --update-env` to activate. `environment` is taken from `NODE_ENV`.
 
 ### Example `.env`
 

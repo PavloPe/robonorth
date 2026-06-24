@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 // Improvement #36: Image optimization pipeline
 // Improvement #37: Optimize chunk splitting
@@ -53,4 +54,17 @@ const nextConfig: NextConfig = {
   ],
 };
 
-export default nextConfig;
+// Sentry build-time wrapper. Source-map upload only runs when
+// SENTRY_AUTH_TOKEN (+ org/project) are set — none are configured here, so the
+// build stays a no-op until an auth token is provisioned. Runtime error
+// reporting is gated separately on SENTRY_DSN / NEXT_PUBLIC_SENTRY_DSN via the
+// instrumentation files.
+export default withSentryConfig(nextConfig, {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: !process.env.CI,
+  // Tree-shake Sentry's debug logging out of production bundles.
+  webpack: { treeshake: { removeDebugLogging: true } },
+  telemetry: false,
+});
