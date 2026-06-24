@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [0.2.0]
+
+### Added — Sentry error reporting (DSN-gated)
+- `@sentry/nextjs` wired for server, edge, and client via the Next 15 instrumentation convention: `instrumentation.ts` (`register` + `onRequestError`), `instrumentation-client.ts`, `src/app/global-error.tsx`, and `withSentryConfig` in `next.config.ts`.
+- Centralized config in `src/lib/sentry.ts`: errors-only (`tracesSampleRate: 0`), `sendDefaultPii: false`, `environment` from `NODE_ENV`, and a `beforeSend` that drops 4xx events.
+- **Complete no-op when the DSN is unset** — `instrumentation*` never calls `Sentry.init`, so there is no SDK initialization and no network traffic. Activate by setting `SENTRY_DSN` (server/edge) and/or `NEXT_PUBLIC_SENTRY_DSN` (browser) in the runtime env. The DSN is never hardcoded.
+- Removed the earlier partial `sentry.client.config.ts` / `sentry.server.config.ts` (unconditional init, session replay, implicit PII).
+- 10 new tests covering the DSN gate, environment derivation, 4xx drop, and init-option posture.
+
 ## [Unreleased]
 
 ### Added — Test foundation
