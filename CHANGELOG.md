@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `docs/TESTING.md` documenting the harness, mocking patterns, and what's in/out of scope.
 
 ### Fixed
+- **Admin login no longer broken by the middleware guard.** The admin guard now lets an unauthenticated `POST /api/admin/login` reach the route handler (which validates the password and sets the `admin_session` cookie) instead of 307-redirecting it to the login page. Previously the inner allow-list only matched the `/admin/login` page path, never the `/api/admin/login` API path, so the cookie was never set and login could not succeed via the UI. Page-route protection (`GET /admin` → redirect when unauthenticated) is unchanged. Added `tests/middleware.test.ts` (6 tests) covering the login passthrough and the guard.
 - `checkRateLimit` parameter signature widened from literal `5`/`60000` to plain `number`, so callers can pass custom limits without a type assertion.
 
 ---
