@@ -84,13 +84,14 @@ export function middleware(request: NextRequest) {
     }
     const cookie = request.cookies.get('admin_session');
     if (cookie?.value !== adminPassword) {
-      // If this is a POST to /admin/login, check the password
-      if (pathname === '/admin/login' && request.method === 'POST') {
-        // Login handled by API route — let it through
+      if (pathname === '/api/admin/login' && request.method === 'POST') {
+        // Login attempt — let the route handler validate the password and set
+        // the admin_session cookie. It enforces its own auth, so do NOT redirect.
       } else if (pathname === '/admin/login') {
-        // Show login page — let it through
+        // Show the login page — let it through.
       } else {
-        // Redirect to login
+        // Anything else under /admin or /api/admin without a valid session →
+        // redirect to the login page.
         const loginUrl = new URL('/admin/login', request.url);
         return NextResponse.redirect(loginUrl);
       }
