@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { verifySession, ADMIN_SESSION_COOKIE } from '@/lib/admin-session';
 
 // ============================================================================
 // Improvement #34: API rate limiter (in-memory, per-IP)
@@ -73,20 +74,24 @@ const CSP_HEADER = [
   ...(process.env.ENABLE_HTTPS === 'true' ? ["upgrade-insecure-requests"] : []),
 ].join('; ');
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // ── Admin auth (P0 fix) ─────────────────────────────────────────────
+  // ── Admin auth (ROBONORTH-60: HMAC-signed session token) ─────────────
   if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
     const adminPassword = process.env.ADMIN_PASSWORD;
     if (!adminPassword) {
       return new NextResponse('Admin not configured', { status: 503 });
     }
-    const cookie = request.cookies.get('admin_session');
-    if (cookie?.value !== adminPassword) {
+    const cookie = request.cookies.get(ADMIN_SESSION_COOKIE);
+    const authed = await verifySession(cookie?.value);
+    if (!authed) {
       if (pathname === '/api/admin/login' && request.method === 'POST') {
-        // Login attempt — let the route handler validate the password and set
-        // the admin_session cookie. It enforces its own auth, so do NOT redirect.
+        // Login attempt — let the route handler validate the password and mint
+        // the session token. It enforces its own auth, so do NOT redirect.
+      } else if (pathname === '/api/admin/logout' && request.method === 'POST') {
+        // Allow logout to clear the cookie even when the session is already
+        // invalid/expired.
       } else if (pathname === '/admin/login') {
         // Show the login page — let it through.
       } else {
