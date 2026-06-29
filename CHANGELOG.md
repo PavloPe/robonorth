@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [Unreleased]
+
+### Changed — Admin session hardening (HMAC-signed token)
+- The `admin_session` cookie no longer stores the raw `ADMIN_PASSWORD`. Login now mints an opaque HMAC-SHA256-signed token (`base64url(payload).base64url(signature)`, 8h expiry) so the password never lands in a cookie, proxy log, or CDN cache.
+- New `src/lib/admin-session.ts` (`signSession` / `verifySession`) uses the Web Crypto API so a single implementation runs in both the Edge runtime (middleware) and the Node runtime (route handlers). Token comparison is constant-time; verification checks signature **and** expiry.
+- Secret is `ADMIN_SESSION_SECRET` if set, otherwise derived from `ADMIN_PASSWORD`. Rotating either invalidates all outstanding sessions.
+- `src/middleware.ts` is now async and validates the signed token instead of comparing the cookie to the raw password.
+- Added `POST /api/admin/logout` to clear the session cookie.
+- Tests: `tests/lib/admin-session.test.ts` (12) covering sign/verify, tamper, wrong-secret, expiry, secret precedence; `tests/middleware.test.ts` extended to the token model (valid token passes, raw password rejected, tampered token redirected, logout passthrough).
+
 ## [0.2.0]
 
 ### Added — Sentry error reporting (DSN-gated)
