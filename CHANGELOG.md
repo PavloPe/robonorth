@@ -8,6 +8,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added — Production hosting documentation (edge-layer stabilization)
+- `docs/DEPLOYMENT.md` now has an authoritative **Production Hosting (robonorth.ca)** section documenting the live topology: direct DNS → DigitalOcean origin droplet `159.203.37.78` (nginx → PM2 `next start`), **no edge layer**.
+- Records the edge-layer decision: Linode NodeBalancer / Akamai Edge-Compute were evaluated and declined; the transient Akamai/Linode IPs were the Namecheap expired-domain parking proxy (the seq:54 outage), not an intentional edge.
+- Documents the www → apex 301 nginx redirect, Let's Encrypt automated renewal via `certbot.timer` + nginx reload deploy-hook, the `/api/health` uptime-monitor wiring, and the GitHub-Actions-over-SSH CI/CD decision for the origin (with the one-time human secret setup it requires).
+
 ### Changed — Admin session hardening (HMAC-signed token)
 - The `admin_session` cookie no longer stores the raw `ADMIN_PASSWORD`. Login now mints an opaque HMAC-SHA256-signed token (`base64url(payload).base64url(signature)`, 8h expiry) so the password never lands in a cookie, proxy log, or CDN cache.
 - New `src/lib/admin-session.ts` (`signSession` / `verifySession`) uses the Web Crypto API so a single implementation runs in both the Edge runtime (middleware) and the Node runtime (route handlers). Token comparison is constant-time; verification checks signature **and** expiry.

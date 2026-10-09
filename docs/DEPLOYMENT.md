@@ -8,6 +8,7 @@
 
 - [Prerequisites](#prerequisites)
 - [Environment Variables](#environment-variables)
+- [Production Hosting (robonorth.ca)](#production-hosting-robonorthca)
 - [Option 1: Vercel](#option-1-vercel)
 - [Option 2: VPS / Bare Metal](#option-2-vps--bare-metal)
 - [Option 3: Docker](#option-3-docker)
@@ -72,6 +73,136 @@ DATABASE_URL="file:./prisma/dev.db"
 SITE_URL="https://robonorth.ca"
 GA_MEASUREMENT_ID="G-XXXXXXXXXX"
 ```
+
+---
+
+## Production Hosting (robonorth.ca)
+
+> **This is the authoritative description of how RoboNorth runs in production today.**
+> Options 1–3 below are supported alternatives, not the live setup.
+
+### Topology — direct DNS → origin, no edge layer
+
+```
+robonorth.ca        (A)        ─┐
+www.robonorth.ca    (A)        ─┼─► 159.203.37.78  (DigitalOcean droplet "robonorth")
+                                │      nginx :80/:443  ──►  127.0.0.1:3000
+                                │                           (PM2 "robonorth", `next start`)
+```
+
+| Item | Value |
+|------|-------|
+| Origin droplet | DigitalOcean `robonorth` — `159.203.37.78` |
+| Process manager | PM2 process `robonorth` (`pm2 restart robonorth --update-env`) |
+| Reverse proxy | nginx — `:80`/`:443` → `127.0.0.1:3000` |
+| Public URL | `https://robonorth.ca` |
+| Registrar | Namecheap (Go Get Canada registrar for `.ca`); registry expiry `2027-05-08` |
+| DNS | Namecheap-managed (`dns101.registrar-servers.com` / `dns102.registrar-servers.com`); **A records point straight at the origin** |
+| TLS | Let's Encrypt via certbot on the origin droplet (HTTP-01 over port 80) |
+| Edge / CDN | **None** |
+
+### Edge-layer decision
+
+Edge products were evaluated for this story (**Linode NodeBalancer** vs **Akamai Edge-Compute** vs a generic CDN). **Decision: no edge layer** — DNS A records resolve directly to the origin droplet and TLS is terminated by nginx + certbot on that droplet.
+
+Rationale:
+
+- The catalog is small and mostly static (22 robots + 18 manufacturers prerender as `○`/`●`), so a single $12/mo droplet serves it comfortably. A NodeBalancer / edge product adds monthly cost and an extra failure surface with no current need.
+- The transient Akamai/Linode IPs (`172.234.24.211`, `172.239.57.117`) that briefly appeared in DNS were **not** an intentional edge — they were the Namecheap expired-domain **parking proxy** (`openresty` / ParkLogic) that grabbed the domain when a registrar renewal payment did not settle. That was the seq:54 outage, now resolved; see the "PROTOCOL_ERROR / parking" entry in the deploy skill for the detection + fix playbook.
+
+Revisit this decision only if traffic or multi-region latency requirements grow.
+
+Health check that production is served by the origin (not a parking proxy):
+
+```bash
+dig +short robonorth.ca            # expect: 159.203.37.78
+curl -sI https://robonorth.ca | grep -i server
+# expect: Server: nginx/1.24.0 (Ubuntu)
+# parking signature: server: openresty   (= Namecheap parking / billing problem)
+```
+
+### www → apex redirect
+
+nginx serves a dedicated 301 redirect for the `www` host so there is a single canonical origin (`SITE_URL=https://robonorth.ca`):
+
+```nginx
+# Redirect www → apex (301)
+server {
+    listen 80;
+    listen 443 ssl;
+    server_name www.robonorth.ca;
+
+    ssl_certificate     /etc/letsencrypt/live/robonorth.ca/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/robonorth.ca/privkey.pem;
+
+    return 301 https://robonorth.ca$request_uri;
+}
+
+# Apex → Next.js app
+server {
+    listen 80;
+    listen 443 ssl;
+    server_name robonorth.ca;
+
+    ssl_certificate     /etc/letsencrypt/live/robonorth.ca/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/robonorth.ca/privkey.pem;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+Verify:
+
+```bash
+curl -sI https://www.robonorth.ca | grep -i location
+# expect: location: https://robonorth.ca/
+```
+
+### TLS certificate + automated renewal
+
+The Let's Encrypt cert (`CN=robonorth.ca`, with the `www` SAN) is issued and renewed by certbot on the origin droplet. Renewal is automated — no manual step:
+
+- certbot installs the `certbot.timer` systemd unit, which runs `certbot renew` twice daily and only acts when a cert is within 30 days of expiry.
+- A deploy hook reloads nginx after a successful renewal: `/etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh` → `systemctl reload nginx`.
+
+```bash
+systemctl list-timers certbot.timer    # confirm the renewal timer is active
+sudo certbot renew --dry-run           # verify the full renewal path works
+sudo certbot certificates              # show expiry + SANs for robonorth.ca
+```
+
+### Uptime monitoring (`/api/health`)
+
+`GET /api/health` returns `200` with `{ status: "healthy", database: { connected, robots, manufacturers, responseMs }, version, environment }`, or `503` with `status: "unhealthy"` when the database is unreachable. It is a cheap, dependency-aware liveness probe.
+
+Wire it into the fleet uptime monitor the same way as the other sites (helpbuddy / innovationcoders / expenseai cloud health probes):
+
+- Poll `https://robonorth.ca/api/health` on an interval; alert on any non-`200` response or `status != "healthy"`.
+- A `claude.ai/code/scheduled` routine can probe it hourly and `TELEGRAM_ALERT` on failure, mirroring `innovationcoders-uptime-check`.
+
+> The alert/dashboard wiring itself lives in the **main-dashboard** project (and/or a scheduled cloud routine), not in this repo — this repo only owns the `/api/health` endpoint it probes.
+
+### CI/CD for the origin droplet
+
+**Decision: deploy via GitHub Actions over SSH** (fleet policy: no manual SSH deploys). Intended pipeline, triggered on push to `main` (or a release tag):
+
+1. Build + test (reuse the existing `ci.yml` steps: `npm ci`, `prisma generate`, `migrate deploy`, `db:seed`, `build`).
+2. SSH to the droplet with a dedicated deploy key and run the update sequence: fetch the new build, `npx prisma migrate deploy`, `npm run db:seed`, `npm run build`, `pm2 restart robonorth --update-env`.
+3. Health-check `https://robonorth.ca/api/health`; roll back to the previous release on failure.
+
+One-time human setup is required before the deploy workflow can be added (it needs secrets this unattended run must not create):
+
+- Generate an `ed25519` deploy key; add the public key to the droplet deploy user's `~/.ssh/authorized_keys`.
+- Add repo secrets `DEPLOY_SSH_KEY` (private key), `DEPLOY_HOST`, `DEPLOY_USER`.
+
+Until those secrets exist the deploy workflow is intentionally **not** committed. The current `.github/workflows/ci.yml` continues to build + test every PR and push to `dev`.
 
 ---
 
