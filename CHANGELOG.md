@@ -8,6 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added — Production hosting documentation (edge-layer stabilization)
+- `docs/DEPLOYMENT.md` now has an authoritative **Production Hosting (robonorth.ca)** section documenting the live topology: direct DNS → DigitalOcean origin droplet `159.203.37.78` (nginx → PM2 `next start`), **no edge layer**.
+- Records the edge-layer decision: Linode NodeBalancer / Akamai Edge-Compute were evaluated and declined; the transient Akamai/Linode IPs were the Namecheap expired-domain parking proxy (the seq:54 outage), not an intentional edge.
+- Documents the www → apex 301 nginx redirect, Let's Encrypt automated renewal via `certbot.timer` + nginx reload deploy-hook, the `/api/health` uptime-monitor wiring, and the GitHub-Actions-over-SSH CI/CD decision for the origin (with the one-time human secret setup it requires).
+
+### Fixed — `db:seed` no longer wipes customer inquiries
+- `prisma/seed.ts` previously ran `inquiryItem.deleteMany()` + `inquiry.deleteMany()` on every run, so following the authoritative deploy sequence (`npm run db:seed` on each release) would have silently destroyed all captured lead-capture data. The seed now refreshes only the static catalog (robots, manufacturers, part categories, parts) and never touches `Inquiry` / `InquiryItem` — making it safe to run on every deploy. Catalog rows carry no foreign key from the inquiry tables, so rebuilding them cannot orphan or drop leads.
+- `docs/DEPLOYMENT.md` updated to state `db:seed` is inquiry-safe (catalog-only) in the Production Hosting deploy sequence and the Option 2 update step.
+
 ### Changed — Admin session hardening (HMAC-signed token)
 - The `admin_session` cookie no longer stores the raw `ADMIN_PASSWORD`. Login now mints an opaque HMAC-SHA256-signed token (`base64url(payload).base64url(signature)`, 8h expiry) so the password never lands in a cookie, proxy log, or CDN cache.
 - New `src/lib/admin-session.ts` (`signSession` / `verifySession`) uses the Web Crypto API so a single implementation runs in both the Edge runtime (middleware) and the Node runtime (route handlers). Token comparison is constant-time; verification checks signature **and** expiry.
