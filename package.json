@@ -1,6 +1,6 @@
 {
   "name": "robonorth",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,7 +13,9 @@
     "bundle-check": "node scripts/bundle-check.js",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.4.0",
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@csstools/postcss-oklab-function": "^5.0.1",
+    "@playwright/test": "^1.64.0",
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^22.15.30",
     "@types/react": "^19.1.6",

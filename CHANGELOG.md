@@ -8,6 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Added — Playwright end-to-end tests on critical user paths (ROBONORTH-46)
+- New `@playwright/test` dev dependency + `playwright.config.ts` (single headless Chromium project, `retries: 1`, `list` + `html` reporters, managed `next dev` web server with a seeded SQLite DB and a test `ADMIN_PASSWORD`).
+- `tests/e2e/` suites covering the highest-traffic flows: homepage hero + featured robots (console-error-free), robot detail pages for 3 known slugs (price + spec table) plus the not-found path, the compare page (add two robots, verify side-by-side, remove one), the inquiry flow (add to basket → submit contact form → confirmation), and admin login (correct + wrong credentials).
+- `npm run e2e` and `npm run e2e:ui` scripts; Playwright reports/traces added to `.gitignore`.
+- Stability hardening: a route-warmup setup project (precompiles routes so `next dev` on-demand compilation does not cause flake) and an explicit React-hydration wait before interacting with controlled client components. `bypassCSP` is enabled for the test browser because the app's strict `script-src` CSP (no nonce / `'unsafe-inline'`) blocks Next's inline streaming/hydration scripts under `next dev` — tracked as a separate app issue.
+
 ### Added — Production hosting documentation (edge-layer stabilization)
 - `docs/DEPLOYMENT.md` now has an authoritative **Production Hosting (robonorth.ca)** section documenting the live topology: direct DNS → DigitalOcean origin droplet `159.203.37.78` (nginx → PM2 `next start`), **no edge layer**.
 - Records the edge-layer decision: Linode NodeBalancer / Akamai Edge-Compute were evaluated and declined; the transient Akamai/Linode IPs were the Namecheap expired-domain parking proxy (the seq:54 outage), not an intentional edge.
