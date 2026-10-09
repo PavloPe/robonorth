@@ -197,6 +197,8 @@ Wire it into the fleet uptime monitor the same way as the other sites (helpbuddy
 2. SSH to the droplet with a dedicated deploy key and run the update sequence: fetch the new build, `npx prisma migrate deploy`, `npm run db:seed`, `npm run build`, `pm2 restart robonorth --update-env`.
 3. Health-check `https://robonorth.ca/api/health`; roll back to the previous release on failure.
 
+> **`db:seed` is inquiry-safe.** `prisma/seed.ts` refreshes the static catalog (robots, manufacturers, part categories, parts) from `src/data/*.ts` on every run but **never** deletes `Inquiry` / `InquiryItem` rows, so running it on each deploy preserves all captured customer leads. Migrations (`migrate deploy`) carry the schema forward; the seed only keeps the reference catalog in sync with the committed data.
+
 One-time human setup is required before the deploy workflow can be added (it needs secrets this unattended run must not create):
 
 - Generate an `ed25519` deploy key; add the public key to the droplet deploy user's `~/.ssh/authorized_keys`.
@@ -354,7 +356,7 @@ cd /var/www/robonorth
 git pull origin main
 npm install
 npx prisma migrate deploy
-npm run db:seed
+npm run db:seed   # catalog refresh only — inquiries are preserved (see note in Production Hosting)
 npm run build
 pm2 restart robonorth
 ```

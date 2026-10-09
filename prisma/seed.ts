@@ -14,14 +14,16 @@ const prisma = new PrismaClient({ adapter });
 async function main() {
   console.log('🤖 Seeding RoboNorth database...\n');
 
-  // Clean slate
-  await prisma.inquiryItem.deleteMany();
-  await prisma.inquiry.deleteMany();
+  // Refresh the static catalog only. Customer inquiries (Inquiry /
+  // InquiryItem) are intentionally NEVER deleted here so that `db:seed` is
+  // safe to run on every deploy — catalog rows carry no FK from the inquiry
+  // tables (InquiryItem stores a plain string itemId), so rebuilding them
+  // cannot orphan or drop captured leads.
   await prisma.part.deleteMany();
   await prisma.partCategory.deleteMany();
   await prisma.manufacturer.deleteMany();
   await prisma.robot.deleteMany();
-  console.log('🗑️  Cleared existing data');
+  console.log('🗑️  Cleared existing catalog data (inquiries preserved)');
 
   // ── Robots ──────────────────────────────────────────────────────────────
   for (const r of robots) {
